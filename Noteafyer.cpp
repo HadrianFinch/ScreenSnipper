@@ -71,6 +71,39 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     return 0;
 }
 
+BOOL LayerWindow(
+    _In_ HWND hwnd)
+{
+    // Add the WS_EX_LAYERED bit to the window ex style
+    LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+    exStyle |= WS_EX_LAYERED;
+    SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);
+
+    SIZE windowSize = {657, 482};
+
+    HDC hdcSrc = CreateCompatibleDC(NULL);
+    HGDIOBJ hBmpSave = SelectObject(hdcSrc, g_hBitmap);
+
+    POINT ptSrc = {0, 0};
+
+    BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA};
+
+    BOOL bRet = UpdateLayeredWindow(
+        hwnd,
+        NULL,
+        NULL,
+        &windowSize,
+        hdcSrc,
+        &ptSrc,
+        NULL,
+        &bf,
+        ULW_ALPHA);
+    SelectObject(hdcSrc, hBmpSave);
+    ReleaseDC(NULL, hdcSrc);
+
+    return bRet;
+}
+
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
@@ -83,6 +116,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 g_pWICFactory,
                 L"images\\NoatifyerControlPanelWindow.png",
                 &g_hBitmap);
+
+            LayerWindow(hwnd);
         }
         return 0;
 
@@ -90,33 +125,33 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         PostQuitMessage(0);
         return 0;
 
-    case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hwnd, &ps);
+    // case WM_PAINT:
+    //     {
+    //         PAINTSTRUCT ps;
+    //         HDC hdc = BeginPaint(hwnd, &ps);
 
-            HDC hdcSrc = CreateCompatibleDC(hdc);
-            HGDIOBJ hBmpSave = SelectObject(hdcSrc, g_hBitmap);
+    //         HDC hdcSrc = CreateCompatibleDC(hdc);
+    //         HGDIOBJ hBmpSave = SelectObject(hdcSrc, g_hBitmap);
 
-            FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
-            BitBlt(
-                hdc,
-                0,
-                0,
-                657,
-                482,
-                hdcSrc,
-                // ps.rcPaint.left,
-                // ps.rcPaint.top,
-                0,
-                0,
-                SRCCOPY);
+    //         FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
+    //         BitBlt(
+    //             hdc,
+    //             0,
+    //             0,
+    //             657,
+    //             482,
+    //             hdcSrc,
+    //             // ps.rcPaint.left,
+    //             // ps.rcPaint.top,
+    //             0,
+    //             0,
+    //             SRCCOPY);
 
-            SelectObject(hdcSrc, hBmpSave);
-            ReleaseDC(NULL, hdcSrc);
-            EndPaint(hwnd, &ps);
-        }
-        return 0;
+    //         SelectObject(hdcSrc, hBmpSave);
+    //         ReleaseDC(NULL, hdcSrc);
+    //         EndPaint(hwnd, &ps);
+    //     }
+    //     return 0;
 
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
