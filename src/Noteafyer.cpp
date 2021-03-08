@@ -108,59 +108,29 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
     {
+        case WM_CREATE:
+            {
+                // HBITMAP hBitmap = NULL;
+                HRESULT hr = CreateBitmapFromFile(
+                    g_pWICFactory,
+                    L"images\\NoatifyerControlPanelWindow.png",
+                    &g_hBitmap);
 
-    case WM_CREATE:
+                LayerWindow(hwnd);
+            }
+            return 0;
+
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            return 0;
+
+        case WM_WINDOWPOSCHANGING:
         {
-            // HBITMAP hBitmap = NULL;
-            HRESULT hr = CreateBitmapFromFile(
-                g_pWICFactory,
-                L"images\\NoatifyerControlPanelWindow.png",
-                &g_hBitmap);
+            WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
 
-            LayerWindow(hwnd);
+            pPos->flags |= SWP_NOSIZE;
         }
         return 0;
-
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-
-    case WM_WINDOWPOSCHANGING:
-    {
-        WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
-
-        pPos->flags |= SWP_NOSIZE;
-    }
-    return 0;
-    
-    // case WM_PAINT:
-    //     {
-    //         PAINTSTRUCT ps;
-    //         HDC hdc = BeginPaint(hwnd, &ps);
-
-    //         HDC hdcSrc = CreateCompatibleDC(hdc);
-    //         HGDIOBJ hBmpSave = SelectObject(hdcSrc, g_hBitmap);
-
-    //         FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
-    //         BitBlt(
-    //             hdc,
-    //             0,
-    //             0,
-    //             657,
-    //             482,
-    //             hdcSrc,
-    //             // ps.rcPaint.left,
-    //             // ps.rcPaint.top,
-    //             0,
-    //             0,
-    //             SRCCOPY);
-
-    //         SelectObject(hdcSrc, hBmpSave);
-    //         ReleaseDC(NULL, hdcSrc);
-    //         EndPaint(hwnd, &ps);
-    //     }
-    //     return 0;
-
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
