@@ -8,7 +8,7 @@
             "name": "cl.exe - Build and debug active file",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${fileDirname}\\Noteafyer.exe",
+            "program": "${workspaceFolder}\\Noteafyer.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

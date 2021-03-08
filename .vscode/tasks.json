@@ -9,8 +9,8 @@
                 "/EHsc",
                 "/nologo",
                 "/Fe:",
-                "${fileDirname}\\Noteafyer.exe",
-                "${workspaceFolder}\\*.cpp"
+                "${workspaceFolder}\\Noteafyer.exe",
+                "${workspaceFolder}\\src\\*.cpp"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
