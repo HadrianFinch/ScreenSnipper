@@ -5,9 +5,15 @@
 #include "precomp.h"
 
 IWICImagingFactory* g_pWICFactory = nullptr;
-HBITMAP g_hBitmap = NULL;
 
-PCWSTR pImageName = nullptr;
+struct WINFO
+{
+    PWSTR pImageFile;
+    SIZE size;
+    POINT pt;
+    /* data */
+};
+
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -38,19 +44,21 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     RegisterClass(&wc);
 
     // Create the window.
-
-    pImageName = L"images\\NoatifyerControlPanelWindow.png";
+    WINFO wi1;
+    wi1.pImageFile = L"images\\NoatifyerControlPanelWindow.png";
+    wi1.pt = {0, 0};
+    wi1.size = {657, 482};
 
     HWND hwnd = CreateWindowEx(
         0,                              // Optional window styles.
         CLASS_NAME,                     // Window class
         L"Learn to Program Windows",    // Window text
-        WS_OVERLAPPEDWINDOW,            // Window style
+        WS_OVERLAPPED | WS_CLIPCHILDREN,            // Window style
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
         NULL,       // Parent window    
         NULL,       // Menu
         hInstance,  // Instance handle
-        &pImageName);
+        &wi1);
     if (hwnd == NULL)
     {
       return 0;
@@ -69,13 +77,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     RegisterClass(&btn);
 
     // Create the window.
-    pImageName = L"images\\NoteafyerControlPanelCloseButton.png";
+    WINFO wi2;
+    wi2.pImageFile = L"images\\NoteafyerControlPanelCloseButton.png";
+    wi2.pt = {13, 13};
+    wi2.size = {31, 31};
 
     HWND closeBtnHwnd = CreateWindowEx(
         0,                              // Optional window styles.
         CLASS_NAME_BTN,                     // Window class
         L"close button",                // Window text
-        WS_OVERLAPPEDWINDOW,            // Window style
+        WS_CHILD,            // Window style
         CW_USEDEFAULT, 
         CW_USEDEFAULT, 
         CW_USEDEFAULT, 
@@ -83,14 +94,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         hwnd,       // Parent window    
         NULL,       // Menu
         hInstance,  // Instance handle
-        &pImageName);
+        &wi2);
     if (closeBtnHwnd == NULL)
     {
       return 0;
     }
 
     ShowWindow(hwnd, nCmdShow);
-    // ShowWindow(closeBtnHwnd, nCmdShow);
+    ShowWindow(closeBtnHwnd, SW_SHOW);
 
     // Run the message loop.
 
@@ -106,6 +117,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 BOOL LayerWindow(
     _In_ HWND hwnd,
+    _In_ HBITMAP hBitmap,
     _In_ SIZE windowSize,
     _In_ POINT ptSrc)
 {
@@ -115,7 +127,7 @@ BOOL LayerWindow(
     SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);
 
     HDC hdcSrc = CreateCompatibleDC(NULL);
-    HGDIOBJ hBmpSave = SelectObject(hdcSrc, g_hBitmap);
+    HGDIOBJ hBmpSave = SelectObject(hdcSrc, hBitmap);
 
     BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA};
 
@@ -129,10 +141,12 @@ BOOL LayerWindow(
         NULL,
         &bf,
         ULW_ALPHA);
+
     SelectObject(hdcSrc, hBmpSave);
     ReleaseDC(NULL, hdcSrc);
 
     return bRet;
+    
 }
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -143,25 +157,16 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
             // get the right image from CREATSTRUCT
             CREATESTRUCT* pCS = reinterpret_cast<CREATESTRUCT*>(lParam);
-            PWSTR pImageName = reinterpret_cast<PWSTR>(pCS->lpCreateParams);
+            WINFO* pwi = reinterpret_cast<WINFO*>(pCS->lpCreateParams);
             
+            HBITMAP hBitmap = NULL;
+
             HRESULT hr = CreateBitmapFromFile(
                 g_pWICFactory,
-                pImageName, // where is the image
-                &g_hBitmap);
+                pwi->pImageFile,
+                &hBitmap);
 
-            if (pImageName == L"images\\NoatifyerControlPanelWindow.png")
-            {
-                SIZE winSize = {657, 482};
-                POINT winLocat = {0, 0};
-                LayerWindow(hwnd, winSize, winLocat);
-            }
-            else if (pImageName == L"images\\NoteafyerControlPanelCloseButton.png")
-            {
-                SIZE winSize = {31, 31};
-                POINT winLocat = {13, 13};
-                LayerWindow(hwnd, winSize, winLocat);
-            }       
+            LayerWindow(hwnd, hBitmap, pwi->size, pwi->pt);
         }
         return 0;
 
@@ -171,13 +176,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
         return 0;
 
-        case WM_WINDOWPOSCHANGING:
-        {
-            WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
+        // case WM_WINDOWPOSCHANGING:
+        // {
+        //     WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
 
-            pPos->flags |= SWP_NOSIZE;
-        }
-        return 0;
+        //     pPos->flags |= SWP_NOSIZE;
+        // }
+        // return 0;
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
