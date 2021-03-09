@@ -7,6 +7,8 @@
 IWICImagingFactory* g_pWICFactory = nullptr;
 HBITMAP g_hBitmap = NULL;
 
+PCWSTR pImageName = nullptr;
+
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
@@ -37,27 +39,58 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     // Create the window.
 
+    pImageName = L"images\\NoatifyerControlPanelWindow.png";
+
     HWND hwnd = CreateWindowEx(
         0,                              // Optional window styles.
         CLASS_NAME,                     // Window class
         L"Learn to Program Windows",    // Window text
         WS_OVERLAPPEDWINDOW,            // Window style
-
-        // Size and position
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-
         NULL,       // Parent window    
         NULL,       // Menu
         hInstance,  // Instance handle
-        NULL        // Additional application data
-        );
-
+        &pImageName);
     if (hwnd == NULL)
     {
       return 0;
     }
 
+
+    // close button window
+    const wchar_t CLASS_NAME_BTN[]  = L"button";
+    
+    WNDCLASS btn = { };
+
+    btn.lpfnWndProc   = WindowProc;
+    btn.hInstance     = hInstance;
+    btn.lpszClassName = CLASS_NAME_BTN;
+
+    RegisterClass(&btn);
+
+    // Create the window.
+    pImageName = L"images\\NoteafyerControlPanelCloseButton.png";
+
+    HWND closeBtnHwnd = CreateWindowEx(
+        0,                              // Optional window styles.
+        CLASS_NAME_BTN,                     // Window class
+        L"close button",                // Window text
+        WS_OVERLAPPEDWINDOW,            // Window style
+        CW_USEDEFAULT, 
+        CW_USEDEFAULT, 
+        CW_USEDEFAULT, 
+        CW_USEDEFAULT,
+        hwnd,       // Parent window    
+        NULL,       // Menu
+        hInstance,  // Instance handle
+        &pImageName);
+    if (closeBtnHwnd == NULL)
+    {
+      return 0;
+    }
+
     ShowWindow(hwnd, nCmdShow);
+    // ShowWindow(closeBtnHwnd, nCmdShow);
 
     // Run the message loop.
 
@@ -72,19 +105,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 }
 
 BOOL LayerWindow(
-    _In_ HWND hwnd)
+    _In_ HWND hwnd,
+    _In_ SIZE windowSize,
+    _In_ POINT ptSrc)
 {
     // Add the WS_EX_LAYERED bit to the window ex style
     LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
     exStyle |= WS_EX_LAYERED;
     SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);
 
-    SIZE windowSize = {657, 482};
-
     HDC hdcSrc = CreateCompatibleDC(NULL);
     HGDIOBJ hBmpSave = SelectObject(hdcSrc, g_hBitmap);
-
-    POINT ptSrc = {0, 0};
 
     BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA};
 
@@ -109,20 +140,36 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     switch (uMsg)
     {
         case WM_CREATE:
-            {
-                // HBITMAP hBitmap = NULL;
-                HRESULT hr = CreateBitmapFromFile(
-                    g_pWICFactory,
-                    L"images\\NoatifyerControlPanelWindow.png",
-                    &g_hBitmap);
+        {
+            // get the right image from CREATSTRUCT
+            CREATESTRUCT* pCS = reinterpret_cast<CREATESTRUCT*>(lParam);
+            PWSTR pImageName = reinterpret_cast<PWSTR>(pCS->lpCreateParams);
+            
+            HRESULT hr = CreateBitmapFromFile(
+                g_pWICFactory,
+                pImageName, // where is the image
+                &g_hBitmap);
 
-                LayerWindow(hwnd);
+            if (pImageName == L"images\\NoatifyerControlPanelWindow.png")
+            {
+                SIZE winSize = {657, 482};
+                POINT winLocat = {0, 0};
+                LayerWindow(hwnd, winSize, winLocat);
             }
-            return 0;
+            else if (pImageName == L"images\\NoteafyerControlPanelCloseButton.png")
+            {
+                SIZE winSize = {31, 31};
+                POINT winLocat = {13, 13};
+                LayerWindow(hwnd, winSize, winLocat);
+            }       
+        }
+        return 0;
 
         case WM_DESTROY:
+        {
             PostQuitMessage(0);
-            return 0;
+        }
+        return 0;
 
         case WM_WINDOWPOSCHANGING:
         {
