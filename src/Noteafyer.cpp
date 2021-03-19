@@ -53,8 +53,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         0,                              // Optional window styles.
         CLASS_NAME,                     // Window class
         L"Learn to Program Windows",    // Window text
-        WS_OVERLAPPED | WS_CLIPCHILDREN,            // Window style
-        CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+        WS_POPUP | WS_CLIPCHILDREN,            // Window style
+        0, 
+        0, 
+        657, 
+        482,
         NULL,       // Parent window    
         NULL,       // Menu
         hInstance,  // Instance handle
@@ -80,7 +83,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     WINFO wi2;
     wi2.pImageFile = L"images\\NoteafyerControlPanelCloseButton.png";
     wi2.pt = {13, 13};
-    wi2.size = {31, 31};
+    wi2.size = {25, 25};
 
     HWND closeBtnHwnd = CreateWindowEx(
         0,                              // Optional window styles.
@@ -131,15 +134,28 @@ BOOL LayerWindow(
 
     BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA};
 
-    POINT pt = {0,0};
+    POINT ptNull = {0,0};
 
+    // HWND hwndParent = GetParent(hwnd);
+    // if (hwndParent != NULL)
+    // {
+    //     RECT rcParent;
+    //     GetWindowRect(hwndParent, &rcParent);
+    //     rcParent.left += ptWinPos.x;
+    //     rcParent.top += ptWinPos.y;
+
+    //     ScreenToClient(hwndParent, reinterpret_cast<LPPOINT>(&rcParent));
+    //     ptWinPos.x = rcParent.left;
+    //     ptWinPos.y = rcParent.top;
+    // }
+      
     BOOL bRet = UpdateLayeredWindow(
         hwnd,
         NULL,
         &ptWinPos,
         &windowSize,
         hdcSrc,
-        &pt,
+        &ptNull,
         NULL,
         &bf,
         ULW_ALPHA);
@@ -178,11 +194,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
         return 0;
 
-        // case WM_WINDOWPOSCHANGING:
+        // case WM_NCCALCSIZE:
         // {
-        //     WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
-
-        //     pPos->flags |= SWP_NOSIZE;
+        //     if (wParam)
+        //     {
+        //         NCCALCSIZE_PARAMS* pParams = reinterpret_cast<NCCALCSIZE_PARAMS*>(lParam);
+        //     }
+            
         // }
         // return 0;
     }
