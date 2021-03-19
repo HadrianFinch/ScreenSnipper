@@ -119,7 +119,7 @@ BOOL LayerWindow(
     _In_ HWND hwnd,
     _In_ HBITMAP hBitmap,
     _In_ SIZE windowSize,
-    _In_ POINT ptSrc)
+    _In_ POINT ptWinPos)
 {
     // Add the WS_EX_LAYERED bit to the window ex style
     LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
@@ -131,13 +131,15 @@ BOOL LayerWindow(
 
     BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA};
 
+    POINT pt = {0,0};
+
     BOOL bRet = UpdateLayeredWindow(
         hwnd,
         NULL,
-        NULL,
+        &ptWinPos,
         &windowSize,
         hdcSrc,
-        &ptSrc,
+        &pt,
         NULL,
         &bf,
         ULW_ALPHA);
