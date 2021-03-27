@@ -4,6 +4,7 @@
 
 #include "precomp.h"
 
+HINSTANCE g_hInstance = NULL;
 IWICImagingFactory* g_pWICFactory = nullptr;
 
 struct WINFO
@@ -19,6 +20,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
+    g_hInstance = hInstance;
+
     DWORD dwCoInit = COINIT_APARTMENTTHREADED;
     HRESULT hr = CoInitializeEx(nullptr, dwCoInit);
     if (FAILED(hr))
@@ -53,7 +56,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         0,                              // Optional window styles.
         CLASS_NAME,                     // Window class
         L"Learn to Program Windows",    // Window text
-        WS_POPUP | WS_CLIPCHILDREN,            // Window style
+        WS_POPUPWINDOW | WS_CLIPCHILDREN,            // Window style
         0, 
         0, 
         657, 
@@ -69,42 +72,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 
     // close button window
-    const wchar_t CLASS_NAME_BTN[]  = L"button";
-    
-    WNDCLASS btn = { };
 
-    btn.lpfnWndProc   = WindowProc;
-    btn.hInstance     = hInstance;
-    btn.lpszClassName = CLASS_NAME_BTN;
 
-    RegisterClass(&btn);
-
-    // Create the window.
-    WINFO wi2;
-    wi2.pImageFile = L"images\\NoteafyerControlPanelCloseButton.png";
-    wi2.pt = {13, 13};
-    wi2.size = {25, 25};
-
-    HWND closeBtnHwnd = CreateWindowEx(
-        0,                              // Optional window styles.
-        CLASS_NAME_BTN,                     // Window class
-        L"close button",                // Window text
-        WS_CHILD,            // Window style
-        CW_USEDEFAULT, 
-        CW_USEDEFAULT, 
-        CW_USEDEFAULT, 
-        CW_USEDEFAULT,
-        hwnd,       // Parent window    
-        NULL,       // Menu
-        hInstance,  // Instance handle
-        &wi2);
-    if (closeBtnHwnd == NULL)
-    {
-      return 0;
-    }
 
     ShowWindow(hwnd, nCmdShow);
-    ShowWindow(closeBtnHwnd, SW_SHOW);
+    
 
     // Run the message loop.
 

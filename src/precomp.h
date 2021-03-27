@@ -11,3 +11,25 @@
 #include "decode.h"
 #include "calander.h"
 #include "button.h"
+
+__inline void Assert(
+    _In_ bool value)
+{
+    if (value != false)
+    {
+        return;
+    }
+    else
+    {
+        __debugbreak();
+    }
+}
+
+extern HINSTANCE g_hInstance;
+extern IWICImagingFactory* g_pWICFactory;
+
+BOOL LayerWindow(
+    _In_ HWND hwnd,
+    _In_ HBITMAP hBitmap,
+    _In_ SIZE windowSize,
+    _In_ POINT ptWinPos);

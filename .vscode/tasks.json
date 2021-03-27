@@ -3,20 +3,13 @@
         {
             "type": "cppbuild",
             "label": "C/C++: cl.exe build active file",
-            "command": "cl.exe",
+            "command": "build.bat",
             "args": [
-                "/Zi",
-                "/EHsc",
-                "/nologo",
-                "/Fe:",
-                "${workspaceFolder}\\Noteafyer.exe",
-                "${workspaceFolder}\\src\\*.cpp"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [
-                "$msCompile"
+                // "$msCompile"
             ],
             "group": {
                 "kind": "build",
