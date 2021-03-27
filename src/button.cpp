@@ -46,9 +46,9 @@ bool CButton::EnsureWndClass()
 
         wndClass.lpfnWndProc = CButton::s_WindowProc;
         wndClass.hInstance = g_hInstance;
-        wndClass.lpszClassName = c_szButtonClassName;
+        wndClass.lpszClassName = c_szLayeredButtonClassName;
 
-        if (RegisterClassW(&wndClass))
+        if (RegisterClass(&wndClass))
         {
             s_classRegistered = true;
         }
@@ -96,14 +96,14 @@ HRESULT CButton::Initialize(
 
     if (SUCCEEDED(hr))
     {
-        m_hwnd = CreateWindowExW(0,              // Optional window styles.
-                                 c_szButtonClassName,
+        m_hwnd = CreateWindowEx(0,              // Optional window styles.
+                                 c_szLayeredButtonClassName,
                                  pWindowName,
                                  WS_CHILD,       // Window style
-                                 CW_USEDEFAULT, 
-                                 CW_USEDEFAULT, 
-                                 CW_USEDEFAULT, 
-                                 CW_USEDEFAULT,
+                                 m_pt.x, 
+                                 m_pt.y, 
+                                 m_size.cx, 
+                                 m_size.cy,
                                  hwndParent,     // Parent window    
                                  NULL,           // Menu
                                  g_hInstance,    // Instance handle

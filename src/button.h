@@ -18,7 +18,7 @@ private:
         _In_ WPARAM wParam, 
         _In_ LPARAM lParam);
 
-    static constexpr PCWSTR c_szButtonClassName = L"button";
+    static constexpr PCWSTR c_szLayeredButtonClassName = L"LayeredButton";
     static bool s_classRegistered;
 
     HRESULT Initialize(

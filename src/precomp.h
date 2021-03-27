@@ -7,6 +7,8 @@
 #define ALIGN_SIZE( sizeToAlign, PowerOfTwo )       \
         (((sizeToAlign) + (PowerOfTwo) - 1) & ~((PowerOfTwo) - 1))
 
+#define UNICODE
+
 #include <windows.h>
 #include "decode.h"
 #include "calander.h"

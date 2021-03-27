@@ -72,7 +72,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 
     // close button window
-
+    SIZE size = {25, 25};
+    POINT point = {13, 13};
+    CButton* pCloseButton = nullptr;
+    CButton::Create(hwnd, 
+                    L"Close Button", 
+                    L"images\\NoteafyerControlPanelCloseButton.png", 
+                    size, 
+                    point, 
+                    &pCloseButton);
 
 
     ShowWindow(hwnd, nCmdShow);
