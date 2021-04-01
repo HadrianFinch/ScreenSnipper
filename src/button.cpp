@@ -2,7 +2,6 @@
 
 bool CButton::s_classRegistered = false;
 
-
 /*static*/
 HRESULT CButton::Create(
     _In_ HWND hwndParent,

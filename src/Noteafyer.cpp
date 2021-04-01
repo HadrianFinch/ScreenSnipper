@@ -71,7 +71,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     }
 
 
-    // close button window
     SIZE size = {25, 25};
     POINT point = {13, 13};
     CButton* pCloseButton = nullptr;
@@ -92,6 +91,56 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     point, 
                     &pMinimizeButton);
 
+
+
+
+    size = {284, 92};
+    point = {1586, 70};
+    CPopup* pPopupTest = nullptr;
+    CPopup::Create(L"Notification Test",
+                   L"images\\CalanderPopup.png",
+                   size,
+                   point,
+                   &pPopupTest);
+
+    size = {102, 24};
+    point = {160, 46};
+    CButton* pTestOpenZoomButton = nullptr;
+    CButton::Create(pPopupTest->m_hwnd,
+                    L"Open Zoom", 
+                    L"images\\OpenZoomButton.png", 
+                    size, 
+                    point, 
+                    &pTestOpenZoomButton);
+
+    size = {284, 92};
+    point = {1586, 168};
+    CPopup* pSettingsPopup = nullptr;
+    CPopup::Create(L"Settings Notification",
+                   L"images\\SettingsPopup.png",
+                   size,
+                   point,
+                   &pSettingsPopup);
+
+    size = {83, 28};
+    point = {181, 44};
+    CButton* pOpenSettingsButton = nullptr;
+    CButton::Create(pSettingsPopup->m_hwnd,
+                    L"Open Settings", 
+                    L"images\\openButton.png", 
+                    size, 
+                    point, 
+                    &pTestOpenZoomButton);
+    
+    size = {83, 28};
+    point = {181, 8};
+    CButton* pDismissButton = nullptr;
+    CButton::Create(pSettingsPopup->m_hwnd,
+                    L"Dismiss Button", 
+                    L"images\\didmissButton.png", 
+                    size, 
+                    point, 
+                    &pDismissButton);
 
     ShowWindow(hwnd, nCmdShow);
     
