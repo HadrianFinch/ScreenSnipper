@@ -68,7 +68,8 @@ LRESULT CALLBACK CButton::s_WindowProc(
 
     if (uMsg == WM_CREATE)
     {
-        pThis = reinterpret_cast<CButton*>(lParam);
+        CREATESTRUCT* pCS = reinterpret_cast<CREATESTRUCT*>(lParam);
+        pThis = reinterpret_cast<CButton*>(pCS->lpCreateParams);
 
         SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pThis));
     }
@@ -79,12 +80,12 @@ LRESULT CALLBACK CButton::s_WindowProc(
 
     if (pThis != nullptr)
     {
-        Assert(pThis->m_hwnd == hwnd);
+        // Assert(pThis->m_hwnd == hwnd);
 
-        return pThis->WindowProc(uMsg, wParam, lParam);
+        return pThis->WindowProc(hwnd, uMsg, wParam, lParam);
     }
 
-    return 0;
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
 HRESULT CButton::Initialize(
@@ -97,17 +98,17 @@ HRESULT CButton::Initialize(
     if (SUCCEEDED(hr))
     {
         m_hwnd = CreateWindowEx(0,              // Optional window styles.
-                                 c_szLayeredButtonClassName,
-                                 pWindowName,
-                                 WS_CHILD,       // Window style
-                                 m_pt.x, 
-                                 m_pt.y, 
-                                 m_size.cx, 
-                                 m_size.cy,
-                                 hwndParent,     // Parent window    
-                                 NULL,           // Menu
-                                 g_hInstance,    // Instance handle
-                                 this);
+                                c_szLayeredButtonClassName,
+                                pWindowName,
+                                WS_CHILD,       // Window style
+                                m_pt.x, 
+                                m_pt.y, 
+                                m_size.cx, 
+                                m_size.cy,
+                                hwndParent,     // Parent window    
+                                NULL,           // Menu
+                                g_hInstance,    // Instance handle
+                                this);
         if (m_hwnd == NULL)
         {
             hr = HRESULT_FROM_WIN32(GetLastError());
@@ -118,6 +119,7 @@ HRESULT CButton::Initialize(
 }
 
 LRESULT CButton::WindowProc(
+    _In_ HWND hwnd,
     _In_ UINT uMsg, 
     _In_ WPARAM wParam, 
     _In_ LPARAM lParam)
@@ -126,15 +128,15 @@ LRESULT CButton::WindowProc(
     {
         case WM_CREATE:
         {
-            Assert(m_hBitmap != NULL);
+            // Assert(m_hBitmap != NULL);
 
-            LayerWindow(m_hwnd, m_hBitmap, m_size, m_pt);
+            LayerWindow(hwnd, m_hBitmap, m_size, m_pt);
         }
         return 0;
 
         case WM_DESTROY:
         {
-            m_hwnd = NULL;
+            hwnd = NULL;
             PostQuitMessage(0);
         }
         return 0;
@@ -150,6 +152,6 @@ LRESULT CButton::WindowProc(
         // return 0;
     }
 
-    return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
