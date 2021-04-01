@@ -140,16 +140,6 @@ LRESULT CButton::WindowProc(
             PostQuitMessage(0);
         }
         return 0;
-
-        // case WM_NCCALCSIZE:
-        // {
-        //     if (wParam)
-        //     {
-        //         NCCALCSIZE_PARAMS* pParams = reinterpret_cast<NCCALCSIZE_PARAMS*>(lParam);
-        //     }
-            
-        // }
-        // return 0;
     }
 
     return DefWindowProc(hwnd, uMsg, wParam, lParam);

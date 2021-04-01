@@ -82,6 +82,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     point, 
                     &pCloseButton);
 
+    size = {25, 25};
+    point = {35, 13};
+    CButton* pMinimizeButton = nullptr;
+    CButton::Create(hwnd,  
+                    L"Close Button", 
+                    L"images\\NoteafyerControlPanelMinimazeButton.png", 
+                    size, 
+                    point, 
+                    &pMinimizeButton);
+
 
     ShowWindow(hwnd, nCmdShow);
     
@@ -174,15 +184,23 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
         return 0;
 
-        // case WM_NCCALCSIZE:
-        // {
-        //     if (wParam)
-        //     {
-        //         NCCALCSIZE_PARAMS* pParams = reinterpret_cast<NCCALCSIZE_PARAMS*>(lParam);
-        //     }
-            
-        // }
-        // return 0;
+        case WM_NCHITTEST:
+        {
+            DWORD coordintes = static_cast<DWORD>(lParam);
+            POINT hitPos;
+            hitPos.y = HIWORD(coordintes);
+            hitPos.x = LOWORD(coordintes);
+
+            RECT wndRect;
+            GetWindowRect(hwnd, &wndRect);
+
+            if (hitPos.y >= wndRect.top &&
+                hitPos.y <= (wndRect.top + 39))
+            {
+                return HTCAPTION;
+            }
+        }
+        return HTCLIENT;
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
