@@ -140,6 +140,7 @@ LRESULT CButton::WindowProc(
         }
         return 0;
     }
+    
 
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }

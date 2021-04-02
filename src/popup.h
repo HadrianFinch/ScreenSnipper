@@ -51,6 +51,7 @@ protected:
         _In_ LPARAM lParam);
 
 public:
+    RECT m_dragRect = {-1, -1, -1, -1};
     HWND m_hwnd = NULL;
     HBITMAP m_hBitmap = NULL;
     SIZE m_size;

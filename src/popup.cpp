@@ -2,7 +2,6 @@
 
 bool CPopup::s_classRegistered = false;
 
-
 /*static*/
 HRESULT CPopup::Create(
     _In_ PCWSTR pWindowName,
@@ -138,8 +137,63 @@ LRESULT CPopup::WindowProc(
             PostQuitMessage(0);
         }
         return 0;
+
+        case WM_NCHITTEST:
+        {
+            if (m_dragRect.bottom != -1 &&
+                m_dragRect.top != -1 &&
+                m_dragRect.right != -1 &&
+                m_dragRect.left != -1)
+            {
+                DWORD coordintes = static_cast<DWORD>(lParam);
+                POINT hitPos;
+                hitPos.y = HIWORD(coordintes);
+                hitPos.x = LOWORD(coordintes);
+
+                // RECT wndRect;
+                POINT tl = {m_dragRect.left, m_dragRect.top};
+                POINT br = {m_dragRect.right, m_dragRect.bottom};
+
+                ClientToScreen(hwnd, &tl);
+                ClientToScreen(hwnd, &br);
+
+                if (hitPos.y >= tl.y &&
+                    hitPos.y <= br.y &&
+                    hitPos.x >= tl.x &&
+                    hitPos.x <= br.x)
+                {
+                    return HTCAPTION;
+                }
+            }
+        }
+        return HTCLIENT;
     }
+
+    // if (m_dragRect.bottom != -1 &&
+    //     m_dragRect.top != -1 &&
+    //     m_dragRect.right != -1 &&
+    //     m_dragRect.left != -1)
+    // {
+    //     if (uMsg = WM_NCHITTEST)
+    //     {
+    //         DWORD coordintes = static_cast<DWORD>(lParam);
+    //         POINT hitPos;
+    //         hitPos.y = HIWORD(coordintes);
+    //         hitPos.x = LOWORD(coordintes);
+
+    //         RECT wndRect;
+    //         GetWindowRect(hwnd, &wndRect);
+    //         // ScreenToClient(hwnd, &hitPos);
+
+    //         if (hitPos.y >= wndRect.top &&
+    //             hitPos.y <= (wndRect.top + 39))
+    //         {
+    //             return HTCAPTION;
+    //         }
+    //         // return HTCLIENT;
+    //         return HTCAPTION;
+    //     }
+    // }
 
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
-

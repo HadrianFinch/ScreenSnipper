@@ -71,77 +71,167 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     }
 
 
-    SIZE size = {25, 25};
-    POINT point = {13, 13};
+    // SIZE size = {25, 25};
+    // POINT point = {13, 13};
+    // CButton* pCloseButton = nullptr;
+    // CButton::Create(hwnd, 
+    //                 L"Close Button", 
+    //                 L"images\\NoteafyerControlPanelCloseButton.png", 
+    //                 size, 
+    //                 point, 
+    //                 &pCloseButton);
+
+    // size = {25, 25};
+    // point = {35, 13};
+    // CButton* pMinimizeButton = nullptr;
+    // CButton::Create(hwnd,  
+    //                 L"Close Button", 
+    //                 L"images\\NoteafyerControlPanelMinimazeButton.png", 
+    //                 size, 
+    //                 point, 
+    //                 &pMinimizeButton);
+
+    // size = {284, 92};
+    // point = {1627, 29};
+    // CPopup* pPopupTest = nullptr;
+    // CPopup::Create(L"Notification Test",
+    //                L"images\\CalanderPopup.png",
+    //                size,
+    //                point,
+    //                &pPopupTest);
+
+    // size = {102, 24};
+    // point = {160, 46};
+    // CButton* pTestOpenZoomButton = nullptr;
+    // CButton::Create(pPopupTest->m_hwnd,
+    //                 L"Open Zoom", 
+    //                 L"images\\OpenZoomButton.png", 
+    //                 size, 
+    //                 point, 
+    //                 &pTestOpenZoomButton);
+
+    // size = {284, 92};
+    // point = {1627, 128};
+    // CPopup* pSettingsPopup = nullptr;
+    // CPopup::Create(L"Settings Notification",
+    //                L"images\\SettingsPopup.png",
+    //                size,
+    //                point,
+    //                &pSettingsPopup);
+
+    // size = {83, 28};
+    // point = {181, 44};
+    // CButton* pOpenSettingsButton = nullptr;
+    // CButton::Create(pSettingsPopup->m_hwnd,
+    //                 L"Open Settings", 
+    //                 L"images\\openButton.png", 
+    //                 size, 
+    //                 point, 
+    //                 &pTestOpenZoomButton);
+    
+    // size = {83, 28};
+    // point = {181, 8};
+    // CButton* pDismissButton = nullptr;
+    // CButton::Create(pSettingsPopup->m_hwnd,
+    //                 L"Dismiss Button", 
+    //                 L"images\\didmissButton.png", 
+    //                 size, 
+    //                 point, 
+    //                 &pDismissButton);
+
+    SIZE size = {482, 75};
+    POINT pt = {719, 1050};
+    CPopup* pMenuBar = nullptr;
+    CPopup::Create(L"Menu Bar",
+                   L"menuBarImages\\menuBar.png",
+                   size,
+                   pt,
+                   &pMenuBar);
+    
+    pMenuBar->m_dragRect = {0, 0, 719, 880};
+
+    size = {13, 21};
+    pt = {6, 19};
     CButton* pCloseButton = nullptr;
-    CButton::Create(hwnd, 
+    CButton::Create(pMenuBar->m_hwnd,
                     L"Close Button", 
-                    L"images\\NoteafyerControlPanelCloseButton.png", 
+                    L"menuBarImages\\closeButton.png", 
                     size, 
-                    point, 
+                    pt, 
                     &pCloseButton);
 
-    size = {25, 25};
-    point = {35, 13};
-    CButton* pMinimizeButton = nullptr;
-    CButton::Create(hwnd,  
-                    L"Close Button", 
-                    L"images\\NoteafyerControlPanelMinimazeButton.png", 
+    size = {38, 31};
+    pt = {32, 16};
+    CButton* pScreenCapture = nullptr;
+    CButton::Create(pMenuBar->m_hwnd,
+                    L"Screen Capture", 
+                    L"menuBarImages\\screenCapture.png", 
                     size, 
-                    point, 
-                    &pMinimizeButton);
+                    pt, 
+                    &pScreenCapture);
 
-
-
-
-    size = {284, 92};
-    point = {1586, 70};
-    CPopup* pPopupTest = nullptr;
-    CPopup::Create(L"Notification Test",
-                   L"images\\CalanderPopup.png",
-                   size,
-                   point,
-                   &pPopupTest);
-
-    size = {102, 24};
-    point = {160, 46};
-    CButton* pTestOpenZoomButton = nullptr;
-    CButton::Create(pPopupTest->m_hwnd,
-                    L"Open Zoom", 
-                    L"images\\OpenZoomButton.png", 
+    pt = {82, 16};
+    CButton* pWindowCapture = nullptr;
+    CButton::Create(pMenuBar->m_hwnd,
+                    L"Screen Capture", 
+                    L"menuBarImages\\windowCapture.png", 
                     size, 
-                    point, 
-                    &pTestOpenZoomButton);
+                    pt, 
+                    &pWindowCapture);
 
-    size = {284, 92};
-    point = {1586, 168};
-    CPopup* pSettingsPopup = nullptr;
-    CPopup::Create(L"Settings Notification",
-                   L"images\\SettingsPopup.png",
-                   size,
-                   point,
-                   &pSettingsPopup);
-
-    size = {83, 28};
-    point = {181, 44};
-    CButton* pOpenSettingsButton = nullptr;
-    CButton::Create(pSettingsPopup->m_hwnd,
-                    L"Open Settings", 
-                    L"images\\openButton.png", 
+    pt = {132, 16};
+    CButton* pZoneCapture = nullptr;
+    CButton::Create(pMenuBar->m_hwnd,
+                    L"Screen Capture", 
+                    L"menuBarImages\\zoneCapture.png", 
                     size, 
-                    point, 
-                    &pTestOpenZoomButton);
+                    pt, 
+                    &pZoneCapture);
+
+    size = {41, 34};
+    pt = {195, 16};
+    CButton* pScreenRecord = nullptr;
+    CButton::Create(pMenuBar->m_hwnd,
+                    L"Screen Record", 
+                    L"menuBarImages\\screenRecord.png", 
+                    size, 
+                    pt, 
+                    &pScreenRecord);
+    pt = {245, 16};
+    CButton* pWindowRecord = nullptr;
+    CButton::Create(pMenuBar->m_hwnd,
+                    L"Window Record", 
+                    L"menuBarImages\\windowRecord.png", 
+                    size, 
+                    pt, 
+                    &pWindowRecord);
+    pt = {295, 16};
+    CButton* pZoneRecord = nullptr;
+    CButton::Create(pMenuBar->m_hwnd,
+                    L"Zone Record", 
+                    L"menuBarImages\\zoneRecord.png", 
+                    size, 
+                    pt, 
+                    &pZoneRecord);
+    size = {63, 63};
+    pt = {359, -1};
+    CButton* pOptions = nullptr;
+    CButton::Create(pMenuBar->m_hwnd,
+                    L"Options", 
+                    L"menuBarImages\\options.png", 
+                    size, 
+                    pt, 
+                    &pOptions);
+    size = {58, 63};
+    pt = {415, -1};
+    CButton* pCapture = nullptr;
+    CButton::Create(pMenuBar->m_hwnd,
+                    L"Options", 
+                    L"menuBarImages\\capture.png", 
+                    size, 
+                    pt, 
+                    &pCapture);
     
-    size = {83, 28};
-    point = {181, 8};
-    CButton* pDismissButton = nullptr;
-    CButton::Create(pSettingsPopup->m_hwnd,
-                    L"Dismiss Button", 
-                    L"images\\didmissButton.png", 
-                    size, 
-                    point, 
-                    &pDismissButton);
-
     ShowWindow(hwnd, nCmdShow);
     
 
