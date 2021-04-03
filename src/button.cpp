@@ -12,11 +12,9 @@ HRESULT CButton::Create(
     _Outptr_ CButton** ppButton)
 {
     HRESULT hr = S_OK;
-
-    if (EnsureWndClass())
+    CButton* pButton = new CButton(pImageFile, size, pt);
+    if (pButton != nullptr)
     {
-        CButton* pButton = new CButton(pImageFile, size, pt);
-
         hr = pButton->Initialize(hwndParent, pWindowName, pImageFile);
         if (SUCCEEDED(hr))
         {
@@ -30,7 +28,7 @@ HRESULT CButton::Create(
     }
     else
     {
-        hr = E_FAIL;
+        hr = E_OUTOFMEMORY;
     }
 
     return hr;
@@ -92,8 +90,12 @@ HRESULT CButton::Initialize(
     _In_ PCWSTR pWindowName,
     _In_ PCWSTR pImageFile)
 {
-    HRESULT hr = CreateBitmapFromFile(g_pWICFactory, pImageFile, &m_hBitmap);
+    if (!EnsureWndClass())
+    {
+        return HRESULT_FROM_WIN32(GetLastError());
+    }
 
+    HRESULT hr = CreateBitmapFromFile(g_pWICFactory, pImageFile, &m_hBitmap);
     if (SUCCEEDED(hr))
     {
         m_hwnd = CreateWindowEx(0,              // Optional window styles.
@@ -168,6 +170,12 @@ LRESULT CButton::WindowProc(
             {
                 LayerWindow(hwnd, m_hBitmap, m_size, m_pt);      
             }
+        }
+        return 0;
+
+        case WM_LBUTTONUP:
+        {
+            OnClicked();
         }
         return 0;
     }

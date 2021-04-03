@@ -95,3 +95,49 @@ HRESULT CreateBitmapFromFile(
     SafeRelease(&pFirstFrame);
     return S_OK;
 }
+
+HRESULT CaptureScreen(
+    _In_ IWICImagingFactory* pIWICFactory)
+{
+    HBITMAP hBitmap = NULL;
+
+    HDC hdcScreen = GetDC(NULL);
+    HDC hdcDest = CreateCompatibleDC(hdcScreen);
+
+    UINT width = 100;
+    UINT height = 100;
+
+    UINT stride = ALIGN_SIZE(width * 4, sizeof(DWORD));
+    UINT cbSize = stride * height;
+    BYTE* pMemory = new BYTE[cbSize];
+
+    WICRect bitmapRect = {0, 0, static_cast<INT>(width), static_cast<INT>(height)};
+    
+    hBitmap = CreateBitmap(
+        width,
+        height,
+        1,
+        32,
+        pMemory);
+
+    if (hBitmap == NULL)
+    {
+        return E_OUTOFMEMORY;
+    } 
+
+    // HGDIOBJ hBmpSave = SelectObject(hdcDest, hBitmap);
+
+    BitBlt(
+        hdcDest,
+        0,
+        0,
+        width,
+        height,
+        hdcScreen,
+        0,
+        0,
+        SRCCOPY);
+    
+    // DestroyBitmapIntoFile(pIWICFactory, );
+    return S_OK;
+}

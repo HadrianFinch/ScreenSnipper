@@ -94,7 +94,7 @@ HRESULT CPopup::Initialize(
 
     if (SUCCEEDED(hr))
     {
-        m_hwnd = CreateWindowEx(0,              // Optional window styles.
+        m_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,              // Optional window styles.
                                 c_szLayeredPopupClassName,
                                 pWindowName,
                                 WS_POPUPWINDOW | WS_CLIPCHILDREN, // Window style

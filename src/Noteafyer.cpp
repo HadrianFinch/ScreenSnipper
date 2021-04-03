@@ -142,7 +142,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     SIZE size = {482, 75};
     POINT pt = {719, 1050};
     CPopup* pMenuBar = nullptr;
-    CPopup::Create(L"Menu Bar",
+    CPopup::Create(L"ScreenSnipper",
                    L"menuBarImages\\menuBar.png",
                    size,
                    pt,
@@ -153,7 +153,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     size = {13, 13};
     pt = {8, 8};
     CButton* pCloseButton = nullptr;
-    CButton::Create(pMenuBar->m_hwnd,
+    CCloseButton::Create(pMenuBar->m_hwnd,
                     L"Close Button", 
                     L"menuBarImages\\closeButton.png", 
                     size, 

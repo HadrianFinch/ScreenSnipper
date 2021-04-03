@@ -8,7 +8,7 @@
             "name": "cl.exe - Build and debug active file",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\Noteafyer.exe",
+            "program": "${workspaceFolder}\\ScreenSnipper.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
