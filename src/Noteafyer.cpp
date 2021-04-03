@@ -166,7 +166,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     size = {38, 31};
     pt = {32, 16};
     CButton* pScreenCapture = nullptr;
-    CButton::Create(pMenuBar->m_hwnd,
+    CScreenCaptureButton::Create(pMenuBar->m_hwnd,
                     L"Screen Capture", 
                     L"menuBarImages\\screenCapture.png", 
                     size, 

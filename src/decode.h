@@ -9,5 +9,4 @@ HRESULT CreateBitmapFromFile(
     _In_ PCWSTR uri,
     _Out_ HBITMAP* phBitmap);
 
-HRESULT CaptureScreen(
-    _In_ IWICImagingFactory* pIWICFactory);
+HRESULT CaptureScreen();
