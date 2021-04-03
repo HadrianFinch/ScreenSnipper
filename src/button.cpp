@@ -108,10 +108,12 @@ HRESULT CButton::Initialize(
                                 NULL,           // Menu
                                 g_hInstance,    // Instance handle
                                 this);
-        if (m_hwnd == NULL)
-        {
-            hr = HRESULT_FROM_WIN32(GetLastError());
-        }
+        // TRACKMOUSEEVENT mouseTracking;
+        // mouseTracking.hwndTrack = m_hwnd;
+        // mouseTracking.dwFlags = TME_LEAVE;
+        // mouseTracking.dwHoverTime = 700;
+        // mouseTracking.cbSize = sizeof(mouseTracking);
+        // BOOL mouseTreckSuccess = TrackMouseEvent(&mouseTracking);
     }   
 
     return hr;
@@ -139,9 +141,35 @@ LRESULT CButton::WindowProc(
             PostQuitMessage(0);
         }
         return 0;
-    }
-    
+        
+        case WM_MOUSEMOVE:
+        {
+            if (m_pHoverImageFileName != nullptr)
+            {
+                HBITMAP hoverHBitmap = NULL;
+                HRESULT hr = CreateBitmapFromFile(
+                                                  g_pWICFactory, 
+                                                  m_pHoverImageFileName, 
+                                                  &hoverHBitmap);
+                LayerWindow(hwnd, hoverHBitmap, m_HoverSize, m_HoverPt);
+                TRACKMOUSEEVENT mouseTracking;
+                mouseTracking.hwndTrack = m_hwnd;
+                mouseTracking.dwFlags = TME_LEAVE;
+                mouseTracking.dwHoverTime = 700;
+                mouseTracking.cbSize = sizeof(mouseTracking);
+                BOOL mouseTreckSuccess = TrackMouseEvent(&mouseTracking);                
+            }
+        }
+        return 0;
 
+        case WM_MOUSELEAVE:
+        {
+            if (m_pHoverImageFileName != nullptr)
+            {
+                LayerWindow(hwnd, m_hBitmap, m_size, m_pt);      
+            }
+        }
+        return 0;
+    }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
-

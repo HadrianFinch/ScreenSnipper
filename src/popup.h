@@ -7,7 +7,6 @@ public:
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CPopup** ppPopup);
-
 private:
     static bool EnsureWndClass();
 

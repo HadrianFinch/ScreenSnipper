@@ -147,8 +147,8 @@ LRESULT CPopup::WindowProc(
             {
                 DWORD coordintes = static_cast<DWORD>(lParam);
                 POINT hitPos;
-                hitPos.y = HIWORD(coordintes);
-                hitPos.x = LOWORD(coordintes);
+                hitPos.x = GET_X_LPARAM(lParam); 
+                hitPos.y = GET_Y_LPARAM(lParam); 
 
                 // RECT wndRect;
                 POINT tl = {m_dragRect.left, m_dragRect.top};

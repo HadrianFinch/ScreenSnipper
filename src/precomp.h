@@ -10,6 +10,7 @@
 #define UNICODE
 
 #include <windows.h>
+#include <windowsx.h>
 #include "decode.h"
 #include "popup.h"
 #include "button.h"

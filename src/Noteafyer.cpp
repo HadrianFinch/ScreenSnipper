@@ -148,10 +148,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                    pt,
                    &pMenuBar);
     
-    pMenuBar->m_dragRect = {0, 0, 719, 880};
+    pMenuBar->m_dragRect = {0, 0, 473, 62};
 
-    size = {13, 21};
-    pt = {6, 19};
+    size = {13, 13};
+    pt = {8, 8};
     CButton* pCloseButton = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
                     L"Close Button", 
@@ -159,6 +159,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     size, 
                     pt, 
                     &pCloseButton);
+    pCloseButton->m_pHoverImageFileName = L"menuBarImages\\highlighted\\closeButtonHighlight.png";
+    pCloseButton->m_HoverPt = pt;
+    pCloseButton->m_HoverSize = size;
 
     size = {38, 31};
     pt = {32, 16};
@@ -169,6 +172,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     size, 
                     pt, 
                     &pScreenCapture);
+    pScreenCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\screenCaptureHighlight.png";
+    pScreenCapture->m_HoverPt = {30, 14};
+    pScreenCapture->m_HoverSize = {41, 34};
 
     pt = {82, 16};
     CButton* pWindowCapture = nullptr;
@@ -178,6 +184,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     size, 
                     pt, 
                     &pWindowCapture);
+    pWindowCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\windowCaptureHighlight.png";
+    pWindowCapture->m_HoverPt = {80, 14};
+    pWindowCapture->m_HoverSize = {41, 34};
 
     pt = {132, 16};
     CButton* pZoneCapture = nullptr;
@@ -187,6 +196,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     size, 
                     pt, 
                     &pZoneCapture);
+    pZoneCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\zoneCaptureHighlight.png";
+    pZoneCapture->m_HoverPt = {130, 14};
+    pZoneCapture->m_HoverSize = {41, 34};
 
     size = {41, 34};
     pt = {195, 16};
@@ -197,6 +209,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     size, 
                     pt, 
                     &pScreenRecord);
+    pScreenRecord->m_pHoverImageFileName = L"menuBarImages\\highlighted\\screenRecordHighlight.png";
+    pScreenRecord->m_HoverPt = {193, 14};
+    pScreenRecord->m_HoverSize = {45, 38};
+
     pt = {245, 16};
     CButton* pWindowRecord = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
@@ -205,6 +221,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     size, 
                     pt, 
                     &pWindowRecord);
+    pWindowRecord->m_pHoverImageFileName = L"menuBarImages\\highlighted\\windowRecordHighlighted.png";
+    pWindowRecord->m_HoverPt = {243, 14};
+    pWindowRecord->m_HoverSize = {45, 38};
+
     pt = {295, 16};
     CButton* pZoneRecord = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
@@ -213,6 +233,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     size, 
                     pt, 
                     &pZoneRecord);
+    pZoneRecord->m_pHoverImageFileName = L"menuBarImages\\highlighted\\zoneRecordHighlight.png";
+    pZoneRecord->m_HoverPt = {293, 14};
+    pZoneRecord->m_HoverSize = {45, 38};
+
     size = {63, 63};
     pt = {359, -1};
     CButton* pOptions = nullptr;
@@ -222,6 +246,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     size, 
                     pt, 
                     &pOptions);
+    pOptions->m_pHoverImageFileName = L"menuBarImages\\highlighted\\optionsHighlight.png";
+    pOptions->m_HoverPt = pt;
+    pOptions->m_HoverSize = size;
+
     size = {58, 63};
     pt = {415, -1};
     CButton* pCapture = nullptr;
@@ -231,8 +259,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     size, 
                     pt, 
                     &pCapture);
+    pCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\captureHighlight.png";
+    pCapture->m_HoverPt = pt;
+    pCapture->m_HoverSize = size;
     
-    ShowWindow(hwnd, nCmdShow);
+    // ShowWindow(hwnd, nCmdShow);
     
 
     // Run the message loop.

@@ -8,7 +8,6 @@ public:
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton);
-
 private:
     static bool EnsureWndClass();
 
@@ -36,7 +35,6 @@ public:
         m_pt(pt)
     {
     }
-
     ~CButton()
     {
         if (m_hwnd != NULL)
@@ -51,7 +49,10 @@ protected:
         _In_ UINT uMsg, 
         _In_ WPARAM wParam, 
         _In_ LPARAM lParam);
-
+public:
+    PCWSTR m_pHoverImageFileName = nullptr;
+    SIZE m_HoverSize;
+    POINT m_HoverPt;
 private:
     HWND m_hwnd = NULL;
     HBITMAP m_hBitmap = NULL;
