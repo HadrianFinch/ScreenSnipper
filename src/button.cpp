@@ -104,8 +104,8 @@ HRESULT CButton::Initialize(
                                 WS_CHILD,       // Window style
                                 m_pt.x, 
                                 m_pt.y, 
-                                m_size.cx, 
-                                m_size.cy,
+                                m_size.cx + 10, 
+                                m_size.cy + 10,
                                 hwndParent,     // Parent window    
                                 NULL,           // Menu
                                 g_hInstance,    // Instance handle
@@ -148,24 +148,28 @@ LRESULT CButton::WindowProc(
         {
             if (m_pHoverImageFileName != nullptr)
             {
-                HBITMAP hoverHBitmap = NULL;
-                HRESULT hr = CreateBitmapFromFile(
-                                                  g_pWICFactory, 
-                                                  m_pHoverImageFileName, 
-                                                  &hoverHBitmap);
-                LayerWindow(hwnd, hoverHBitmap, m_HoverSize, m_HoverPt);
-                TRACKMOUSEEVENT mouseTracking;
-                mouseTracking.hwndTrack = m_hwnd;
-                mouseTracking.dwFlags = TME_LEAVE;
-                mouseTracking.dwHoverTime = 700;
-                mouseTracking.cbSize = sizeof(mouseTracking);
-                BOOL mouseTreckSuccess = TrackMouseEvent(&mouseTracking);                
+                if (!m_mouseDown)
+                {
+                    HBITMAP hoverHBitmap = NULL;
+                    HRESULT hr = CreateBitmapFromFile(
+                                                    g_pWICFactory, 
+                                                    m_pHoverImageFileName, 
+                                                    &hoverHBitmap);
+                    LayerWindow(hwnd, hoverHBitmap, m_HoverSize, m_HoverPt);
+                    TRACKMOUSEEVENT mouseTracking;
+                    mouseTracking.hwndTrack = m_hwnd;
+                    mouseTracking.dwFlags = TME_LEAVE;
+                    mouseTracking.dwHoverTime = 700;
+                    mouseTracking.cbSize = sizeof(mouseTracking);
+                    BOOL mouseTreckSuccess = TrackMouseEvent(&mouseTracking);
+                }                 
             }
         }
         return 0;
 
         case WM_MOUSELEAVE:
         {
+            m_mouseDown = false;
             if (m_pHoverImageFileName != nullptr)
             {
                 LayerWindow(hwnd, m_hBitmap, m_size, m_pt);      
@@ -173,8 +177,34 @@ LRESULT CButton::WindowProc(
         }
         return 0;
 
+        case WM_LBUTTONDOWN:
+        {
+            m_mouseDown = true;
+            if (m_pMouseDownImageFileName != NULL)
+            {
+                HBITMAP mouseClickHBitmap = NULL;
+                HRESULT hr = CreateBitmapFromFile(
+                                                  g_pWICFactory, 
+                                                  m_pMouseDownImageFileName, 
+                                                  &mouseClickHBitmap);
+                BOOL succeded = LayerWindow(
+                    hwnd, 
+                    mouseClickHBitmap, 
+                    m_MouseDownSize, 
+                    m_MouseDownPt);
+                Assert(succeded != 0);
+            }
+        }
+        return 0;
+
         case WM_LBUTTONUP:
         {
+            m_mouseDown = false;
+            if (m_pMouseDownImageFileName != NULL)
+            {
+                LayerWindow(hwnd, m_hBitmap, m_size, m_pt);
+            }
+            
             OnClicked();
         }
         return 0;

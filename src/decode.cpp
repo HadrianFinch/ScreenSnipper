@@ -1,6 +1,8 @@
 
 #include "precomp.h"
 
+UINT snipCount = NULL;
+
 template <class T> void SafeRelease(T **ppT)
 {
     if (*ppT)
@@ -230,7 +232,7 @@ HRESULT CreateBitmapFromFile(
     return S_OK;
 }
 
-HRESULT CaptureScreen()
+HRESULT CaptureScreen(HWND parrentHwnd)
 {
     /* HBITMAP hBitmap = NULL;
 
@@ -280,14 +282,16 @@ HRESULT CaptureScreen()
     HBITMAP hbitmap;
     RECT rect;
 
+    ShowWindow(parrentHwnd, SW_HIDE);
+
     hwnd = GetDesktopWindow();
-    GetClientRect(hwnd, &rect);
+    GetClientRect(hwnd, &rect);    
     hdc[0] = GetWindowDC(hwnd);
     hbitmap = CreateCompatibleBitmap(hdc[0], rect.right, rect.bottom); 
     hdc[1] = CreateCompatibleDC(hdc[0]);
     SelectObject(hdc[1], hbitmap);    
 
-    BitBlt (    
+    BitBlt (
         hdc[1],
         0,
         0,
@@ -296,46 +300,14 @@ HRESULT CaptureScreen()
         hdc[0],
         0,
         0,
-        SRCCOPY
-    );
+        SRCCOPY);
 
-    CreateBMPFile(L"bitmap.jpg", hbitmap);
+    ShowWindow(parrentHwnd, SW_SHOW);
 
-    return S_OK;
-}
+    SYSTEMTIME lt;
+    GetLocalTime(&lt);
 
-
-
-
-HRESULT WindowCapture()
-{
-
-
-    HWND hwnd;
-    HDC hdc[2];
-    HBITMAP hbitmap;
-    RECT rect;
-
-    hwnd = GetDesktopWindow();
-    GetClientRect(hwnd, &rect);
-    hdc[0] = GetWindowDC(hwnd);
-    hbitmap = CreateCompatibleBitmap(hdc[0], rect.right, rect.bottom); 
-    hdc[1] = CreateCompatibleDC(hdc[0]);
-    SelectObject(hdc[1], hbitmap);    
-
-    BitBlt (    
-        hdc[1],
-        0,
-        0,
-        rect.right,
-        rect.bottom,
-        hdc[0],
-        0,
-        0,
-        SRCCOPY
-    );
-
-    CreateBMPFile(L"ScreenSnip.jpg", hbitmap);
+    CreateBMPFile(L"\\\\laggy/Pictures/ScreenSnips/ScreenSnip Screen.jpg", hbitmap);
 
     return S_OK;
 }

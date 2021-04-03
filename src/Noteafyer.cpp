@@ -138,9 +138,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     //                 size, 
     //                 point, 
     //                 &pDismissButton);
+    RECT desktopClientRect;
+    HWND desktopHwnd = GetDesktopWindow();
+    GetClientRect(desktopHwnd, &desktopClientRect);
+
 
     SIZE size = {482, 75};
-    POINT pt = {719, 1050};
+    POINT pt = {(((desktopClientRect.right - desktopClientRect.left) / 2) - (size.cx / 2)), (desktopClientRect.bottom - desktopClientRect.top) - 125};
     CPopup* pMenuBar = nullptr;
     CPopup::Create(L"ScreenSnipper",
                    L"menuBarImages\\menuBar.png",
@@ -175,6 +179,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     pScreenCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\screenCaptureHighlight.png";
     pScreenCapture->m_HoverPt = {30, 14};
     pScreenCapture->m_HoverSize = {41, 34};
+    pScreenCapture->m_pMouseDownImageFileName = L"menuBarImages\\clicked\\screenCaptureClick.png";
+    pScreenCapture->m_MouseDownPt = {30, 14};
+    pScreenCapture->m_MouseDownSize = {42, 35};
 
     pt = {82, 16};
     CButton* pWindowCapture = nullptr;
@@ -240,7 +247,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     size = {63, 63};
     pt = {359, -1};
     CButton* pOptions = nullptr;
-    CButton::Create(pMenuBar->m_hwnd,
+    COptionsButton::Create(pMenuBar->m_hwnd,
                     L"Options", 
                     L"menuBarImages\\options.png", 
                     size, 

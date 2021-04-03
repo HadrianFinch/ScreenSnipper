@@ -9,4 +9,4 @@ HRESULT CreateBitmapFromFile(
     _In_ PCWSTR uri,
     _Out_ HBITMAP* phBitmap);
 
-HRESULT CaptureScreen();
+HRESULT CaptureScreen(HWND hwnd);

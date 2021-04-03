@@ -11,6 +11,7 @@
 
 #include <windows.h>
 #include <windowsx.h>
+#include <pathcch.h>
 #include "decode.h"
 #include "popup.h"
 #include "button.h"
