@@ -283,6 +283,7 @@ HRESULT CaptureScreen(HWND parrentHwnd)
     RECT rect;
 
     ShowWindow(parrentHwnd, SW_HIDE);
+    HideOptionsPopup(parrentHwnd);
 
     hwnd = GetDesktopWindow();
     GetClientRect(hwnd, &rect);    

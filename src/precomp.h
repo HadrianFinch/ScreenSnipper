@@ -31,9 +31,13 @@ __inline void Assert(
 
 extern HINSTANCE g_hInstance;
 extern IWICImagingFactory* g_pWICFactory;
+extern CPopup* pOptionsMenu;
+extern bool popupActive;
 
 BOOL LayerWindow(
     _In_ HWND hwnd,
     _In_ HBITMAP hBitmap,
     _In_ SIZE windowSize,
     _In_ POINT ptWinPos);
+void ShowOptionsPopup(HWND menuBarHwnd);
+void HideOptionsPopup(HWND menuBarHwnd);

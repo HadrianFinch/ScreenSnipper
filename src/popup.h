@@ -55,4 +55,5 @@ public:
     HBITMAP m_hBitmap = NULL;
     SIZE m_size;
     POINT m_pt;
+    bool m_masterPopup = false;
 };

@@ -167,33 +167,18 @@ LRESULT CPopup::WindowProc(
             }
         }
         return HTCLIENT;
+
+        case WM_LBUTTONDOWN:
+        {
+            if (m_masterPopup)
+            {
+                if (pOptionsMenu != nullptr)
+                {
+                    HideOptionsPopup(m_hwnd);
+                }
+            }
+        }
+        return 0;
     }
-
-    // if (m_dragRect.bottom != -1 &&
-    //     m_dragRect.top != -1 &&
-    //     m_dragRect.right != -1 &&
-    //     m_dragRect.left != -1)
-    // {
-    //     if (uMsg = WM_NCHITTEST)
-    //     {
-    //         DWORD coordintes = static_cast<DWORD>(lParam);
-    //         POINT hitPos;
-    //         hitPos.y = HIWORD(coordintes);
-    //         hitPos.x = LOWORD(coordintes);
-
-    //         RECT wndRect;
-    //         GetWindowRect(hwnd, &wndRect);
-    //         // ScreenToClient(hwnd, &hitPos);
-
-    //         if (hitPos.y >= wndRect.top &&
-    //             hitPos.y <= (wndRect.top + 39))
-    //         {
-    //             return HTCAPTION;
-    //         }
-    //         // return HTCLIENT;
-    //         return HTCAPTION;
-    //     }
-    // }
-
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }

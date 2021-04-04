@@ -211,3 +211,27 @@ LRESULT CButton::WindowProc(
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
+
+
+
+
+
+
+
+
+/* Overide */
+void COptionsButton::OnClicked()
+{
+    HWND hwndParent = GetParent(m_hwnd);
+    if (hwndParent != NULL)
+    {
+        if (!popupActive)
+        {
+            ShowOptionsPopup(hwndParent);
+        }
+        else
+        {
+            HideOptionsPopup(hwndParent);
+        }           
+    }
+}

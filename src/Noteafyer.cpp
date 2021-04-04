@@ -6,6 +6,9 @@
 
 HINSTANCE g_hInstance = NULL;
 IWICImagingFactory* g_pWICFactory = nullptr;
+CPopup* pOptionsMenu = nullptr;
+bool popupCreated = false;
+bool popupActive = false;
 
 struct WINFO
 {
@@ -15,6 +18,102 @@ struct WINFO
     /* data */
 };
 
+void ShowOptionsPopup(HWND menuBarHwnd)
+{
+    if (!popupActive)
+    {
+        if (!popupCreated)
+        {
+            SIZE size = {90, 109};
+            POINT pt = {349, -112};
+            ClientToScreen(menuBarHwnd, &pt);
+            HRESULT hr = CPopup::Create(L"Screen Snipper Options Menu",
+                        L"menuBarImages\\optionsMenu.png",
+                        size,
+                        pt,
+                        &pOptionsMenu);
+            if (SUCCEEDED(hr))
+            {
+                size = {81, 25};
+                pt = {-1, 0};
+                CButton* pTopOption = nullptr;
+                CButton::Create(pOptionsMenu->m_hwnd,
+                                L"Option 1", 
+                                L"menuBarImages\\optionsMenu\\optionsButtonTop.png", 
+                                size, 
+                                pt, 
+                                &pTopOption);
+                pTopOption->m_pHoverImageFileName = L"menuBarImages\\optionsMenu\\highlighted\\optionsButtonTopHighlight.png";
+                pTopOption->m_HoverPt = pt;
+                pTopOption->m_HoverSize = size;
+
+                pt = {-1, 24};
+                CButton* pOption2 = nullptr;
+                CButton::Create(pOptionsMenu->m_hwnd,
+                                L"Option 2", 
+                                L"menuBarImages\\optionsMenu\\optionsButton.png", 
+                                size, 
+                                pt, 
+                                &pOption2);
+                pOption2->m_pHoverImageFileName = L"menuBarImages\\optionsMenu\\highlighted\\optionsButtonHighlight.png";
+                pOption2->m_HoverPt = pt;
+                pOption2->m_HoverSize = size;
+
+                pt = {-1, 48};
+                CButton* pOption3 = nullptr;
+                CButton::Create(pOptionsMenu->m_hwnd,
+                                L"Option 3", 
+                                L"menuBarImages\\optionsMenu\\optionsButton.png", 
+                                size, 
+                                pt, 
+                                &pOption3);
+                pOption3->m_pHoverImageFileName = L"menuBarImages\\optionsMenu\\highlighted\\optionsButtonHighlight.png";
+                pOption3->m_HoverPt = pt;
+                pOption3->m_HoverSize = size;
+
+                pt = {-1, 72};
+                CButton* pMoreOptions = nullptr;
+                CButton::Create(pOptionsMenu->m_hwnd,
+                                L"More Options", 
+                                L"menuBarImages\\optionsMenu\\moreOptions.png", 
+                                size, 
+                                pt, 
+                                &pMoreOptions);
+                pMoreOptions->m_pHoverImageFileName = L"menuBarImages\\optionsMenu\\highlighted\\moreOptionsHighlight.png";
+                pMoreOptions->m_HoverPt = pt;
+                pMoreOptions->m_HoverSize = size;
+
+                popupActive = true;
+                popupCreated = true;
+            }
+        }
+        else
+        {
+            SIZE size = {90, 109};
+            POINT pt = {349, -112};
+            ClientToScreen(menuBarHwnd, &pt);
+            SetWindowPos(pOptionsMenu->m_hwnd,
+                            NULL,
+                            pt.x,
+                            pt.y,
+                            size.cx,
+                            size.cy,
+                            NULL);
+
+            ShowWindow(pOptionsMenu->m_hwnd, SW_SHOW);
+            popupActive = true;
+        }
+    }
+}
+
+void HideOptionsPopup(HWND menuBarHwnd)
+{  
+    if (pOptionsMenu != nullptr)
+    {
+        ShowWindow(pOptionsMenu->m_hwnd, SW_HIDE);
+        popupActive = false;
+    }
+}
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -153,6 +252,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                    &pMenuBar);
     
     pMenuBar->m_dragRect = {0, 0, 473, 62};
+    pMenuBar->m_masterPopup = true;
+    
 
     size = {13, 13};
     pt = {8, 8};
@@ -185,8 +286,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     pt = {82, 16};
     CButton* pWindowCapture = nullptr;
-    CButton::Create(pMenuBar->m_hwnd,
-                    L"Screen Capture", 
+    CMouseCaptureButton::Create(pMenuBar->m_hwnd,
+                    L"Window Capture", 
                     L"menuBarImages\\windowCapture.png", 
                     size, 
                     pt, 
@@ -198,7 +299,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     pt = {132, 16};
     CButton* pZoneCapture = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
-                    L"Screen Capture", 
+                    L"Zone Capture", 
                     L"menuBarImages\\zoneCapture.png", 
                     size, 
                     pt, 
