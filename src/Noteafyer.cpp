@@ -118,6 +118,7 @@ void HideOptionsPopup(HWND menuBarHwnd)
 }
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK HighlightWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
@@ -172,14 +173,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     }
 
     WNDCLASSW highlightWndClass = {};
-    highlightWndClass.lpfnWndProc = DefWindowProc;
+    highlightWndClass.lpfnWndProc = HighlightWindowProc;
     highlightWndClass.hInstance = g_hInstance;
     highlightWndClass.lpszClassName = L"Window Capture Highlight";
 
     if (RegisterClass(&highlightWndClass))
     {
         g_highlightHwnd = CreateWindowEx(
-            WS_EX_LAYERED | WS_EX_TOOLWINDOW,
+            WS_EX_LAYERED | WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
             highlightWndClass.lpszClassName,
             L"Window Capture Highlight",
             WS_POPUPWINDOW,
@@ -195,7 +196,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         SetLayeredWindowAttributes(
             g_highlightHwnd,
             NULL,
-            30,
+            45,
             LWA_ALPHA);
     }
 
@@ -509,5 +510,25 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
         return HTCLIENT;
     }
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+LRESULT CALLBACK HighlightWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    if (uMsg == WM_PAINT)
+    {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hwnd, &ps);
+
+        const COLORREF rgbBlue  =  0xff000000;
+        HBRUSH blueBrush = CreateSolidBrush(rgbBlue);
+
+        // All painting occurs here, between BeginPaint and EndPaint.
+        FillRect(hdc, &ps.rcPaint, blueBrush);
+        EndPaint(hwnd, &ps);
+
+        return 0;
+    }
+
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
