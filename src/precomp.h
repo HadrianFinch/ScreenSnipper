@@ -33,6 +33,7 @@ extern HINSTANCE g_hInstance;
 extern IWICImagingFactory* g_pWICFactory;
 extern CPopup* pOptionsMenu;
 extern bool popupActive;
+extern HWND g_highlightHwnd;
 
 BOOL LayerWindow(
     _In_ HWND hwnd,

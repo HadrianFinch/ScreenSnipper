@@ -48,6 +48,9 @@ protected:
     virtual void OnClicked()
     {
     }
+    virtual void MouseMove(HWND hwnd, LPARAM lParam)
+    {
+    }
 
     LRESULT WindowProc(
         _In_ HWND HWND,
@@ -285,12 +288,24 @@ public:
     }
 
 protected:
+    bool active = false;
+
     void OnClicked() override
     {
         HWND hwndParent = GetParent(m_hwnd);
         if (hwndParent != NULL)
         {
-            SetCapture(m_hwnd);
+            if (active)
+            {
+                BOOL success = ReleaseCapture();
+                active = false;
+            }
+            else
+            {
+                SetCapture(m_hwnd);
+                active = true;
+            }
         }
     }
+    void MouseMove(HWND hwnd, LPARAM lParam) override;
 };

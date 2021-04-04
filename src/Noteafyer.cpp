@@ -9,6 +9,7 @@ IWICImagingFactory* g_pWICFactory = nullptr;
 CPopup* pOptionsMenu = nullptr;
 bool popupCreated = false;
 bool popupActive = false;
+HWND g_highlightHwnd;
 
 struct WINFO
 {
@@ -17,6 +18,7 @@ struct WINFO
     POINT pt;
     /* data */
 };
+
 
 void ShowOptionsPopup(HWND menuBarHwnd)
 {
@@ -169,25 +171,52 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
       return 0;
     }
 
+    WNDCLASSW highlightWndClass = {};
+    highlightWndClass.lpfnWndProc = DefWindowProc;
+    highlightWndClass.hInstance = g_hInstance;
+    highlightWndClass.lpszClassName = L"Window Capture Highlight";
+
+    if (RegisterClass(&highlightWndClass))
+    {
+        g_highlightHwnd = CreateWindowEx(
+            WS_EX_LAYERED | WS_EX_TOOLWINDOW,
+            highlightWndClass.lpszClassName,
+            L"Window Capture Highlight",
+            WS_POPUPWINDOW,
+            0,
+            0,
+            100,
+            100,
+            NULL,
+            NULL,
+            g_hInstance,
+            nullptr);
+        
+        SetLayeredWindowAttributes(
+            g_highlightHwnd,
+            NULL,
+            30,
+            LWA_ALPHA);
+    }
 
     // SIZE size = {25, 25};
-    // POINT point = {13, 13};
+    // POINT pt = {13, 13};
     // CButton* pCloseButton = nullptr;
-    // CButton::Create(hwnd, 
+    // CCloseButton::Create(hwnd, 
     //                 L"Close Button", 
     //                 L"images\\NoteafyerControlPanelCloseButton.png", 
     //                 size, 
-    //                 point, 
+    //                 pt, 
     //                 &pCloseButton);
 
     // size = {25, 25};
-    // point = {35, 13};
+    // pt = {35, 13};
     // CButton* pMinimizeButton = nullptr;
     // CButton::Create(hwnd,  
     //                 L"Close Button", 
     //                 L"images\\NoteafyerControlPanelMinimazeButton.png", 
     //                 size, 
-    //                 point, 
+    //                 pt, 
     //                 &pMinimizeButton);
 
     // size = {284, 92};

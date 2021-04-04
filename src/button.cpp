@@ -148,6 +148,7 @@ LRESULT CButton::WindowProc(
         {
             if (m_pHoverImageFileName != nullptr)
             {
+                MouseMove(hwnd, lParam);
                 if (!m_mouseDown)
                 {
                     HBITMAP hoverHBitmap = NULL;
@@ -233,5 +234,30 @@ void COptionsButton::OnClicked()
         {
             HideOptionsPopup(hwndParent);
         }           
+    }
+}
+
+void CMouseCaptureButton::MouseMove(HWND hwnd, LPARAM lParam)
+{
+    if (active)
+    {
+        SetCapture(m_hwnd);
+        POINT hitPos;
+        hitPos.x = GET_X_LPARAM(lParam); 
+        hitPos.y = GET_Y_LPARAM(lParam); 
+
+        ClientToScreen(hwnd, &hitPos);
+
+        HWND selectedHwnd = WindowFromPoint(hitPos);
+        RECT selectedRect;
+        GetWindowRect(selectedHwnd, &selectedRect);
+
+        SetWindowPos(g_highlightHwnd, NULL,
+            selectedRect.left,
+            selectedRect.top,
+            selectedRect.right - selectedRect.left,
+            selectedRect.bottom - selectedRect.top,
+            NULL);
+        ShowWindow(g_highlightHwnd, SW_SHOW);
     }
 }
