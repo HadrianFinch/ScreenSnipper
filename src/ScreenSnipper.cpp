@@ -515,14 +515,42 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                 mousePos.x = GET_X_LPARAM(lParam);
                 mousePos.y = GET_Y_LPARAM(lParam);
 
+                RECT oldSnipRect = g_snipRect;
+
                 g_snipRect.right = mousePos.x;
                 g_snipRect.bottom = mousePos.y;
-                
-                HWND hwndDesktop = GetDesktopWindow();
-                RECT crDesktop;
-                GetClientRect(hwndDesktop, &crDesktop);
 
-                InvalidateRect(hwnd, &crDesktop, 0);
+                long cx = labs(g_snipRect.right - g_snipRect.left);
+                long cy = labs(g_snipRect.bottom - g_snipRect.top);
+
+                long oldCx = labs(oldSnipRect.right - oldSnipRect.left);
+                long oldCy = labs(oldSnipRect.bottom - oldSnipRect.top);
+
+                RECT dirtyRegion;
+
+                if (cx > oldCx)
+                {
+                    dirtyRegion.left = g_snipRect.left;
+                    dirtyRegion.right = g_snipRect.right;
+                }
+                else
+                {
+                    dirtyRegion.left = oldSnipRect.left;
+                    dirtyRegion.right = oldSnipRect.right;
+                }
+
+                if (cy > oldCy)
+                {
+                    dirtyRegion.top = g_snipRect.top;
+                    dirtyRegion.bottom = g_snipRect.bottom;
+                }
+                else
+                {
+                    dirtyRegion.top = oldSnipRect.top;
+                    dirtyRegion.bottom = oldSnipRect.bottom;
+                }
+                
+                InvalidateRect(hwnd, &dirtyRegion, 0);
             }
             return 0;
         }
