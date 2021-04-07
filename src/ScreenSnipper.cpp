@@ -11,6 +11,10 @@ bool popupCreated = false;
 bool popupActive = false;
 HWND g_highlightHwnd;
 HWND g_zoneSnipHwnd;
+RECT g_snipRect;
+bool g_zoneMouseDown = false;
+bool snipHwndCreated = false;
+bool g_zoneActive = false;
 
 struct WINFO
 {
@@ -20,37 +24,6 @@ struct WINFO
     /* data */
 };
 
-HWND GetTopLevelWindowFromPoint(POINT pt)
-{
-    HWND hwnd = WindowFromPoint(pt);
-
-    HWND hwndTopLevel = GetAncestor(hwnd, GA_ROOT);
-    HWND hwndShell = GetShellWindow();
-
-    if ((hwndTopLevel != GetDesktopWindow()) &&
-        (hwndTopLevel != hwndShell))
-    {
-        return hwndTopLevel;
-    }
-
-    return NULL;
-
-/* 
-    if (GetParent(inputHwnd) == NULL)
-    {
-        return inputHwnd;
-    }
-    else
-    {
-        HWND outputHwnd = inputHwnd;
-        while (GetParent(outputHwnd) != NULL)
-        {
-            outputHwnd = GetParent(outputHwnd);
-        }
-        Assert(outputHwnd != desktopWindow);
-        return outputHwnd;
-    }     */
-}
 
 void ShowOptionsPopup(HWND menuBarHwnd)
 {
@@ -151,6 +124,7 @@ void HideOptionsPopup(HWND menuBarHwnd)
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK HighlightWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
@@ -199,14 +173,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 
     WNDCLASSW zoneSnipWndClass = {};
-    zoneSnipWndClass.lpfnWndProc = DefWindowProc;
+    zoneSnipWndClass.lpfnWndProc = FilmWindowProc;
     zoneSnipWndClass.hInstance = g_hInstance;
     zoneSnipWndClass.lpszClassName = L"Zone Capture Selector Film";
 
-    if (RegisterClass(&highlightWndClass))
+    if (RegisterClass(&zoneSnipWndClass))
     {
-        g_highlightHwnd = CreateWindowEx(
-            WS_EX_LAYERED | WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
+        g_zoneSnipHwnd = CreateWindowEx(
+            WS_EX_LAYERED | WS_EX_TOOLWINDOW,
             zoneSnipWndClass.lpszClassName,
             L"Zone Capture Selector Film",
             WS_POPUPWINDOW,
@@ -219,10 +193,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
             g_hInstance,
             nullptr);
         
+        COLORREF colorref = 0x000000FF;
         SetLayeredWindowAttributes(
-            g_highlightHwnd,
-            NULL,
-            45,
+            g_zoneSnipHwnd,
+            colorref,
+            100,
             LWA_ALPHA);
     }
 
@@ -287,7 +262,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     pt = {132, 16};
     CButton* pZoneCapture = nullptr;
-    CButton::Create(pMenuBar->m_hwnd,
+    CZoneCaptureButton::Create(pMenuBar->m_hwnd,
                     L"Zone Capture", 
                     L"menuBarImages\\zoneCapture.png", 
                     size, 
@@ -489,5 +464,69 @@ LRESULT CALLBACK HighlightWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
         return 0;
     }
 
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    if (uMsg == WM_PAINT)
+    {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hwnd, &ps);
+
+        COLORREF colorref = 0x00FFFFFF;
+        HBRUSH brush = CreateSolidBrush(colorref);
+        FillRect(hdc, &ps.rcPaint, brush);
+
+        colorref = 0x000000FF;
+        brush = CreateSolidBrush(colorref);
+        FillRect(hdc, &g_snipRect, brush);
+
+        EndPaint(hwnd, &ps);
+
+        return 0;
+    }
+
+    switch (uMsg)
+    {
+        case WM_LBUTTONDOWN:
+        {
+            g_zoneMouseDown = true;
+            POINT clickPos;
+            clickPos.x = GET_X_LPARAM(lParam);
+            clickPos.y = GET_Y_LPARAM(lParam);
+
+            g_snipRect.left = clickPos.x;
+            g_snipRect.top = clickPos.y;
+
+            return 0;
+        }
+        case WM_LBUTTONUP:
+        {
+            g_zoneMouseDown = false;
+            ShowWindow(hwnd, SW_HIDE);
+            g_zoneActive = false;
+        }
+        case WM_MOUSEMOVE:
+        {
+            if (g_zoneMouseDown)
+            {
+                POINT mousePos;
+                mousePos.x = GET_X_LPARAM(lParam);
+                mousePos.y = GET_Y_LPARAM(lParam);
+
+                g_snipRect.right = mousePos.x;
+                g_snipRect.bottom = mousePos.y;
+                
+                HWND hwndDesktop = GetDesktopWindow();
+                RECT crDesktop;
+                GetClientRect(hwndDesktop, &crDesktop);
+
+                InvalidateRect(hwnd, &crDesktop, 0);
+            }
+            return 0;
+        }
+    }
+  
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }

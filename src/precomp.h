@@ -39,6 +39,8 @@ extern IWICImagingFactory* g_pWICFactory;
 extern CPopup* pOptionsMenu;
 extern bool popupActive;
 extern HWND g_highlightHwnd;
+extern HWND g_zoneSnipHwnd;
+extern bool g_zoneActive;
 
 BOOL LayerWindow(
     _In_ HWND hwnd,
@@ -47,4 +49,3 @@ BOOL LayerWindow(
     _In_ POINT ptWinPos);
 void ShowOptionsPopup(HWND menuBarHwnd);
 void HideOptionsPopup(HWND menuBarHwnd);
-HWND GetTopLevelWindowFromPoint(POINT pt);

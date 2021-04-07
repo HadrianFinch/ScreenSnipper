@@ -326,3 +326,30 @@ void CAlertButton::TimerTrigger(WPARAM timerId)
         DestroyWindow(GetParent(m_hwnd));
     }
 }
+
+void CZoneCaptureButton::OnClicked()
+{
+    if (!g_zoneActive)
+    {
+        HWND hwndDesktop = GetDesktopWindow();
+        RECT crDesktop;
+        GetClientRect(hwndDesktop, &crDesktop);
+
+        SetWindowPos(
+            g_zoneSnipHwnd,
+            NULL,
+            crDesktop.left,
+            crDesktop.top,
+            (crDesktop.right - crDesktop.left),
+            (crDesktop.bottom - crDesktop.top),
+            NULL);
+        ShowWindow(g_zoneSnipHwnd, SW_SHOW);
+
+        g_zoneActive = true;
+    }
+    else
+    {
+        ShowWindow(g_zoneSnipHwnd, SW_HIDE);
+        g_zoneActive = false;
+    }   
+}

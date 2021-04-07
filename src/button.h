@@ -351,7 +351,7 @@ protected:
     void TimerTrigger(WPARAM timerId) override;
 };
 
-class CMouseCaptureButton :
+class CZoneCaptureButton :
     public CButton
 {
 public:
@@ -363,7 +363,7 @@ public:
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
     {
-        CMouseCaptureButton* pButton = new CMouseCaptureButton(pImageFile, size, pt);
+        CZoneCaptureButton* pButton = new CZoneCaptureButton(pImageFile, size, pt);
 
         HRESULT hr = pButton->Initialize(hwndParent, pWindowName, pImageFile);
         if (SUCCEEDED(hr))
@@ -379,7 +379,7 @@ public:
         return hr;
     }
 
-    CMouseCaptureButton(
+    CZoneCaptureButton(
         _In_ PCWSTR pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
@@ -389,11 +389,5 @@ public:
     }
 
 protected:
-    bool active = false;
-    HWND hwndToSnip = NULL;
-
     void OnClicked() override;
-    void lButtonDown() override;
-    void MouseMove(HWND hwnd, LPARAM lParam) override;
-    
 };
