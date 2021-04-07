@@ -343,8 +343,8 @@ public:
         CButton(pImageFile, size, pt)
     {
     }
-
-    PWSTR m_filePath = L"C:\\";
+public:
+    WCHAR m_filePath[MAX_PATH] = {};
 
 protected:
     void OnClicked() override;

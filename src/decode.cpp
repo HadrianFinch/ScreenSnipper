@@ -37,6 +37,13 @@ void SnipSavedAlert(PCWSTR filePath)
         size,
         {-1, -1},
         &pAlert);
+    
+    auto pAlertBtn = static_cast<CAlertButton*>(pAlert);
+    StringCchCopy(
+        pAlertBtn->m_filePath, 
+        _countof(pAlertBtn->m_filePath),
+        filePath);
+    
     pAlert->m_pHoverImageFileName = L"images\\snipSavedAlertHover.png";
     pAlert->m_HoverPt = {-1, -1};
     pAlert->m_HoverSize = size;
@@ -265,49 +272,6 @@ HRESULT CreateBitmapFromFile(
 
 HRESULT CaptureScreen(HWND parrentHwnd)
 {
-    /* HBITMAP hBitmap = NULL;
-
-    HDC hdcScreen = GetDC(NULL);
-    HDC hdcDest = CreateCompatibleDC(hdcScreen);
-
-    UINT width = 100;
-    UINT height = 100;
-
-    UINT stride = ALIGN_SIZE(width * 4, sizeof(DWORD));
-    UINT cbSize = stride * height;
-    BYTE* pMemory = new BYTE[cbSize];
-
-    WICRect bitmapRect = {0, 0, static_cast<INT>(width), static_cast<INT>(height)};
-    
-    hBitmap = CreateBitmap(
-        width,
-        height,
-        1,
-        32,
-        pMemory);
-
-    if (hBitmap == NULL)
-    {
-        return E_OUTOFMEMORY;
-    } 
-
-    // HGDIOBJ hBmpSave = SelectObject(hdcDest, hBitmap);
-
-    BitBlt(
-        hdcDest,
-        0,
-        0,
-        width,
-        height,
-        hdcScreen,
-        0,
-        0,
-        SRCCOPY);
-    
-    // DestroyBitmapIntoFile(pIWICFactory, );
-    
-    CreateBMPFile(L"bitmap.bmp", hBitmap); */
-
     HWND hwnd;
     HDC hdc[2];
     HBITMAP hbitmap;
@@ -341,79 +305,38 @@ HRESULT CaptureScreen(HWND parrentHwnd)
 
     CreateBMPFile(L"\\\\laggy/Pictures/ScreenSnips/ScreenSnip Screen.jpg", hbitmap);
 
-    SnipSavedAlert(NULL);
-
+    SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
+ 
     return S_OK;
 }
 
 HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
 {
-    /* HBITMAP hBitmap = NULL;
-
-    HDC hdcScreen = GetDC(NULL);
-    HDC hdcDest = CreateCompatibleDC(hdcScreen);
-
-    UINT width = 100;
-    UINT height = 100;
-
-    UINT stride = ALIGN_SIZE(width * 4, sizeof(DWORD));
-    UINT cbSize = stride * height;
-    BYTE* pMemory = new BYTE[cbSize];
-
-    WICRect bitmapRect = {0, 0, static_cast<INT>(width), static_cast<INT>(height)};
-    
-    hBitmap = CreateBitmap(
-        width,
-        height,
-        1,
-        32,
-        pMemory);
-
-    if (hBitmap == NULL)
-    {
-        return E_OUTOFMEMORY;
-    } 
-
-    // HGDIOBJ hBmpSave = SelectObject(hdcDest, hBitmap);
-
-    BitBlt(
-        hdcDest,
-        0,
-        0,
-        width,
-        height,
-        hdcScreen,
-        0,
-        0,
-        SRCCOPY);
-    
-    // DestroyBitmapIntoFile(pIWICFactory, );
-    
-    CreateBMPFile(L"bitmap.bmp", hBitmap); */
-
     HWND hwnd;
-    HDC hdc[2];
+    HDC hdc;
     HBITMAP hbitmap;
     RECT rect;
     
     HideOptionsPopup(parrentHwnd);
 
     hwnd = windowToSnip;
-    GetClientRect(hwnd, &rect);    
-    hdc[0] = GetWindowDC(hwnd);
-    hbitmap = CreateCompatibleBitmap(hdc[0], rect.right, rect.bottom); 
-    hdc[1] = CreateCompatibleDC(hdc[0]);
-    SelectObject(hdc[1], hbitmap);    
+    GetWindowRect(hwnd, &rect);    
+    hdc = GetWindowDC(hwnd);
+    hbitmap = CreateCompatibleBitmap(hdc, 
+        (rect.right - rect.left),
+        (rect.bottom - rect.top)); 
+    hdc = CreateCompatibleDC(hdc);
+    SelectObject(hdc, hbitmap);    
 
-    PrintWindow(windowToSnip, hdc[0], PW_RENDERFULLCONTENT);
+    PrintWindow(windowToSnip, hdc, PW_RENDERFULLCONTENT);
 
     SYSTEMTIME lt;
     GetLocalTime(&lt);
 
-    PWSTR filePath = L"\\\\laggy/Pictures/ScreenSnips/ScreenSnip Window.jpg";
+    PWSTR filePath = L"\\\\laggy\\Pictures\\ScreenSnips\\ScreenSnip Window.jpg";
     CreateBMPFile(filePath, hbitmap);
 
-    SnipSavedAlert(filePath);
+    SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
 
     return S_OK;
 }

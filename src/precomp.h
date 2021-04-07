@@ -2,6 +2,7 @@
 #pragma comment(lib,"gdi32.lib") 
 #pragma comment(lib,"ole32.lib")
 #pragma comment(lib,"Shell32.lib")
+#pragma comment(lib,"Dwmapi.lib")
 
 #define RETURN_IF_FAILED(hr) { if(FAILED(hr)) return hr; }
 
@@ -12,8 +13,10 @@
 
 #include <windows.h>
 #include <windowsx.h>
+#include <strsafe.h>
 #include <pathcch.h>
 #include <shellapi.h>
+#include <dwmapi.h>
 #include "decode.h"
 #include "popup.h"
 #include "button.h"
