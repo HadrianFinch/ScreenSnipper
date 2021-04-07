@@ -368,5 +368,16 @@ HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
 
     SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
 
+    SafeRelease(&hdcWindow);
+    SafeRelease(&hdcSrc);
+    SafeRelease(&hdcResize);
+    SafeRelease(&hbitmapResize);
+    SafeRelease(&hbitmap);
+
+    return S_OK;
+}
+
+HRESULT CaptureZone()
+{
     return S_OK;
 }

@@ -11,3 +11,4 @@ HRESULT CreateBitmapFromFile(
 
 HRESULT CaptureScreen(HWND hwnd);
 HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip);
+HRESULT CaptureScreen();

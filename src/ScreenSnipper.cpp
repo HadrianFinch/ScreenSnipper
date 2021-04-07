@@ -10,6 +10,7 @@ CPopup* pOptionsMenu = nullptr;
 bool popupCreated = false;
 bool popupActive = false;
 HWND g_highlightHwnd;
+HWND g_zoneSnipHwnd;
 
 struct WINFO
 {
@@ -196,6 +197,35 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
             LWA_ALPHA);
     }
 
+
+    WNDCLASSW zoneSnipWndClass = {};
+    zoneSnipWndClass.lpfnWndProc = DefWindowProc;
+    zoneSnipWndClass.hInstance = g_hInstance;
+    zoneSnipWndClass.lpszClassName = L"Zone Capture Selector Film";
+
+    if (RegisterClass(&highlightWndClass))
+    {
+        g_highlightHwnd = CreateWindowEx(
+            WS_EX_LAYERED | WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
+            zoneSnipWndClass.lpszClassName,
+            L"Zone Capture Selector Film",
+            WS_POPUPWINDOW,
+            0,
+            0,
+            100,
+            100,
+            NULL,
+            NULL,
+            g_hInstance,
+            nullptr);
+        
+        SetLayeredWindowAttributes(
+            g_highlightHwnd,
+            NULL,
+            45,
+            LWA_ALPHA);
+    }
+
     RECT desktopClientRect;
     HWND desktopHwnd = GetDesktopWindow();
     GetClientRect(desktopHwnd, &desktopClientRect);
@@ -254,9 +284,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     pWindowCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\windowCaptureHighlight.png";
     pWindowCapture->m_HoverPt = {80, 14};
     pWindowCapture->m_HoverSize = {42, 35};
-    pWindowCapture->m_pMouseDownImageFileName = L"menuBarImages\\clicked\\windowCaptureClick.png";
-    pWindowCapture->m_MouseDownPt = {80, 14};
-    pWindowCapture->m_MouseDownSize = {42, 34};
 
     pt = {132, 16};
     CButton* pZoneCapture = nullptr;

@@ -350,3 +350,50 @@ protected:
     void OnClicked() override;
     void TimerTrigger(WPARAM timerId) override;
 };
+
+class CMouseCaptureButton :
+    public CButton
+{
+public:
+    static HRESULT Create(
+        _In_ HWND hwndParent,
+        _In_ PCWSTR pWindowName,
+        _In_ PCWSTR pImageFile,
+        _In_ SIZE size,
+        _In_ POINT pt,
+        _Outptr_ CButton** ppButton)
+    {
+        CMouseCaptureButton* pButton = new CMouseCaptureButton(pImageFile, size, pt);
+
+        HRESULT hr = pButton->Initialize(hwndParent, pWindowName, pImageFile);
+        if (SUCCEEDED(hr))
+        {
+            ShowWindow(pButton->m_hwnd, SW_SHOW);
+
+            *ppButton = pButton;
+            pButton = nullptr;
+        }
+
+        delete pButton;
+
+        return hr;
+    }
+
+    CMouseCaptureButton(
+        _In_ PCWSTR pImageFile, 
+        _In_ SIZE size,
+        _In_ POINT pt)
+        :
+        CButton(pImageFile, size, pt)
+    {
+    }
+
+protected:
+    bool active = false;
+    HWND hwndToSnip = NULL;
+
+    void OnClicked() override;
+    void lButtonDown() override;
+    void MouseMove(HWND hwnd, LPARAM lParam) override;
+    
+};
