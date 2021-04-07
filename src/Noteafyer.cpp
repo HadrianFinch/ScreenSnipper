@@ -19,6 +19,37 @@ struct WINFO
     /* data */
 };
 
+HWND GetTopLevelWindowFromPoint(POINT pt)
+{
+    HWND hwnd = WindowFromPoint(pt);
+
+    HWND hwndTopLevel = GetAncestor(hwnd, GA_ROOT);
+    HWND hwndShell = GetShellWindow();
+
+    if ((hwndTopLevel != GetDesktopWindow()) &&
+        (hwndTopLevel != hwndShell))
+    {
+        return hwndTopLevel;
+    }
+
+    return NULL;
+
+/* 
+    if (GetParent(inputHwnd) == NULL)
+    {
+        return inputHwnd;
+    }
+    else
+    {
+        HWND outputHwnd = inputHwnd;
+        while (GetParent(outputHwnd) != NULL)
+        {
+            outputHwnd = GetParent(outputHwnd);
+        }
+        Assert(outputHwnd != desktopWindow);
+        return outputHwnd;
+    }     */
+}
 
 void ShowOptionsPopup(HWND menuBarHwnd)
 {
@@ -137,41 +168,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         return HRESULT_CODE(hr);
     }
 
-    // Register the window class.
-    const wchar_t CLASS_NAME[]  = L"Sample Window Class";
-    
-    WNDCLASS wc = { };
-
-    wc.lpfnWndProc   = WindowProc;
-    wc.hInstance     = hInstance;
-    wc.lpszClassName = CLASS_NAME;
-
-    RegisterClass(&wc);
-
-    // Create the window.
-    WINFO wi1;
-    wi1.pImageFile = L"images\\NoatifyerControlPanelWindow.png";
-    wi1.pt = {0, 0};
-    wi1.size = {657, 482};
-
-    HWND hwnd = CreateWindowEx(
-        0,                              // Optional window styles.
-        CLASS_NAME,                     // Window class
-        L"Learn to Program Windows",    // Window text
-        WS_POPUPWINDOW | WS_CLIPCHILDREN,            // Window style
-        0, 
-        0, 
-        657, 
-        482,
-        NULL,       // Parent window    
-        NULL,       // Menu
-        hInstance,  // Instance handle
-        &wi1);
-    if (hwnd == NULL)
-    {
-      return 0;
-    }
-
     WNDCLASSW highlightWndClass = {};
     highlightWndClass.lpfnWndProc = HighlightWindowProc;
     highlightWndClass.hInstance = g_hInstance;
@@ -200,73 +196,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
             LWA_ALPHA);
     }
 
-    // SIZE size = {25, 25};
-    // POINT pt = {13, 13};
-    // CButton* pCloseButton = nullptr;
-    // CCloseButton::Create(hwnd, 
-    //                 L"Close Button", 
-    //                 L"images\\NoteafyerControlPanelCloseButton.png", 
-    //                 size, 
-    //                 pt, 
-    //                 &pCloseButton);
-
-    // size = {25, 25};
-    // pt = {35, 13};
-    // CButton* pMinimizeButton = nullptr;
-    // CButton::Create(hwnd,  
-    //                 L"Close Button", 
-    //                 L"images\\NoteafyerControlPanelMinimazeButton.png", 
-    //                 size, 
-    //                 pt, 
-    //                 &pMinimizeButton);
-
-    // size = {284, 92};
-    // point = {1627, 29};
-    // CPopup* pPopupTest = nullptr;
-    // CPopup::Create(L"Notification Test",
-    //                L"images\\CalanderPopup.png",
-    //                size,
-    //                point,
-    //                &pPopupTest);
-
-    // size = {102, 24};
-    // point = {160, 46};
-    // CButton* pTestOpenZoomButton = nullptr;
-    // CButton::Create(pPopupTest->m_hwnd,
-    //                 L"Open Zoom", 
-    //                 L"images\\OpenZoomButton.png", 
-    //                 size, 
-    //                 point, 
-    //                 &pTestOpenZoomButton);
-
-    // size = {284, 92};
-    // point = {1627, 128};
-    // CPopup* pSettingsPopup = nullptr;
-    // CPopup::Create(L"Settings Notification",
-    //                L"images\\SettingsPopup.png",
-    //                size,
-    //                point,
-    //                &pSettingsPopup);
-
-    // size = {83, 28};
-    // point = {181, 44};
-    // CButton* pOpenSettingsButton = nullptr;
-    // CButton::Create(pSettingsPopup->m_hwnd,
-    //                 L"Open Settings", 
-    //                 L"images\\openButton.png", 
-    //                 size, 
-    //                 point, 
-    //                 &pTestOpenZoomButton);
-    
-    // size = {83, 28};
-    // point = {181, 8};
-    // CButton* pDismissButton = nullptr;
-    // CButton::Create(pSettingsPopup->m_hwnd,
-    //                 L"Dismiss Button", 
-    //                 L"images\\didmissButton.png", 
-    //                 size, 
-    //                 point, 
-    //                 &pDismissButton);
     RECT desktopClientRect;
     HWND desktopHwnd = GetDesktopWindow();
     GetClientRect(desktopHwnd, &desktopClientRect);
@@ -309,10 +238,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     &pScreenCapture);
     pScreenCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\screenCaptureHighlight.png";
     pScreenCapture->m_HoverPt = {30, 14};
-    pScreenCapture->m_HoverSize = {41, 34};
+    pScreenCapture->m_HoverSize = {42, 35};
     pScreenCapture->m_pMouseDownImageFileName = L"menuBarImages\\clicked\\screenCaptureClick.png";
     pScreenCapture->m_MouseDownPt = {30, 14};
-    pScreenCapture->m_MouseDownSize = {42, 35};
+    pScreenCapture->m_MouseDownSize = {42, 34};
 
     pt = {82, 16};
     CButton* pWindowCapture = nullptr;
@@ -324,7 +253,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
                     &pWindowCapture);
     pWindowCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\windowCaptureHighlight.png";
     pWindowCapture->m_HoverPt = {80, 14};
-    pWindowCapture->m_HoverSize = {41, 34};
+    pWindowCapture->m_HoverSize = {42, 35};
+    pWindowCapture->m_pMouseDownImageFileName = L"menuBarImages\\clicked\\windowCaptureClick.png";
+    pWindowCapture->m_MouseDownPt = {80, 14};
+    pWindowCapture->m_MouseDownSize = {42, 34};
 
     pt = {132, 16};
     CButton* pZoneCapture = nullptr;
@@ -520,8 +452,8 @@ LRESULT CALLBACK HighlightWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hwnd, &ps);
 
-        const COLORREF rgbBlue  =  0xff000000;
-        HBRUSH blueBrush = CreateSolidBrush(rgbBlue);
+        const COLORREF rgbRed = 0x000000FF;
+        HBRUSH blueBrush = CreateSolidBrush(rgbRed);
 
         // All painting occurs here, between BeginPaint and EndPaint.
         FillRect(hdc, &ps.rcPaint, blueBrush);

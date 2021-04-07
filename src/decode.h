@@ -10,3 +10,4 @@ HRESULT CreateBitmapFromFile(
     _Out_ HBITMAP* phBitmap);
 
 HRESULT CaptureScreen(HWND hwnd);
+HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip);

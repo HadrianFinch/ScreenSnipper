@@ -12,6 +12,37 @@ template <class T> void SafeRelease(T **ppT)
     }
 }
 
+void SnipSavedAlert(PCWSTR filePath)
+{
+    RECT desktopClientRect;
+    HWND desktopHwnd = GetDesktopWindow();
+    GetClientRect(desktopHwnd, &desktopClientRect);
+
+    SIZE size = {200, 45};
+    POINT pt = {(((desktopClientRect.right - desktopClientRect.left) / 2) - 100), (25)};
+
+    CPopup* pContainer = nullptr;
+    CPopup::Create(
+        L"File Save Container",
+        L"images\\container.png", 
+        size,
+        pt,
+        &pContainer);
+
+    CButton* pAlert = nullptr;
+    HRESULT hr = CAlertButton::Create(
+        pContainer->m_hwnd,
+        L"File Saved Popup",
+        L"images\\snipSavedAlert.png",
+        size,
+        {-1, -1},
+        &pAlert);
+    pAlert->m_pHoverImageFileName = L"images\\snipSavedAlertHover.png";
+    pAlert->m_HoverPt = {-1, -1};
+    pAlert->m_HoverSize = size;
+    Assert(SUCCEEDED(hr));
+}
+
 PBITMAPINFO CreateBitmapInfoStruct(HBITMAP hBmp)
 { 
     BITMAP bmp; 
@@ -309,6 +340,80 @@ HRESULT CaptureScreen(HWND parrentHwnd)
     GetLocalTime(&lt);
 
     CreateBMPFile(L"\\\\laggy/Pictures/ScreenSnips/ScreenSnip Screen.jpg", hbitmap);
+
+    SnipSavedAlert(NULL);
+
+    return S_OK;
+}
+
+HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
+{
+    /* HBITMAP hBitmap = NULL;
+
+    HDC hdcScreen = GetDC(NULL);
+    HDC hdcDest = CreateCompatibleDC(hdcScreen);
+
+    UINT width = 100;
+    UINT height = 100;
+
+    UINT stride = ALIGN_SIZE(width * 4, sizeof(DWORD));
+    UINT cbSize = stride * height;
+    BYTE* pMemory = new BYTE[cbSize];
+
+    WICRect bitmapRect = {0, 0, static_cast<INT>(width), static_cast<INT>(height)};
+    
+    hBitmap = CreateBitmap(
+        width,
+        height,
+        1,
+        32,
+        pMemory);
+
+    if (hBitmap == NULL)
+    {
+        return E_OUTOFMEMORY;
+    } 
+
+    // HGDIOBJ hBmpSave = SelectObject(hdcDest, hBitmap);
+
+    BitBlt(
+        hdcDest,
+        0,
+        0,
+        width,
+        height,
+        hdcScreen,
+        0,
+        0,
+        SRCCOPY);
+    
+    // DestroyBitmapIntoFile(pIWICFactory, );
+    
+    CreateBMPFile(L"bitmap.bmp", hBitmap); */
+
+    HWND hwnd;
+    HDC hdc[2];
+    HBITMAP hbitmap;
+    RECT rect;
+    
+    HideOptionsPopup(parrentHwnd);
+
+    hwnd = windowToSnip;
+    GetClientRect(hwnd, &rect);    
+    hdc[0] = GetWindowDC(hwnd);
+    hbitmap = CreateCompatibleBitmap(hdc[0], rect.right, rect.bottom); 
+    hdc[1] = CreateCompatibleDC(hdc[0]);
+    SelectObject(hdc[1], hbitmap);    
+
+    PrintWindow(windowToSnip, hdc[0], PW_RENDERFULLCONTENT);
+
+    SYSTEMTIME lt;
+    GetLocalTime(&lt);
+
+    PWSTR filePath = L"\\\\laggy/Pictures/ScreenSnips/ScreenSnip Window.jpg";
+    CreateBMPFile(filePath, hbitmap);
+
+    SnipSavedAlert(filePath);
 
     return S_OK;
 }

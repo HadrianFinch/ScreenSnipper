@@ -1,5 +1,7 @@
 @echo off
 
+taskkill /im screensnipper.exe
+
 echo building files ...
 
 echo *

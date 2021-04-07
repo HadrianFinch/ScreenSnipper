@@ -1,6 +1,7 @@
 #pragma comment(lib,"user32.lib")
 #pragma comment(lib,"gdi32.lib") 
-#pragma comment(lib,"ole32.lib") 
+#pragma comment(lib,"ole32.lib")
+#pragma comment(lib,"Shell32.lib")
 
 #define RETURN_IF_FAILED(hr) { if(FAILED(hr)) return hr; }
 
@@ -12,6 +13,7 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <pathcch.h>
+#include <shellapi.h>
 #include "decode.h"
 #include "popup.h"
 #include "button.h"
@@ -42,3 +44,4 @@ BOOL LayerWindow(
     _In_ POINT ptWinPos);
 void ShowOptionsPopup(HWND menuBarHwnd);
 void HideOptionsPopup(HWND menuBarHwnd);
+HWND GetTopLevelWindowFromPoint(POINT pt);

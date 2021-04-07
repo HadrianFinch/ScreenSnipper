@@ -134,7 +134,10 @@ LRESULT CPopup::WindowProc(
         case WM_DESTROY:
         {
             hwnd = NULL;
-            PostQuitMessage(0);
+            if (m_masterPopup)
+            {
+                PostQuitMessage(0);
+            }
         }
         return 0;
 

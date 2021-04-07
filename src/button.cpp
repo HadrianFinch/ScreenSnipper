@@ -140,7 +140,7 @@ LRESULT CButton::WindowProc(
         case WM_DESTROY:
         {
             hwnd = NULL;
-            PostQuitMessage(0);
+            // PostQuitMessage(0);
         }
         return 0;
         
@@ -162,7 +162,7 @@ LRESULT CButton::WindowProc(
                     mouseTracking.dwFlags = TME_LEAVE;
                     mouseTracking.dwHoverTime = 700;
                     mouseTracking.cbSize = sizeof(mouseTracking);
-                    BOOL mouseTreckSuccess = TrackMouseEvent(&mouseTracking);
+                    BOOL mouseTrackSuccess = TrackMouseEvent(&mouseTracking);
                 }                 
             }
         }
@@ -195,6 +195,7 @@ LRESULT CButton::WindowProc(
                     m_MouseDownPt);
                 Assert(succeded != 0);
             }
+            lButtonDown();
         }
         return 0;
 
@@ -209,6 +210,11 @@ LRESULT CButton::WindowProc(
             OnClicked();
         }
         return 0;
+
+        case WM_TIMER:
+        {
+            TimerTrigger(wParam);
+        }
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
@@ -237,11 +243,36 @@ void COptionsButton::OnClicked()
     }
 }
 
+
+
+
+
+
+void CMouseCaptureButton::OnClicked()
+{
+    HWND hwndParent = GetParent(m_hwnd);
+    if (hwndParent != NULL)
+    {
+        if (active)
+        {
+            BOOL success = ReleaseCapture();
+            active = false;
+
+            ShowWindow(g_highlightHwnd, SW_HIDE);
+            if (hwndToSnip != NULL)
+            {
+                CaptureWindow(hwndParent, hwndToSnip);
+            }
+        } 
+    }
+}
+
 void CMouseCaptureButton::MouseMove(HWND hwnd, LPARAM lParam)
 {
     if (active)
     {
-        SetCapture(m_hwnd);
+        // SetCapture(m_hwnd);
+
         POINT hitPos;
         hitPos.x = GET_X_LPARAM(lParam); 
         hitPos.y = GET_Y_LPARAM(lParam); 
@@ -249,15 +280,49 @@ void CMouseCaptureButton::MouseMove(HWND hwnd, LPARAM lParam)
         ClientToScreen(hwnd, &hitPos);
 
         HWND selectedHwnd = WindowFromPoint(hitPos);
-        RECT selectedRect;
-        GetWindowRect(selectedHwnd, &selectedRect);
 
-        SetWindowPos(g_highlightHwnd, NULL,
-            selectedRect.left,
-            selectedRect.top,
-            selectedRect.right - selectedRect.left,
-            selectedRect.bottom - selectedRect.top,
-            NULL);
-        ShowWindow(g_highlightHwnd, SW_SHOW);
+        if ((selectedHwnd != GetDesktopWindow()) &&
+            (selectedHwnd != GetParent(m_hwnd)) &&
+            (GetParent(selectedHwnd) == NULL) &&
+            (selectedHwnd != g_highlightHwnd))
+        {
+            RECT selectedRect;
+            GetWindowRect(selectedHwnd, &selectedRect);
+
+            SetWindowPos(
+                g_highlightHwnd, 
+                NULL,
+                selectedRect.left,
+                selectedRect.top,
+                selectedRect.right - selectedRect.left,
+                selectedRect.bottom - selectedRect.top,
+                NULL);
+            ShowWindow(g_highlightHwnd, SW_SHOW);
+            hwndToSnip = selectedHwnd;
+        }
+        else if (selectedHwnd != g_highlightHwnd)
+        {
+            ShowWindow(g_highlightHwnd, SW_HIDE);
+            selectedHwnd = NULL;
+            hwndToSnip = selectedHwnd;
+        }
+    }
+}
+
+void CMouseCaptureButton::lButtonDown()
+{
+    SetCapture(m_hwnd);
+    active = true;
+}
+
+void CAlertButton::OnClicked()
+{
+    ShellExecute(NULL, L"explore", m_filePath, NULL, NULL, SW_SHOW);
+}
+void CAlertButton::TimerTrigger(WPARAM timerId)
+{
+    if (timerId == 1)
+    {
+        DestroyWindow(GetParent(m_hwnd));
     }
 }

@@ -48,6 +48,13 @@ protected:
     virtual void OnClicked()
     {
     }
+    virtual void TimerTrigger(WPARAM timerId)
+    {
+        KillTimer(m_hwnd, timerId);
+    }
+    virtual void lButtonDown()
+    {
+    }
     virtual void MouseMove(HWND hwnd, LPARAM lParam)
     {
     }
@@ -289,23 +296,57 @@ public:
 
 protected:
     bool active = false;
+    HWND hwndToSnip = NULL;
 
-    void OnClicked() override
-    {
-        HWND hwndParent = GetParent(m_hwnd);
-        if (hwndParent != NULL)
-        {
-            if (active)
-            {
-                BOOL success = ReleaseCapture();
-                active = false;
-            }
-            else
-            {
-                SetCapture(m_hwnd);
-                active = true;
-            }
-        }
-    }
+    void OnClicked() override;
+    void lButtonDown() override;
     void MouseMove(HWND hwnd, LPARAM lParam) override;
+    
+};
+
+
+class CAlertButton :
+    public CButton
+{
+public:
+    static HRESULT Create(
+        _In_ HWND hwndParent,
+        _In_ PCWSTR pWindowName,
+        _In_ PCWSTR pImageFile,
+        _In_ SIZE size,
+        _In_ POINT pt,
+        _Outptr_ CButton** ppButton)
+    {
+        CAlertButton* pButton = new CAlertButton(pImageFile, size, pt);
+
+        HRESULT hr = pButton->Initialize(hwndParent, pWindowName, pImageFile);
+
+        if (SUCCEEDED(hr))
+        {
+            ShowWindow(pButton->m_hwnd, SW_SHOW);
+            SetTimer(pButton->m_hwnd, 1, 4500, NULL);
+
+            *ppButton = pButton;
+            pButton = nullptr;
+        }
+
+        delete pButton;
+
+        return hr;
+    }
+
+    CAlertButton(
+        _In_ PCWSTR pImageFile, 
+        _In_ SIZE size,
+        _In_ POINT pt)
+        :
+        CButton(pImageFile, size, pt)
+    {
+    }
+
+    PWSTR m_filePath = L"C:\\";
+
+protected:
+    void OnClicked() override;
+    void TimerTrigger(WPARAM timerId) override;
 };
