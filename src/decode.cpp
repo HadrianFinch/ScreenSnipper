@@ -313,28 +313,58 @@ HRESULT CaptureScreen(HWND parrentHwnd)
 HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
 {
     HWND hwnd;
-    HDC hdc;
+    
     HBITMAP hbitmap;
     RECT rect;
+    RECT shortenedFrame;
     
+    DwmGetWindowAttribute(
+        windowToSnip,
+        DWMWA_EXTENDED_FRAME_BOUNDS,
+        &shortenedFrame,
+        sizeof(shortenedFrame));
+
     HideOptionsPopup(parrentHwnd);
 
-    hwnd = windowToSnip;
-    GetWindowRect(hwnd, &rect);    
-    hdc = GetWindowDC(hwnd);
-    hbitmap = CreateCompatibleBitmap(hdc, 
-        (rect.right - rect.left),
-        (rect.bottom - rect.top)); 
-    hdc = CreateCompatibleDC(hdc);
-    SelectObject(hdc, hbitmap);    
+    GetWindowRect(windowToSnip, &rect);   
 
-    PrintWindow(windowToSnip, hdc, PW_RENDERFULLCONTENT);
+    POINT ptOffset = {(shortenedFrame.left - rect.left),
+                      (shortenedFrame.top - rect.top)};
+    
+    HDC hdcWindow = GetWindowDC(windowToSnip);
+    HDC hdcSrc = CreateCompatibleDC(hdcWindow);
+
+    hbitmap = CreateCompatibleBitmap(
+        hdcWindow,
+        (rect.right - rect.left),
+        (rect.bottom - rect.top));
+    SelectObject(hdcSrc, hbitmap);
+
+    PrintWindow(windowToSnip, hdcSrc, PW_RENDERFULLCONTENT);
+
+    HDC hdcResize = CreateCompatibleDC(hdcWindow);
+    HBITMAP hbitmapResize = CreateCompatibleBitmap(
+        hdcWindow,
+        (shortenedFrame.right - shortenedFrame.left),
+        (shortenedFrame.bottom - shortenedFrame.top));
+    SelectObject(hdcResize, hbitmapResize);
+
+    BitBlt(
+        hdcResize,  //hdc dest
+        0,
+        0,
+        (shortenedFrame.right - shortenedFrame.left),
+        (shortenedFrame.bottom - shortenedFrame.top),
+        hdcSrc,
+        ptOffset.x,
+        ptOffset.y,
+        SRCCOPY);
 
     SYSTEMTIME lt;
     GetLocalTime(&lt);
 
     PWSTR filePath = L"\\\\laggy\\Pictures\\ScreenSnips\\ScreenSnip Window.jpg";
-    CreateBMPFile(filePath, hbitmap);
+    CreateBMPFile(filePath, hbitmapResize);
 
     SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
 
