@@ -350,7 +350,7 @@ HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
     SelectObject(hdcResize, hbitmapResize);
 
     BitBlt(
-        hdcResize,  //hdc dest
+        hdcResize,
         0,
         0,
         (shortenedFrame.right - shortenedFrame.left),
