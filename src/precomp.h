@@ -24,13 +24,17 @@
 __inline void Assert(
     _In_ bool value)
 {
-    if (value != false)
+    bool assertEnabled = false;
+    if (assertEnabled)
     {
-        return;
-    }
-    else
-    {
-        __debugbreak();
+        if (value != false)
+        {
+            return;
+        }
+        else
+        {
+            __debugbreak();
+        }
     }
 }
 

@@ -493,6 +493,7 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         }
         case WM_LBUTTONDOWN:
         {
+            SetCapture(hwnd);
             g_zoneMouseDown = true;
             POINT clickPos;
             clickPos.x = GET_X_LPARAM(lParam);
