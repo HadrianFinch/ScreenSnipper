@@ -197,8 +197,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         SetLayeredWindowAttributes(
             g_zoneSnipHwnd,
             colorref,
-            100,
-            LWA_ALPHA);
+            125,
+            LWA_ALPHA | LWA_COLORKEY);
     }
 
     RECT desktopClientRect;
@@ -469,26 +469,28 @@ LRESULT CALLBACK HighlightWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
 
 LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    if (uMsg == WM_PAINT)
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hwnd, &ps);
-
-        COLORREF colorref = 0x00FFFFFF;
-        HBRUSH brush = CreateSolidBrush(colorref);
-        FillRect(hdc, &ps.rcPaint, brush);
-
-        colorref = 0x000000FF;
-        brush = CreateSolidBrush(colorref);
-        FillRect(hdc, &g_snipRect, brush);
-
-        EndPaint(hwnd, &ps);
-
-        return 0;
-    }
-
     switch (uMsg)
     {
+        case WM_PAINT:
+        {
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hwnd, &ps);
+
+            RECT crDesktop;
+            GetClientRect(GetDesktopWindow(), &crDesktop);
+            
+            COLORREF colorref = 0x00FFFFFF;
+            HBRUSH brush = CreateSolidBrush(colorref);
+            FillRect(hdc, &ps.rcPaint, brush);
+
+            colorref = 0x000000FF;
+            brush = CreateSolidBrush(colorref);
+            FillRect(hdc, &g_snipRect, brush);
+
+            EndPaint(hwnd, &ps);
+
+            return 0; 
+        }
         case WM_LBUTTONDOWN:
         {
             g_zoneMouseDown = true;
@@ -504,8 +506,11 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         case WM_LBUTTONUP:
         {
             g_zoneMouseDown = false;
-            ShowWindow(hwnd, SW_HIDE);
             g_zoneActive = false;
+
+            ShowWindow(hwnd, SW_HIDE);
+
+            CaptureZone();
         }
         case WM_MOUSEMOVE:
         {
@@ -520,38 +525,13 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                 g_snipRect.right = mousePos.x;
                 g_snipRect.bottom = mousePos.y;
 
-                long cx = labs(g_snipRect.right - g_snipRect.left);
-                long cy = labs(g_snipRect.bottom - g_snipRect.top);
-
-                long oldCx = labs(oldSnipRect.right - oldSnipRect.left);
-                long oldCy = labs(oldSnipRect.bottom - oldSnipRect.top);
-
-                RECT dirtyRegion;
-
-                if (cx > oldCx)
-                {
-                    dirtyRegion.left = g_snipRect.left;
-                    dirtyRegion.right = g_snipRect.right;
-                }
-                else
-                {
-                    dirtyRegion.left = oldSnipRect.left;
-                    dirtyRegion.right = oldSnipRect.right;
-                }
-
-                if (cy > oldCy)
-                {
-                    dirtyRegion.top = g_snipRect.top;
-                    dirtyRegion.bottom = g_snipRect.bottom;
-                }
-                else
-                {
-                    dirtyRegion.top = oldSnipRect.top;
-                    dirtyRegion.bottom = oldSnipRect.bottom;
-                }
-                
-                InvalidateRect(hwnd, &dirtyRegion, 0);
+                InvalidateRect(hwnd, &g_snipRect, 0);
+                InvalidateRect(hwnd, &oldSnipRect, 0);
             }
+            return 0;
+        }
+        case WM_ERASEBKGND:
+        {
             return 0;
         }
     }

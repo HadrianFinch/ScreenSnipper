@@ -373,5 +373,35 @@ HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
 
 HRESULT CaptureZone()
 {
+    HBITMAP hbitmap;
+    
+    HDC hdcScreen = GetDC(NULL);
+    HDC hdcDest = CreateCompatibleDC(hdcScreen);
+
+    hbitmap = CreateCompatibleBitmap(
+        hdcScreen,
+        (g_snipRect.right - g_snipRect.left),
+        (g_snipRect.bottom - g_snipRect.top));
+    SelectObject(hdcDest, hbitmap);
+
+    BitBlt(
+        hdcDest,
+        0,
+        0,
+        (g_snipRect.right - g_snipRect.left),
+        (g_snipRect.bottom - g_snipRect.top),
+        hdcScreen,
+        g_snipRect.left,
+        g_snipRect.top,
+        SRCCOPY);
+
+    SYSTEMTIME lt;
+    GetLocalTime(&lt);
+
+    PWSTR filePath = L"\\\\laggy\\Pictures\\ScreenSnips\\ScreenSnip Zone.jpg";
+    CreateBMPFile(filePath, hbitmap);
+
+    SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
+
     return S_OK;
 }

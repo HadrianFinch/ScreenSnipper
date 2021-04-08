@@ -41,6 +41,7 @@ extern bool popupActive;
 extern HWND g_highlightHwnd;
 extern HWND g_zoneSnipHwnd;
 extern bool g_zoneActive;
+extern RECT g_snipRect;
 
 BOOL LayerWindow(
     _In_ HWND hwnd,
