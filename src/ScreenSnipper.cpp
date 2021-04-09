@@ -24,6 +24,17 @@ struct WINFO
     /* data */
 };
 
+RECT NormalizeRect(RECT inputRect)
+{
+    RECT outputRect;
+
+    outputRect.left = min(inputRect.left, inputRect.right);
+    outputRect.top = min(inputRect.top, inputRect.bottom);
+    outputRect.right = max(inputRect.left, inputRect.right);
+    outputRect.bottom = max(inputRect.top, inputRect.bottom);
+
+    return outputRect;
+}
 
 void ShowOptionsPopup(HWND menuBarHwnd)
 {
@@ -488,9 +499,9 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             FillRect(hdc, &g_snipRect, brush);
 
             EndPaint(hwnd, &ps);
-
-            return 0; 
         }
+        return 0; 
+
         case WM_LBUTTONDOWN:
         {
             SetCapture(hwnd);
@@ -501,9 +512,9 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
             g_snipRect.left = clickPos.x;
             g_snipRect.top = clickPos.y;
-
-            return 0;
         }
+        return 0;
+        
         case WM_LBUTTONUP:
         {
             g_zoneMouseDown = false;
@@ -511,8 +522,9 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
             ShowWindow(hwnd, SW_HIDE);
 
-            CaptureZone();
+            CaptureZone(NormalizeRect(g_snipRect));
         }
+        return 0;
         case WM_MOUSEMOVE:
         {
             if (g_zoneMouseDown)

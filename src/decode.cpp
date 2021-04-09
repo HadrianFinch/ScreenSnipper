@@ -371,37 +371,46 @@ HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
     return S_OK;
 }
 
-HRESULT CaptureZone()
+int g_count = 0;
+
+HRESULT CaptureZone(RECT captureRect)
 {
     HBITMAP hbitmap;
     
+    HDC hdcDesktop = GetWindowDC(GetDesktopWindow());
     HDC hdcScreen = GetDC(NULL);
-    HDC hdcDest = CreateCompatibleDC(hdcScreen);
+    HDC hdcDest = CreateCompatibleDC(hdcDesktop);
 
     hbitmap = CreateCompatibleBitmap(
-        hdcScreen,
-        (g_snipRect.right - g_snipRect.left),
-        (g_snipRect.bottom - g_snipRect.top));
+        hdcDesktop,
+        (captureRect.right - captureRect.left),
+        (captureRect.bottom - captureRect.top));
     SelectObject(hdcDest, hbitmap);
 
     BitBlt(
         hdcDest,
         0,
         0,
-        labs(g_snipRect.right - g_snipRect.left),
-        labs(g_snipRect.bottom - g_snipRect.top),
+        (captureRect.right - captureRect.left),
+        (captureRect.bottom - captureRect.top),
         hdcScreen,
-        g_snipRect.left,
-        g_snipRect.top,
+        captureRect.left,
+        captureRect.top,
         SRCCOPY);
 
     SYSTEMTIME lt;
     GetLocalTime(&lt);
 
-    PWSTR filePath = L"\\\\laggy\\Pictures\\ScreenSnips\\ScreenSnip Zone.jpg";
+    // PWSTR filePath = L"\\\\laggy\\Pictures\\ScreenSnips\\ScreenSnip Zone.jpg";
+    PWSTR filePath = L"C:\\Users\\hadri\\Desktop\\Adobe XD Exorts\\ScreenSnip Zone.jpg";
     CreateBMPFile(filePath, hbitmap);
 
+    g_count++;
+    Assert(g_count <= 1);
+
     SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
+
+
 
     return S_OK;
 }
