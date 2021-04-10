@@ -1,4 +1,4 @@
-# ScreenSnipper   ![img](https://img.shields.io/badge/Build%20Type-Alpha-darkgrey) ![img](https://img.shields.io/badge/Build-Succeding-brightgreen) ![img](https://img.shields.io/badge/Features-48%-blue)
+# ScreenSnipper   ![img](https://img.shields.io/badge/Build%20Type-Alpha-darkgrey) ![img](https://img.shields.io/badge/Build-Succeding-brightgreen) ![img](https://img.shields.io/badge/Features-48%25-blue)
 
 ScreenSnipper is a screen capture and recording app for Windows PC's.
 
