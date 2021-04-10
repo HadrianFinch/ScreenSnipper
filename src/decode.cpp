@@ -375,6 +375,14 @@ int g_count = 0;
 
 HRESULT CaptureZone(RECT captureRect)
 {
+    g_count++;
+    if (g_count >= 2)
+    {
+        g_count = 0;
+        return S_OK;
+    }
+    
+
     HBITMAP hbitmap;
     
     HDC hdcDesktop = GetWindowDC(GetDesktopWindow());
@@ -401,16 +409,11 @@ HRESULT CaptureZone(RECT captureRect)
     SYSTEMTIME lt;
     GetLocalTime(&lt);
 
-    // PWSTR filePath = L"\\\\laggy\\Pictures\\ScreenSnips\\ScreenSnip Zone.jpg";
-    PWSTR filePath = L"C:\\Users\\hadri\\Desktop\\Adobe XD Exorts\\ScreenSnip Zone.jpg";
+    PWSTR filePath = L"\\\\laggy\\Pictures\\ScreenSnips\\ScreenSnip Zone.jpg";
+    // PWSTR filePath = L"C:\\Users\\hadri\\Desktop\\Adobe XD Exorts\\ScreenSnip Zone.jpg";
     CreateBMPFile(filePath, hbitmap);
 
-    g_count++;
-    Assert(g_count <= 1);
-
-    SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
-
-
+    // SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
 
     return S_OK;
 }

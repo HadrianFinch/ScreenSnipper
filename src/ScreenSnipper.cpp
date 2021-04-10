@@ -490,7 +490,7 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             RECT crDesktop;
             GetClientRect(GetDesktopWindow(), &crDesktop);
             
-            COLORREF colorref = 0x00FFFFFF;
+            COLORREF colorref = 0x00818181;
             HBRUSH brush = CreateSolidBrush(colorref);
             FillRect(hdc, &ps.rcPaint, brush);
 
@@ -525,6 +525,7 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             CaptureZone(NormalizeRect(g_snipRect));
         }
         return 0;
+
         case WM_MOUSEMOVE:
         {
             if (g_zoneMouseDown)
@@ -541,12 +542,13 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                 InvalidateRect(hwnd, &g_snipRect, 0);
                 InvalidateRect(hwnd, &oldSnipRect, 0);
             }
-            return 0;
         }
+        return 0;
         case WM_ERASEBKGND:
         {
-            return 0;
+            
         }
+        return 0;
     }
   
     return DefWindowProc(hwnd, uMsg, wParam, lParam);

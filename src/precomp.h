@@ -24,14 +24,17 @@
 __inline void Assert(
     _In_ bool value)
 {
-    if (value != false)
+    if (false)
     {
-        return;
-    }
-    else
-    {
-        __debugbreak();
-    }
+        if (value != false)
+        {
+            return;
+        }
+        else
+        {
+            __debugbreak();
+        }
+    }    
 }
 
 extern HINSTANCE g_hInstance;
@@ -42,6 +45,7 @@ extern HWND g_highlightHwnd;
 extern HWND g_zoneSnipHwnd;
 extern bool g_zoneActive;
 extern RECT g_snipRect;
+
 
 BOOL LayerWindow(
     _In_ HWND hwnd,
