@@ -265,7 +265,7 @@ void CMouseCaptureButton::OnClicked()
             ShowWindow(g_highlightHwnd, SW_HIDE);
             if (hwndToSnip != NULL)
             {
-                CaptureWindow(hwndParent, hwndToSnip);
+                CaptureWindow(g_currentSnipPath, hwndToSnip);
             }
         } 
     }

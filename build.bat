@@ -1,6 +1,6 @@
 @echo off
 
-taskkill /im screensnipper.exe
+taskkill /im screensnipper.exe /T /F
 
 echo[
 

@@ -22,15 +22,15 @@ void SnipSavedAlert(PCWSTR filePath)
     POINT pt = {(((desktopClientRect.right - desktopClientRect.left) / 2) - 100), (25)};
 
     CPopup* pContainer = nullptr;
-    CPopup::Create(
+    HRESULT hr = CPopup::Create(
         L"File Save Container",
         L"images\\container.png", 
         size,
         pt,
         &pContainer);
-
+    Assert(SUCCEEDED(hr));
     CButton* pAlert = nullptr;
-    HRESULT hr = CAlertButton::Create(
+    hr = CAlertButton::Create(
         pContainer->m_hwnd,
         L"File Saved Popup",
         L"images\\snipSavedAlert.png",
@@ -47,7 +47,7 @@ void SnipSavedAlert(PCWSTR filePath)
     pAlert->m_pHoverImageFileName = L"images\\snipSavedAlertHover.png";
     pAlert->m_HoverPt = {-1, -1};
     pAlert->m_HoverSize = size;
-    Assert(SUCCEEDED(hr));
+    
 }
 
 void PathNotSetupError()
@@ -317,7 +317,7 @@ HRESULT CaptureScreen(PCWSTR directory, HWND parrentHwnd)
     hdc[0] = GetWindowDC(hwnd);
     hbitmap = CreateCompatibleBitmap(hdc[0], rect.right, rect.bottom); 
     hdc[1] = CreateCompatibleDC(hdc[0]);
-    SelectObject(hdc[1], hbitmap);    
+    HGDIOBJ hbmpSave = SelectObject(hdc[1], hbitmap);    
 
     BitBlt (
         hdc[1],
@@ -335,21 +335,26 @@ HRESULT CaptureScreen(PCWSTR directory, HWND parrentHwnd)
     SYSTEMTIME lt;
     GetLocalTime(&lt);
 
-    WCHAR filePath[MAX_PATH];
-    StringCchPrintf(filePath,
+    WCHAR filePath[MAX_PATH] = {};
+    StringCchPrintfW(filePath,
         _countof(filePath),
-        L"%S\\ScreenSnip Screen %02d-%02d-%02d.jpg",
+        L"%s\\ScreenSnip Screen %02d-%02d-%02d.jpg",
         directory,
         lt.wMonth, lt.wDay, lt.wYear);
 
     CreateBMPFile(filePath, hbitmap);
 
-    SnipSavedAlert(filePath);
- 
+    SnipSavedAlert(directory);
+
+    SelectObject(hdc[1], hbmpSave);
+    DeleteDC(hdc[1]);
+    
+    DeleteDC(hdc[0]);
+    
     return S_OK;
 }
 
-HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
+HRESULT CaptureWindow(PCWSTR directory, HWND windowToSnip)
 {
     HWND hwnd;
     
@@ -377,7 +382,8 @@ HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
         hdcWindow,
         (rect.right - rect.left),
         (rect.bottom - rect.top));
-    SelectObject(hdcSrc, hbitmap);
+
+    HGDIOBJ hbmpSave =  SelectObject(hdcSrc, hbitmap);
 
     PrintWindow(windowToSnip, hdcSrc, PW_RENDERFULLCONTENT);
 
@@ -386,7 +392,8 @@ HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
         hdcWindow,
         (shortenedFrame.right - shortenedFrame.left),
         (shortenedFrame.bottom - shortenedFrame.top));
-    SelectObject(hdcResize, hbitmapResize);
+    
+    HGDIOBJ hbmpSave2 = SelectObject(hdcResize, hbitmapResize);
 
     BitBlt(
         hdcResize,
@@ -402,10 +409,24 @@ HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
     SYSTEMTIME lt;
     GetLocalTime(&lt);
 
-    PWSTR filePath = L"\\\\laggy\\Pictures\\ScreenSnips\\ScreenSnip Window.jpg";
+    WCHAR filePath[MAX_PATH] = {};
+    StringCchPrintfW(filePath,
+        _countof(filePath),
+        L"%s\\ScreenSnip Window %02d-%02d-%02d.jpg",
+        directory,
+        lt.wMonth, lt.wDay, lt.wYear);
+
     CreateBMPFile(filePath, hbitmapResize);
 
-    SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
+    SnipSavedAlert(directory);
+
+    SelectObject(hdcSrc, hbmpSave);
+    DeleteDC(hdcSrc);
+    
+    SelectObject(hdcResize, hbmpSave2);
+    DeleteDC(hdcResize);
+
+    DeleteDC(hdcWindow);
 
     return S_OK;
 }
@@ -432,7 +453,7 @@ HRESULT CaptureZone(RECT captureRect)
         hdcDesktop,
         (captureRect.right - captureRect.left),
         (captureRect.bottom - captureRect.top));
-    SelectObject(hdcDest, hbitmap);
+    HGDIOBJ hbmpSave = SelectObject(hdcDest, hbitmap);
 
     BitBlt(
         hdcDest,
@@ -453,6 +474,13 @@ HRESULT CaptureZone(RECT captureRect)
     CreateBMPFile(filePath, hbitmap);
 
     // SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
+
+    SelectObject(hdcDest, hbmpSave);
+    DeleteDC(hdcDest);
+    
+    DeleteDC(hdcScreen);
+
+    DeleteDC(hdcDesktop);
 
     return S_OK;
 }

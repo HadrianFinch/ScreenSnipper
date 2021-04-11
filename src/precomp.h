@@ -47,7 +47,6 @@ __inline void Assert(
 
 extern HINSTANCE g_hInstance;
 extern IWICImagingFactory* g_pWICFactory;
-extern CPopup* pOptionsMenu;
 extern bool popupActive;
 extern HWND g_highlightHwnd;
 extern HWND g_zoneSnipHwnd;
