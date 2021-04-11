@@ -378,8 +378,5 @@ void CMoreOptionsButton::OnClicked()
 /* Override */
 void CFavoriteFolder1Button::OnClicked()
 {
-    StringCchCopy(
-        g_szFavoriteFolder1,
-        _countof(g_szFavoriteFolder1),
-        GetInputFolder());
+    g_szFavoriteFolder1 = GetInputFolder();
 }
