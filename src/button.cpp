@@ -374,3 +374,12 @@ void CMoreOptionsButton::OnClicked()
     }
     HideOptionsPopup();
 }
+
+/* Override */
+void CFavoriteFolder1Button::OnClicked()
+{
+    StringCchCopy(
+        g_szFavoriteFolder1,
+        _countof(g_szFavoriteFolder1),
+        GetInputFolder());
+}

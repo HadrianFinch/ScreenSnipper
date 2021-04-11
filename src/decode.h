@@ -9,6 +9,6 @@ HRESULT CreateBitmapFromFile(
     _In_ PCWSTR uri,
     _Out_ HBITMAP* phBitmap);
 
-HRESULT CaptureScreen(HWND hwnd);
+HRESULT CaptureScreen(PCWSTR directory, HWND parrentHwnd);
 HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip);
 HRESULT CaptureZone(RECT captureRect);

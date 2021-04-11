@@ -137,6 +137,7 @@ LRESULT CPopup::WindowProc(
             hwnd = NULL;
             if (m_masterPopup)
             {
+                SaveFavoriteFolders();
                 PostQuitMessage(0);
             }
         }

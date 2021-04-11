@@ -1,3 +1,8 @@
+extern WCHAR g_szFavoriteFolder1[MAX_PATH];
+extern WCHAR g_szFavoriteFolder2[MAX_PATH];
+extern WCHAR g_szFavoriteFolder3[MAX_PATH];
+extern WCHAR g_currentSnipPath[MAX_PATH];
+
 class CButton
 {
 public:
@@ -197,7 +202,7 @@ protected:
         HWND hwndParent = GetParent(m_hwnd);
         if (hwndParent != NULL)
         {
-            CaptureScreen(hwndParent);
+            CaptureScreen(g_currentSnipPath, hwndParent);
         }
     }
 };
@@ -423,5 +428,45 @@ public:
     }
 protected:
     HWND settingsHwnd = NULL;
+    void OnClicked() override;
+};
+
+class CFavoriteFolder1Button :
+    public CButton
+{
+public:
+    static HRESULT Create(
+        _In_ HWND hwndParent,
+        _In_ PCWSTR pWindowName,
+        _In_ PCWSTR pImageFile,
+        _In_ SIZE size,
+        _In_ POINT pt,
+        _Outptr_ CButton** ppButton)
+    {
+        CFavoriteFolder1Button* pButton = new CFavoriteFolder1Button(pImageFile, size, pt);
+
+        HRESULT hr = pButton->Initialize(hwndParent, pWindowName, pImageFile);
+        if (SUCCEEDED(hr))
+        {
+            ShowWindow(pButton->m_hwnd, SW_SHOW);
+
+            *ppButton = pButton;
+            pButton = nullptr;
+        }
+
+        delete pButton;
+
+        return hr;
+    }
+
+    CFavoriteFolder1Button(
+        _In_ PCWSTR pImageFile, 
+        _In_ SIZE size,
+        _In_ POINT pt)
+        :
+        CButton(pImageFile, size, pt)
+    {
+    }
+protected:
     void OnClicked() override;
 };

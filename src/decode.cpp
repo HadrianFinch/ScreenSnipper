@@ -302,7 +302,7 @@ HRESULT CreateBitmapFromFile(
     return S_OK;
 }
 
-HRESULT CaptureScreen(HWND parrentHwnd)
+HRESULT CaptureScreen(PCWSTR directory, HWND parrentHwnd)
 {
     HWND hwnd;
     HDC hdc[2];
@@ -335,9 +335,16 @@ HRESULT CaptureScreen(HWND parrentHwnd)
     SYSTEMTIME lt;
     GetLocalTime(&lt);
 
-    CreateBMPFile(L"\\\\laggy/Pictures/ScreenSnips/ScreenSnip Screen.jpg", hbitmap);
+    WCHAR filePath[MAX_PATH];
+    StringCchPrintf(filePath,
+        _countof(filePath),
+        L"%S\\ScreenSnip Screen %02d-%02d-%02d.jpg",
+        directory,
+        lt.wMonth, lt.wDay, lt.wYear);
 
-    SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
+    CreateBMPFile(filePath, hbitmap);
+
+    SnipSavedAlert(filePath);
  
     return S_OK;
 }

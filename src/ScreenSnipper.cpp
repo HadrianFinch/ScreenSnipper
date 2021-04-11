@@ -4,6 +4,8 @@
 
 #include "precomp.h"
 
+bool dbg = false;
+
 HINSTANCE g_hInstance = NULL;
 IWICImagingFactory* g_pWICFactory = nullptr;
 CPopup* pOptionsMenu = nullptr;
@@ -154,6 +156,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     {
         return HRESULT_CODE(hr);
     }
+
+    LoadFavoriteFolders();
 
     WNDCLASSW highlightWndClass = {};
     highlightWndClass.lpfnWndProc = HighlightWindowProc;
