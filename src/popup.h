@@ -7,7 +7,7 @@ public:
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CPopup** ppPopup);
-private:
+protected:
     static bool EnsureWndClass();
 
     static LRESULT CALLBACK s_WindowProc(
@@ -56,4 +56,48 @@ public:
     SIZE m_size;
     POINT m_pt;
     bool m_masterPopup = false;
+};
+
+
+class CWindowedPopup :
+    public CPopup
+{
+public:
+    static HRESULT Create(
+        _In_ PCWSTR pWindowName,
+        _In_ PCWSTR pImageFile,
+        _In_ SIZE size,
+        _In_ POINT pt,
+        _Outptr_ CPopup** ppPopup)
+    {
+        CWindowedPopup* pPopup = new CWindowedPopup(pImageFile, size, pt);
+
+        HRESULT hr = pPopup->Initialize(pWindowName, pImageFile);
+
+        if (SUCCEEDED(hr))
+        {
+            ShowWindow(pPopup->m_hwnd, SW_SHOW);
+
+            *ppPopup = pPopup;
+            pPopup = nullptr;
+        }
+
+        delete pPopup; 
+
+        return hr;
+    }
+
+    CWindowedPopup(
+        _In_ PCWSTR pImageFile, 
+        _In_ SIZE size,
+        _In_ POINT pt)
+        :
+        CPopup(pImageFile, size, pt)
+    {
+    }
+
+protected:
+    HRESULT Initialize(
+        _In_ PCWSTR pWindowName,
+        _In_ PCWSTR pImageFile);
 };

@@ -223,10 +223,18 @@ LRESULT CButton::WindowProc(
 
 
 
+/* Override */
+void CCloseButton::OnClicked() 
+{
+    HWND hwndParent = GetParent(m_hwnd);
+    if (hwndParent != NULL)
+    {
+        DestroyWindow(hwndParent);
+        g_settingsOpen = false;
+    }
+}
 
-
-
-/* Overide */
+/* Override */
 void COptionsButton::OnClicked()
 {
     HWND hwndParent = GetParent(m_hwnd);
@@ -238,16 +246,12 @@ void COptionsButton::OnClicked()
         }
         else
         {
-            HideOptionsPopup(hwndParent);
+            HideOptionsPopup();
         }           
     }
 }
 
-
-
-
-
-
+/* Override */
 void CMouseCaptureButton::OnClicked()
 {
     HWND hwndParent = GetParent(m_hwnd);
@@ -267,6 +271,7 @@ void CMouseCaptureButton::OnClicked()
     }
 }
 
+/* Override */
 void CMouseCaptureButton::MouseMove(HWND hwnd, LPARAM lParam)
 {
     if (active)
@@ -309,16 +314,20 @@ void CMouseCaptureButton::MouseMove(HWND hwnd, LPARAM lParam)
     }
 }
 
+/* Override */
 void CMouseCaptureButton::lButtonDown()
 {
     SetCapture(m_hwnd);
     active = true;
 }
 
+/* Override */
 void CAlertButton::OnClicked()
 {
     ShellExecute(NULL, L"explore", m_filePath, NULL, NULL, SW_SHOW);
 }
+
+/* Override */
 void CAlertButton::TimerTrigger(WPARAM timerId)
 {
     if (timerId == 1)
@@ -327,6 +336,7 @@ void CAlertButton::TimerTrigger(WPARAM timerId)
     }
 }
 
+/* Override */
 void CZoneCaptureButton::OnClicked()
 {
     if (!g_zoneActive)
@@ -352,4 +362,15 @@ void CZoneCaptureButton::OnClicked()
         ShowWindow(g_zoneSnipHwnd, SW_HIDE);
         g_zoneActive = false;
     }   
+}
+
+/* Override */
+void CMoreOptionsButton::OnClicked()
+{
+    if (!g_settingsOpen)
+    {
+        settingsHwnd = CreateSettingsWindow();
+        g_settingsOpen = true;
+    }
+    HideOptionsPopup();
 }

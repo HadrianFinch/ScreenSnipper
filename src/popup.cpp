@@ -45,6 +45,7 @@ bool CPopup::EnsureWndClass()
         wndClass.lpfnWndProc = CPopup::s_WindowProc;
         wndClass.hInstance = g_hInstance;
         wndClass.lpszClassName = c_szLayeredPopupClassName;
+        wndClass.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(128));
 
         if (RegisterClass(&wndClass))
         {
@@ -177,11 +178,40 @@ LRESULT CPopup::WindowProc(
             {
                 if (pOptionsMenu != nullptr)
                 {
-                    HideOptionsPopup(m_hwnd);
+                    HideOptionsPopup();
                 }
             }
         }
         return 0;
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+HRESULT CWindowedPopup::Initialize(
+    _In_ PCWSTR pWindowName,
+    _In_ PCWSTR pImageFile)
+{
+    HRESULT hr = CreateBitmapFromFile(g_pWICFactory, pImageFile, &m_hBitmap);
+
+    if (SUCCEEDED(hr))
+    {
+        m_hwnd = CreateWindowEx(0,              // Optional window styles.
+                                c_szLayeredPopupClassName,
+                                pWindowName,
+                                WS_POPUPWINDOW | WS_CLIPCHILDREN, // Window style
+                                m_pt.x, 
+                                m_pt.y, 
+                                m_size.cx, 
+                                m_size.cy,
+                                NULL,     // Parent window    
+                                NULL,           // Menu
+                                g_hInstance,    // Instance handle
+                                this);
+        if (m_hwnd == NULL)
+        {
+            hr = HRESULT_FROM_WIN32(GetLastError());
+        }
+    }   
+
+    return hr;
 }

@@ -1,4 +1,4 @@
-# ScreenSnipper   ![img](https://img.shields.io/badge/Build%20Type-Alpha-darkgrey) ![img](https://img.shields.io/badge/Build-Succeding-brightgreen) ![img](https://img.shields.io/badge/Features-48%25-blue)
+# ScreenSnipper   ![img](https://img.shields.io/badge/Build%20Type-Alpha-darkgrey) ![img](https://img.shields.io/badge/Build-Succeding-brightgreen) ![img](https://img.shields.io/badge/Features-49%25-blue)
 
 ScreenSnipper is a screen capture and recording app for Windows PC's.
 
@@ -14,10 +14,6 @@ Find the latest GitHub release of the code [here](https://github.com/HadrianFinc
 
 ### Taking Snips
 To take a screenshot of the entire screen, click the first button. To take a screenshot of a single window, click the seccond button and drag over the window that you wnat to snip. To snip a specific area of the screen, use the third button and click and trag the zone that you would like to capture. When a snip is saved a popup will apear at the top of the screen.
-
-## Roadmap
-
-To veiw our roadmap head over to our [Trello Page](https://trello.com/invite/b/2vTGI45q/2e7439389c97e7f1bf7a89bac1de4054/screensnipper)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

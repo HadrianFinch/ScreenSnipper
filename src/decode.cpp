@@ -50,6 +50,38 @@ void SnipSavedAlert(PCWSTR filePath)
     Assert(SUCCEEDED(hr));
 }
 
+void PathNotSetupError()
+{
+    RECT desktopClientRect;
+    HWND desktopHwnd = GetDesktopWindow();
+    GetClientRect(desktopHwnd, &desktopClientRect);
+
+    SIZE size = {200, 45};
+    POINT pt = {(((desktopClientRect.right - desktopClientRect.left) / 2) - 100), (25)};
+
+    CPopup* pContainer = nullptr;
+    CPopup::Create(
+        L"File Save Container",
+        L"images\\container.png", 
+        size,
+        pt,
+        &pContainer);
+
+    CButton* pAlert = nullptr;
+    HRESULT hr = CAlertButton::Create(
+        pContainer->m_hwnd,
+        L"File Saved Popup",
+        L"images\\snipSavedAlert.png",
+        size,
+        {-1, -1},
+        &pAlert);
+        
+    pAlert->m_pHoverImageFileName = L"images\\snipSavedAlertHover.png";
+    pAlert->m_HoverPt = {-1, -1};
+    pAlert->m_HoverSize = size;
+    Assert(SUCCEEDED(hr));
+}
+
 PBITMAPINFO CreateBitmapInfoStruct(HBITMAP hBmp)
 { 
     BITMAP bmp; 
@@ -278,7 +310,7 @@ HRESULT CaptureScreen(HWND parrentHwnd)
     RECT rect;
 
     ShowWindow(parrentHwnd, SW_HIDE);
-    HideOptionsPopup(parrentHwnd);
+    HideOptionsPopup();
 
     hwnd = GetDesktopWindow();
     GetClientRect(hwnd, &rect);    
@@ -324,7 +356,7 @@ HRESULT CaptureWindow(HWND parrentHwnd, HWND windowToSnip)
         &shortenedFrame,
         sizeof(shortenedFrame));
 
-    HideOptionsPopup(parrentHwnd);
+    HideOptionsPopup();
 
     GetWindowRect(windowToSnip, &rect);   
 

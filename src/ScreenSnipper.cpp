@@ -15,6 +15,7 @@ RECT g_snipRect;
 bool g_zoneMouseDown = false;
 bool snipHwndCreated = false;
 bool g_zoneActive = false;
+bool g_settingsOpen = false;
 
 struct WINFO
 {
@@ -91,7 +92,7 @@ void ShowOptionsPopup(HWND menuBarHwnd)
 
                 pt = {-1, 72};
                 CButton* pMoreOptions = nullptr;
-                CButton::Create(pOptionsMenu->m_hwnd,
+                CMoreOptionsButton::Create(pOptionsMenu->m_hwnd,
                                 L"More Options", 
                                 L"menuBarImages\\optionsMenu\\moreOptions.png", 
                                 size, 
@@ -124,7 +125,7 @@ void ShowOptionsPopup(HWND menuBarHwnd)
     }
 }
 
-void HideOptionsPopup(HWND menuBarHwnd)
+void HideOptionsPopup()
 {  
     if (pOptionsMenu != nullptr)
     {
@@ -544,6 +545,7 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             }
         }
         return 0;
+        
         case WM_ERASEBKGND:
         {
             

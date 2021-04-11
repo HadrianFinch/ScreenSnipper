@@ -1,0 +1,1 @@
+HWND CreateSettingsWindow();
