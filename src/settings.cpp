@@ -71,7 +71,7 @@ HWND CreateSettingsWindow()
     size = {88, 25};
     pt = {139, 159};
     CButton* pSelectFolder2 = nullptr;
-    CButton::Create(
+    CFavoriteFolder2Button::Create(
         pSettingsWindow->m_hwnd,
         L"Select Folder 2",
         L"optionsWindowImages\\selectFolderButton.png",
@@ -85,7 +85,7 @@ HWND CreateSettingsWindow()
     size = {88, 25};
     pt = {139, 240};
     CButton* pSelectFolder3 = nullptr;
-    CButton::Create(
+    CFavoriteFolder3Button::Create(
         pSettingsWindow->m_hwnd,
         L"Select Folder 3",
         L"optionsWindowImages\\selectFolderButton.png",
@@ -245,7 +245,7 @@ void LoadFavoriteFolders()
         }
     }
 
-    if (loadedFav1)
+    if (!loadedFav1)
     {
         ExpandEnvironmentStrings(
             L"%userprofile%\\Desktop",
@@ -253,7 +253,7 @@ void LoadFavoriteFolders()
             _countof(g_szFavoriteFolder1));
     }
 
-    if (loadedFav2)
+    if (!loadedFav2)
     {
         ExpandEnvironmentStrings(
             L"%userprofile%\\Desktop",
@@ -261,7 +261,7 @@ void LoadFavoriteFolders()
             _countof(g_szFavoriteFolder2));
     }
 
-    if (loadedFav3)
+    if (!loadedFav3)
     {
         ExpandEnvironmentStrings(
             L"%userprofile%\\Desktop",
@@ -269,7 +269,7 @@ void LoadFavoriteFolders()
             _countof(g_szFavoriteFolder3));
     }
 
-    if (loadedSnipPath)
+    if (!loadedSnipPath)
     {
         ExpandEnvironmentStrings(
             L"%userprofile%\\Desktop",

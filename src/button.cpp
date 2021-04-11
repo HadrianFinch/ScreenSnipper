@@ -378,5 +378,30 @@ void CMoreOptionsButton::OnClicked()
 /* Override */
 void CFavoriteFolder1Button::OnClicked()
 {
-    g_szFavoriteFolder1 = GetInputFolder();
+    PCWSTR selectedFolder = GetInputFolder();
+
+    StringCchCopy(
+        g_szFavoriteFolder1,
+        _countof(g_szFavoriteFolder1),
+        selectedFolder);
+}
+
+void CFavoriteFolder2Button::OnClicked()
+{
+    PCWSTR selectedFolder = GetInputFolder();
+
+    StringCchCopy(
+        g_szFavoriteFolder2,
+        _countof(g_szFavoriteFolder2),
+        selectedFolder);
+}
+
+void CFavoriteFolder3Button::OnClicked()
+{
+    PCWSTR selectedFolder = GetInputFolder();
+
+    StringCchCopy(
+        g_szFavoriteFolder3,
+        _countof(g_szFavoriteFolder3),
+        selectedFolder);
 }

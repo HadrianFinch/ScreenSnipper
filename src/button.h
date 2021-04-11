@@ -470,3 +470,83 @@ public:
 protected:
     void OnClicked() override;
 };
+
+class CFavoriteFolder2Button :
+    public CButton
+{
+public:
+    static HRESULT Create(
+        _In_ HWND hwndParent,
+        _In_ PCWSTR pWindowName,
+        _In_ PCWSTR pImageFile,
+        _In_ SIZE size,
+        _In_ POINT pt,
+        _Outptr_ CButton** ppButton)
+    {
+        CFavoriteFolder2Button* pButton = new CFavoriteFolder2Button(pImageFile, size, pt);
+
+        HRESULT hr = pButton->Initialize(hwndParent, pWindowName, pImageFile);
+        if (SUCCEEDED(hr))
+        {
+            ShowWindow(pButton->m_hwnd, SW_SHOW);
+
+            *ppButton = pButton;
+            pButton = nullptr;
+        }
+
+        delete pButton;
+
+        return hr;
+    }
+
+    CFavoriteFolder2Button(
+        _In_ PCWSTR pImageFile, 
+        _In_ SIZE size,
+        _In_ POINT pt)
+        :
+        CButton(pImageFile, size, pt)
+    {
+    }
+protected:
+    void OnClicked() override;
+};
+
+class CFavoriteFolder3Button :
+    public CButton
+{
+public:
+    static HRESULT Create(
+        _In_ HWND hwndParent,
+        _In_ PCWSTR pWindowName,
+        _In_ PCWSTR pImageFile,
+        _In_ SIZE size,
+        _In_ POINT pt,
+        _Outptr_ CButton** ppButton)
+    {
+        CFavoriteFolder3Button* pButton = new CFavoriteFolder3Button(pImageFile, size, pt);
+
+        HRESULT hr = pButton->Initialize(hwndParent, pWindowName, pImageFile);
+        if (SUCCEEDED(hr))
+        {
+            ShowWindow(pButton->m_hwnd, SW_SHOW);
+
+            *ppButton = pButton;
+            pButton = nullptr;
+        }
+
+        delete pButton;
+
+        return hr;
+    }
+
+    CFavoriteFolder3Button(
+        _In_ PCWSTR pImageFile, 
+        _In_ SIZE size,
+        _In_ POINT pt)
+        :
+        CButton(pImageFile, size, pt)
+    {
+    }
+protected:
+    void OnClicked() override;
+};
