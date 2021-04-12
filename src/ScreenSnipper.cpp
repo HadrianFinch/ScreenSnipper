@@ -54,7 +54,7 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
         if (SUCCEEDED(hr))
         {
             size = {81, 25};
-            pt = {-1, 0};
+            pt = {-1, -1};
             CButton* pTopOption = nullptr;
             CButton::Create(pOptionsMenu->m_hwnd,
                             L"Option 1", 
@@ -66,7 +66,7 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
             pTopOption->m_HoverPt = pt;
             pTopOption->m_HoverSize = size;
 
-            pt = {-1, 24};
+            pt = {-1, 23};
             CButton* pOption2 = nullptr;
             CButton::Create(pOptionsMenu->m_hwnd,
                             L"Option 2", 
@@ -78,7 +78,7 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
             pOption2->m_HoverPt = pt;
             pOption2->m_HoverSize = size;
 
-            pt = {-1, 48};
+            pt = {-1, 47};
             CButton* pOption3 = nullptr;
             CButton::Create(pOptionsMenu->m_hwnd,
                             L"Option 3", 
@@ -90,7 +90,7 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
             pOption3->m_HoverPt = pt;
             pOption3->m_HoverSize = size;
 
-            pt = {-1, 72};
+            pt = {-1, 71};
             CButton* pMoreOptions = nullptr;
             CMoreOptionsButton::Create(pOptionsMenu->m_hwnd,
                             L"More Options", 
@@ -104,17 +104,10 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
 
             popupActive = true;
         }
-
-        SetWindowPos(pOptionsMenu->m_hwnd,
-            NULL,
-            pt.x,
-            pt.y,
-            size.cx,
-            size.cy,
-            NULL);
-
-        ShowWindow(pOptionsMenu->m_hwnd, SW_SHOW);
-        popupActive = true;
+        else
+        {
+            DestroyWindow(pOptionsMenu->m_hwnd);
+        }
     }
     return pOptionsMenu;
 }
@@ -376,6 +369,10 @@ BOOL LayerWindow(
 
     POINT ptNull = {0,0};
 
+    TextOut(
+        
+    )
+
     // HWND hwndParent = GetParent(hwnd);
     // if (hwndParent != NULL)
     // {
@@ -401,10 +398,9 @@ BOOL LayerWindow(
         ULW_ALPHA);
 
     SelectObject(hdcSrc, hBmpSave);
-    ReleaseDC(NULL, hdcSrc);
+    DeleteDC(hdcSrc);
 
     return bRet;
-    
 }
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
