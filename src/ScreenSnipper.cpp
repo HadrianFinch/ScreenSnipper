@@ -8,7 +8,6 @@ bool dbg = true;
 
 HINSTANCE g_hInstance = NULL;
 IWICImagingFactory* g_pWICFactory = nullptr;
-bool popupCreated = false;
 bool popupActive = false;
 HWND g_highlightHwnd;
 HWND g_zoneSnipHwnd;
@@ -40,10 +39,10 @@ RECT NormalizeRect(RECT inputRect)
 
 CPopup* ShowOptionsPopup(HWND menuBarHwnd)
 {
+    CPopup* pOptionsMenu = nullptr;
+
     if (!popupActive)
     {
-        CPopup* pOptionsMenu = nullptr;
-
         SIZE size = {90, 109};
         POINT pt = {349, -112};
         ClientToScreen(menuBarHwnd, &pt);
@@ -104,7 +103,6 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
             pMoreOptions->m_HoverSize = size;
 
             popupActive = true;
-            popupCreated = true;
         }
 
         SetWindowPos(pOptionsMenu->m_hwnd,
@@ -118,13 +116,14 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
         ShowWindow(pOptionsMenu->m_hwnd, SW_SHOW);
         popupActive = true;
     }
+    return pOptionsMenu;
 }
 
-void HideOptionsPopup()
+void HideOptionsPopup(CPopup* pOptionsPopup)
 {  
-    if (pOptionsMenu != nullptr)
+    if (pOptionsPopup != nullptr)
     {
-        ShowWindow(pOptionsMenu->m_hwnd, SW_HIDE);
+        DestroyWindow(pOptionsPopup->m_hwnd);
         popupActive = false;
     }
 }

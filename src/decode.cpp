@@ -310,7 +310,6 @@ HRESULT CaptureScreen(PCWSTR directory, HWND parrentHwnd)
     RECT rect;
 
     ShowWindow(parrentHwnd, SW_HIDE);
-    HideOptionsPopup();
 
     hwnd = GetDesktopWindow();
     GetClientRect(hwnd, &rect);    
@@ -367,8 +366,6 @@ HRESULT CaptureWindow(PCWSTR directory, HWND windowToSnip)
         DWMWA_EXTENDED_FRAME_BOUNDS,
         &shortenedFrame,
         sizeof(shortenedFrame));
-
-    HideOptionsPopup();
 
     GetWindowRect(windowToSnip, &rect);   
 
@@ -439,9 +436,8 @@ HRESULT CaptureZone(RECT captureRect)
     if (g_count >= 2)
     {
         g_count = 0;
-        return S_OK;
+        return S_FALSE;
     }
-    
 
     HBITMAP hbitmap;
     

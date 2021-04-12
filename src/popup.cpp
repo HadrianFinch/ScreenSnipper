@@ -175,13 +175,6 @@ LRESULT CPopup::WindowProc(
 
         case WM_LBUTTONDOWN:
         {
-            if (m_masterPopup)
-            {
-                if (pOptionsMenu != nullptr)
-                {
-                    HideOptionsPopup();
-                }
-            }
         }
         return 0;
     }

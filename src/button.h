@@ -248,6 +248,7 @@ public:
     }
 
 protected:
+    CPopup* pPopup = nullptr;
     void OnClicked() override;
 };
 

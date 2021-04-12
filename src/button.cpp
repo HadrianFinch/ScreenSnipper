@@ -242,11 +242,11 @@ void COptionsButton::OnClicked()
     {
         if (!popupActive)
         {
-            ShowOptionsPopup(hwndParent);
+            pPopup = ShowOptionsPopup(hwndParent);
         }
         else
         {
-            HideOptionsPopup();
+            HideOptionsPopup(pPopup);
         }           
     }
 }
@@ -372,7 +372,8 @@ void CMoreOptionsButton::OnClicked()
         settingsHwnd = CreateSettingsWindow();
         g_settingsOpen = true;
     }
-    HideOptionsPopup();
+    DestroyWindow(GetParent(m_hwnd));
+    popupActive = false;
 }
 
 /* Override */
