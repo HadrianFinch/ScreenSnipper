@@ -361,7 +361,7 @@ void CZoneCaptureButton::OnClicked()
     {
         ShowWindow(g_zoneSnipHwnd, SW_HIDE);
         g_zoneActive = false;
-    }   
+    }    
 }
 
 /* Override */
@@ -381,28 +381,37 @@ void CFavoriteFolder1Button::OnClicked()
 {
     PCWSTR selectedFolder = GetInputFolder();
 
-    StringCchCopy(
-        g_szFavoriteFolder1,
-        _countof(g_szFavoriteFolder1),
-        selectedFolder);
+    if (selectedFolder != nullptr)
+    {
+        StringCchCopy(
+            g_szFavoriteFolder1,
+            _countof(g_szFavoriteFolder1),
+            selectedFolder);
+    }
 }
 
 void CFavoriteFolder2Button::OnClicked()
 {
     PCWSTR selectedFolder = GetInputFolder();
 
-    StringCchCopy(
-        g_szFavoriteFolder2,
-        _countof(g_szFavoriteFolder2),
-        selectedFolder);
+    if (selectedFolder != nullptr)
+    {
+        StringCchCopy(
+            g_szFavoriteFolder2,
+            _countof(g_szFavoriteFolder2),
+            selectedFolder);
+    }
 }
 
 void CFavoriteFolder3Button::OnClicked()
 {
     PCWSTR selectedFolder = GetInputFolder();
 
-    StringCchCopy(
-        g_szFavoriteFolder3,
-        _countof(g_szFavoriteFolder3),
-        selectedFolder);
+    if (selectedFolder != nullptr)
+    {
+        StringCchCopy(
+            g_szFavoriteFolder3,
+            _countof(g_szFavoriteFolder3),
+            selectedFolder);
+    }
 }
