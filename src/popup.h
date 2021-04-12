@@ -101,3 +101,46 @@ protected:
         _In_ PCWSTR pWindowName,
         _In_ PCWSTR pImageFile);
 };
+
+class CWindowedTopmostPopup :
+    public CPopup
+{
+public:
+    static HRESULT Create(
+        _In_ PCWSTR pWindowName,
+        _In_ PCWSTR pImageFile,
+        _In_ SIZE size,
+        _In_ POINT pt,
+        _Outptr_ CPopup** ppPopup)
+    {
+        CWindowedTopmostPopup* pPopup = new CWindowedTopmostPopup(pImageFile, size, pt);
+
+        HRESULT hr = pPopup->Initialize(pWindowName, pImageFile);
+
+        if (SUCCEEDED(hr))
+        {
+            ShowWindow(pPopup->m_hwnd, SW_SHOW);
+
+            *ppPopup = pPopup;
+            pPopup = nullptr;
+        }
+
+        delete pPopup; 
+
+        return hr;
+    }
+
+    CWindowedTopmostPopup(
+        _In_ PCWSTR pImageFile, 
+        _In_ SIZE size,
+        _In_ POINT pt)
+        :
+        CPopup(pImageFile, size, pt)
+    {
+    }
+
+protected:
+    HRESULT Initialize(
+        _In_ PCWSTR pWindowName,
+        _In_ PCWSTR pImageFile);
+};

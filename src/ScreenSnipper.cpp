@@ -4,7 +4,7 @@
 
 #include "precomp.h"
 
-int dbg = 4;
+int dbg = 0;
 
 HINSTANCE g_hInstance = NULL;
 IWICImagingFactory* g_pWICFactory = nullptr;
@@ -219,7 +219,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     SIZE size = {482, 75};
     POINT pt = {(((desktopClientRect.right - desktopClientRect.left) / 2) - (size.cx / 2)), (desktopClientRect.bottom - desktopClientRect.top) - 125};
     CPopup* pMenuBar = nullptr;
-    CWindowedPopup::Create(L"ScreenSnipper",
+    CWindowedTopmostPopup::Create(L"ScreenSnipper",
                    L"menuBarImages\\menuBar.png",
                    size,
                    pt,

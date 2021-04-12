@@ -16,3 +16,17 @@
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
+
+
+// MENU BAR RESOURCES
+#define MB_IMG_MENUBAR           001
+#define MB_IMG_CLOSEBUTTON       002
+#define MB_IMG_SCREENCAPTURE     003
+#define MB_IMG_WINDOWCAPTURE     004
+#define MB_IMG_ZONECAPTURE       005
+#define MB_MENUBAR     001
+#define MB_MENUBAR     001
+#define MB_MENUBAR     001
+#define MB_MENUBAR     001
+#define MB_MENUBAR     001
+#define MB_MENUBAR     001

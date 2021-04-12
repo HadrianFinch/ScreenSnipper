@@ -250,3 +250,33 @@ HRESULT CWindowedPopup::Initialize(
 
     return hr;
 }
+
+HRESULT CWindowedTopmostPopup::Initialize(
+    _In_ PCWSTR pWindowName,
+    _In_ PCWSTR pImageFile)
+{
+    EnsureWndClass();
+    HRESULT hr = CreateBitmapFromFile(g_pWICFactory, pImageFile, &m_hBitmap);
+
+    if (SUCCEEDED(hr))
+    {
+        m_hwnd = CreateWindowEx(WS_EX_TOPMOST,              // Optional window styles.
+                                c_szLayeredPopupClassName,
+                                pWindowName,
+                                WS_POPUPWINDOW | WS_CLIPCHILDREN, // Window style
+                                m_pt.x, 
+                                m_pt.y, 
+                                m_size.cx, 
+                                m_size.cy,
+                                NULL,     // Parent window    
+                                NULL,           // Menu
+                                g_hInstance,    // Instance handle
+                                this);
+        if (m_hwnd == NULL)
+        {
+            hr = HRESULT_FROM_WIN32(GetLastError());
+        }
+    }   
+
+    return hr;
+}

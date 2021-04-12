@@ -1,5 +1,5 @@
-#include ".\src\resources.h"
+#include ".\src\precomp.h"
 
 22 ICON icon.ico
 
-100 IMAGE menuBarImages\menuBar.png
+MB_IMG_MENUBAR IMAGE menuBarImages\menuBar.png

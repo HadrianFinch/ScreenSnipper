@@ -26,6 +26,7 @@
 #include "popup.h"
 #include "button.h"
 #include "settings.h"
+#include "resources.h"
 
 extern int dbg;
 
