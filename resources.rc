@@ -1,3 +1,5 @@
 #include ".\src\resources.h"
 
-128 ICON icon.ico
+22 ICON icon.ico
+
+100 IMAGE menuBarImages\menuBar.png

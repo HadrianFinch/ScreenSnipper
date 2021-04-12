@@ -144,6 +144,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     LoadFavoriteFolders();
 
+    if (g_currentSnipPath == L"")
+    {
+        ExpandEnvironmentStrings(
+            L"%userprofile%\\Desktop",
+            g_currentSnipPath,
+            _countof(g_currentSnipPath));
+    }
+    
+
     WNDCLASSW highlightWndClass = {};
     highlightWndClass.lpfnWndProc = HighlightWindowProc;
     highlightWndClass.hInstance = g_hInstance;

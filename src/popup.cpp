@@ -45,7 +45,7 @@ bool CPopup::EnsureWndClass()
         wndClass.lpfnWndProc = CPopup::s_WindowProc;
         wndClass.hInstance = g_hInstance;
         wndClass.lpszClassName = c_szLayeredPopupClassName;
-        wndClass.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(128));
+        wndClass.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(22));
 
         if (RegisterClass(&wndClass))
         {
