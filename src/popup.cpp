@@ -173,6 +173,23 @@ LRESULT CPopup::WindowProc(
         }
         return HTCLIENT;
 
+        case WM_HOTKEY:
+        {
+            if (wParam == 1)
+            {
+                if (m_masterPopup)
+                {
+                    CaptureScreen(g_currentSnipPath, hwnd);
+                }
+            }
+            else if (wParam == 2)
+            {
+                CaptureWindow(g_currentSnipPath, GetForegroundWindow());
+            }
+            
+        }
+        return 0;
+
         case WM_LBUTTONDOWN:
         {
         }

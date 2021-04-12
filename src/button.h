@@ -594,3 +594,43 @@ public:
 public:
     void WMCREATE(HWND hwnd) override;
 };
+
+class CFavorite1RadioButton :
+    public CButton
+{
+public:
+    static HRESULT Create(
+        _In_ HWND hwndParent,
+        _In_ PCWSTR pWindowName,
+        _In_ PCWSTR pImageFile,
+        _In_ SIZE size,
+        _In_ POINT pt,
+        _Outptr_ CButton** ppButton)
+    {
+        CFavorite1RadioButton* pButton = new CFavorite1RadioButton(pImageFile, size, pt);
+
+        HRESULT hr = pButton->Initialize(hwndParent, pWindowName, pImageFile);
+        if (SUCCEEDED(hr))
+        {
+            ShowWindow(pButton->m_hwnd, SW_SHOW);
+
+            *ppButton = pButton;
+            pButton = nullptr;
+        }
+
+        delete pButton;
+
+        return hr;
+    }
+
+    CFavorite1RadioButton(
+        _In_ PCWSTR pImageFile, 
+        _In_ SIZE size,
+        _In_ POINT pt)
+        :
+        CButton(pImageFile, size, pt)
+    {
+    }
+protected:
+    void OnClicked() override;
+};

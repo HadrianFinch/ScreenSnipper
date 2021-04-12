@@ -330,6 +330,7 @@ void CMouseCaptureButton::lButtonDown()
 /* Override */
 void CAlertButton::OnClicked()
 {
+    DestroyWindow(GetParent(m_hwnd));
     ShellExecute(NULL, L"explore", m_filePath, NULL, NULL, SW_SHOW);
 }
 
@@ -463,4 +464,15 @@ void CFolderTemplateButton::WMCREATE(HWND hwnd)
     SelectObject(hdcSrc, hBmpSave);
     DeleteDC(hdcSrc);
 
+}
+
+void CFavorite1RadioButton::OnClicked()
+{
+    if (g_currentSnipPath != g_szFavoriteFolder1)
+    {
+        StringCchCopyW(
+            g_currentSnipPath,
+            _countof(g_szFavoriteFolder1),
+            g_szFavoriteFolder1);
+    }
 }

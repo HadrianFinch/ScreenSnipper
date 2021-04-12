@@ -430,9 +430,20 @@ HRESULT CaptureWindow(PCWSTR directory, HWND windowToSnip)
 
 int g_count = 0;
 
-HRESULT CaptureZone(RECT captureRect)
-{
+HRESULT CaptureZone(PCWSTR directory, RECT captureRect)
+{   
     g_count++;
+
+    if (dbg >= 4)
+    {
+        WCHAR string[250];
+        StringCchPrintfW(
+            string,
+             _countof(string), 
+            L"The current count is %d", g_count);
+        MessageBox(NULL, string, L"Zone Capture Count", MB_OK);
+    }
+    
     if (g_count >= 2)
     {
         g_count = 0;
@@ -465,11 +476,16 @@ HRESULT CaptureZone(RECT captureRect)
     SYSTEMTIME lt;
     GetLocalTime(&lt);
 
-    PWSTR filePath = L"\\\\laggy\\Pictures\\ScreenSnips\\ScreenSnip Zone.jpg";
-    // PWSTR filePath = L"C:\\Users\\hadri\\Desktop\\Adobe XD Exorts\\ScreenSnip Zone.jpg";
+    WCHAR filePath[MAX_PATH] = {};
+    StringCchPrintfW(filePath,
+        _countof(filePath),
+        L"%s\\ScreenSnip Zone %02d-%02d-%02d.jpg",
+        directory,
+        lt.wMonth, lt.wDay, lt.wYear);
+
     CreateBMPFile(filePath, hbitmap);
 
-    // SnipSavedAlert(L"\\\\laggy\\Pictures\\ScreenSnips\\");
+    SnipSavedAlert(directory);
 
     SelectObject(hdcDest, hbmpSave);
     DeleteDC(hdcDest);
@@ -477,6 +493,8 @@ HRESULT CaptureZone(RECT captureRect)
     DeleteDC(hdcScreen);
 
     DeleteDC(hdcDesktop);
+
+    g_count = 0;
 
     return S_OK;
 }

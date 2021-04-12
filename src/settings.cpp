@@ -346,8 +346,8 @@ void SaveFavoriteFolders()
 
         
         StringCbLength(
-            g_szFavoriteFolder2,
-            sizeof(g_szFavoriteFolder2),
+            g_currentSnipPath,
+            sizeof(g_currentSnipPath),
             &cbSize);
 
         RegSetValueEx(

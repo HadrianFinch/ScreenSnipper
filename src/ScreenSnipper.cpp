@@ -4,7 +4,7 @@
 
 #include "precomp.h"
 
-int dbg = 1;
+int dbg = 4;
 
 HINSTANCE g_hInstance = NULL;
 IWICImagingFactory* g_pWICFactory = nullptr;
@@ -55,16 +55,16 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
         {
             size = {81, 25};
             pt = {-1, -1};
-            CButton* pTopOption = nullptr;
-            CButton::Create(pOptionsMenu->m_hwnd,
+            CButton* pToption = nullptr;
+            CFavorite1RadioButton::Create(pOptionsMenu->m_hwnd,
                             L"Option 1", 
                             L"menuBarImages\\optionsMenu\\optionsButtonTop.png", 
                             size, 
                             pt, 
-                            &pTopOption);
-            pTopOption->m_pHoverImageFileName = L"menuBarImages\\optionsMenu\\highlighted\\optionsButtonTopHighlight.png";
-            pTopOption->m_HoverPt = pt;
-            pTopOption->m_HoverSize = size;
+                            &pToption);
+            pToption->m_pHoverImageFileName = L"menuBarImages\\optionsMenu\\highlighted\\optionsButtonTopHighlight.png";
+            pToption->m_HoverPt = pt;
+            pToption->m_HoverSize = size;
 
             pt = {-1, 23};
             CButton* pOption2 = nullptr;
@@ -218,7 +218,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     
     pMenuBar->m_dragRect = {0, 0, 473, 62};
     pMenuBar->m_masterPopup = true;
-    
+
+    RegisterHotKey(
+        pMenuBar->m_hwnd,
+        1,
+        MOD_ALT | MOD_CONTROL,
+        0x31 /* 1 key */);
+
+    RegisterHotKey(
+        pMenuBar->m_hwnd,
+        2,
+        MOD_ALT | MOD_CONTROL,
+        0x32 /* 2 key */);
 
     size = {13, 13};
     pt = {8, 8};
@@ -369,10 +380,6 @@ BOOL LayerWindow(
 
     POINT ptNull = {0,0};
 
-    TextOut(
-        
-    )
-
     // HWND hwndParent = GetParent(hwnd);
     // if (hwndParent != NULL)
     // {
@@ -515,7 +522,7 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
             ShowWindow(hwnd, SW_HIDE);
 
-            CaptureZone(NormalizeRect(g_snipRect));
+            CaptureZone(g_currentSnipPath, NormalizeRect(g_snipRect));
         }
         return 0;
 
