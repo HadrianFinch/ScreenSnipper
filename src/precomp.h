@@ -27,12 +27,12 @@
 #include "button.h"
 #include "settings.h"
 
-extern bool dbg;
+extern int dbg;
 
 __inline void Assert(
     _In_ bool value)
 {
-    if (dbg)
+    if (dbg > 0)
     {
         if (value != false)
         {

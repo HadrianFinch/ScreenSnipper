@@ -99,7 +99,7 @@ HWND CreateSettingsWindow()
     size = {331, 241};
     pt = {127, 48};
     CButton* pTemplate = nullptr;
-    CButton::Create(
+    CFolderTemplateButton::Create(
         pSettingsWindow->m_hwnd,
         L"template",
         L"optionsWindowImages\\foldersTemplate.png",
@@ -146,11 +146,12 @@ PCWSTR GetInputFolder()
                     // Display the file name to the user.
                     if (SUCCEEDED(hr))
                     {
-                        if (dbg)
+                        if (dbg >= 3)
                         {
                             MessageBox(NULL, pszFilePath, L"File Path", MB_OK);
-                            CoTaskMemFree(pszFilePath);
+                            
                         }
+                        CoTaskMemFree(pszFilePath);
                     }
 
                     pItem->Release();

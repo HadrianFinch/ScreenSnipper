@@ -132,8 +132,7 @@ LRESULT CButton::WindowProc(
         case WM_CREATE:
         {
             // Assert(m_hBitmap != NULL);
-
-            LayerWindow(hwnd, m_hBitmap, m_size, m_pt);
+            WMCREATE(hwnd);
         }
         return 0;
 
@@ -218,6 +217,13 @@ LRESULT CButton::WindowProc(
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
+
+void CButton::WMCREATE(HWND hwnd)
+{
+    LayerWindow(hwnd, m_hBitmap, m_size, m_pt);
+}
+
+
 
 
 
@@ -414,4 +420,47 @@ void CFavoriteFolder3Button::OnClicked()
             _countof(g_szFavoriteFolder3),
             selectedFolder);
     }
+}
+
+
+void CFolderTemplateButton::WMCREATE(HWND hwnd)
+{
+    // Add the WS_EX_LAYERED bit to the window ex style
+    LONG exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+    exStyle |= WS_EX_LAYERED;
+    SetWindowLong(hwnd, GWL_EXSTYLE, exStyle);
+
+    HDC hdcSrc = CreateCompatibleDC(NULL);
+    HGDIOBJ hBmpSave = SelectObject(hdcSrc, m_hBitmap);
+
+    BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA};
+
+    POINT ptNull = {0,0};
+
+    size_t cbLength = 0;
+    StringCbLength(g_szFavoriteFolder1, 
+        _countof(g_szFavoriteFolder1),
+        &cbLength);
+
+    TextOut(
+        hdcSrc,
+        117,
+        32,
+        g_szFavoriteFolder1,
+        cbLength);
+
+    BOOL bRet = UpdateLayeredWindow(
+        hwnd,
+        NULL,
+        &m_pt,
+        &m_size,
+        hdcSrc,
+        &ptNull,
+        NULL,
+        &bf,
+        ULW_ALPHA);
+
+    SelectObject(hdcSrc, hBmpSave);
+    DeleteDC(hdcSrc);
+
 }

@@ -4,7 +4,7 @@
 
 #include "precomp.h"
 
-bool dbg = true;
+int dbg = 1;
 
 HINSTANCE g_hInstance = NULL;
 IWICImagingFactory* g_pWICFactory = nullptr;
@@ -368,10 +368,6 @@ BOOL LayerWindow(
     BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA};
 
     POINT ptNull = {0,0};
-
-    TextOut(
-        
-    )
 
     // HWND hwndParent = GetParent(hwnd);
     // if (hwndParent != NULL)
