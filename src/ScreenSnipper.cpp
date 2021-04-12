@@ -369,6 +369,10 @@ BOOL LayerWindow(
 
     POINT ptNull = {0,0};
 
+    TextOut(
+        
+    )
+
     // HWND hwndParent = GetParent(hwnd);
     // if (hwndParent != NULL)
     // {
