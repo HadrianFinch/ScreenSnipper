@@ -352,6 +352,8 @@ void CZoneCaptureButton::OnClicked()
         RECT crDesktop;
         GetClientRect(hwndDesktop, &crDesktop);
 
+        g_snipRect = {};
+
         SetWindowPos(
             g_zoneSnipHwnd,
             NULL,

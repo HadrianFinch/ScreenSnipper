@@ -210,7 +210,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     SIZE size = {482, 75};
     POINT pt = {(((desktopClientRect.right - desktopClientRect.left) / 2) - (size.cx / 2)), (desktopClientRect.bottom - desktopClientRect.top) - 125};
     CPopup* pMenuBar = nullptr;
-    CPopup::Create(L"ScreenSnipper",
+    CWindowedPopup::Create(L"ScreenSnipper",
                    L"menuBarImages\\menuBar.png",
                    size,
                    pt,
@@ -222,14 +222,20 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     RegisterHotKey(
         pMenuBar->m_hwnd,
         1,
-        MOD_ALT | MOD_CONTROL,
+        MOD_ALT | MOD_CONTROL | MOD_NOREPEAT,
         0x31 /* 1 key */);
 
     RegisterHotKey(
         pMenuBar->m_hwnd,
         2,
-        MOD_ALT | MOD_CONTROL,
+        MOD_ALT | MOD_CONTROL | MOD_NOREPEAT,
         0x32 /* 2 key */);
+
+    RegisterHotKey(
+        pMenuBar->m_hwnd,
+        3,
+        MOD_ALT | MOD_CONTROL | MOD_NOREPEAT,
+        0x33 /* 3 key */);
 
     size = {13, 13};
     pt = {8, 8};

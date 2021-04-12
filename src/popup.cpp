@@ -186,7 +186,28 @@ LRESULT CPopup::WindowProc(
             {
                 CaptureWindow(g_currentSnipPath, GetForegroundWindow());
             }
-            
+            else if (wParam == 3)
+            {
+                HWND hwndDesktop = GetDesktopWindow();
+                RECT crDesktop;
+                GetClientRect(hwndDesktop, &crDesktop);
+
+                g_snipRect = {};
+
+                SetWindowPos(
+                    g_zoneSnipHwnd,
+                    NULL,
+                    crDesktop.left,
+                    crDesktop.top,
+                    (crDesktop.right - crDesktop.left),
+                    (crDesktop.bottom - crDesktop.top),
+                    NULL);
+                ShowWindow(g_zoneSnipHwnd, SW_SHOW);
+
+                g_zoneActive = true;
+            }
+                    
+                    
         }
         return 0;
 
@@ -198,10 +219,13 @@ LRESULT CPopup::WindowProc(
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
+
+
 HRESULT CWindowedPopup::Initialize(
     _In_ PCWSTR pWindowName,
     _In_ PCWSTR pImageFile)
 {
+    EnsureWndClass();
     HRESULT hr = CreateBitmapFromFile(g_pWICFactory, pImageFile, &m_hBitmap);
 
     if (SUCCEEDED(hr))
