@@ -47,7 +47,7 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
         POINT pt = {349, -112};
         ClientToScreen(menuBarHwnd, &pt);
         HRESULT hr = CPopup::Create(L"Screen Snipper Options Menu",
-                    L"menuBarImages\\optionsMenu.png",
+                    OP_IMG_POPUP,
                     size,
                     pt,
                     &pOptionsMenu);
@@ -58,11 +58,11 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
             CButton* pToption = nullptr;
             CFavorite1RadioButton::Create(pOptionsMenu->m_hwnd,
                             L"Option 1", 
-                            L"menuBarImages\\optionsMenu\\optionsButtonTop.png", 
+                            OP_IMG_TOP, 
                             size, 
                             pt, 
                             &pToption);
-            pToption->m_pHoverImageFileName = L"menuBarImages\\optionsMenu\\highlighted\\optionsButtonTopHighlight.png";
+            pToption->m_pHoverImageFileName = OP_IMG_HVR_TOP;
             pToption->m_HoverPt = pt;
             pToption->m_HoverSize = size;
 
@@ -70,11 +70,11 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
             CButton* pOption2 = nullptr;
             CButton::Create(pOptionsMenu->m_hwnd,
                             L"Option 2", 
-                            L"menuBarImages\\optionsMenu\\optionsButton.png", 
+                            OP_IMG_NORMAL, 
                             size, 
                             pt, 
                             &pOption2);
-            pOption2->m_pHoverImageFileName = L"menuBarImages\\optionsMenu\\highlighted\\optionsButtonHighlight.png";
+            pOption2->m_pHoverImageFileName = OP_IMG_HVR_NORMAL;
             pOption2->m_HoverPt = pt;
             pOption2->m_HoverSize = size;
 
@@ -82,11 +82,11 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
             CButton* pOption3 = nullptr;
             CButton::Create(pOptionsMenu->m_hwnd,
                             L"Option 3", 
-                            L"menuBarImages\\optionsMenu\\optionsButton.png", 
+                            OP_IMG_NORMAL, 
                             size, 
                             pt, 
                             &pOption3);
-            pOption3->m_pHoverImageFileName = L"menuBarImages\\optionsMenu\\highlighted\\optionsButtonHighlight.png";
+            pOption3->m_pHoverImageFileName = OP_IMG_HVR_NORMAL;
             pOption3->m_HoverPt = pt;
             pOption3->m_HoverSize = size;
 
@@ -94,11 +94,11 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
             CButton* pMoreOptions = nullptr;
             CMoreOptionsButton::Create(pOptionsMenu->m_hwnd,
                             L"More Options", 
-                            L"menuBarImages\\optionsMenu\\moreOptions.png", 
+                            OP_IMG_MOREOPTIONS, 
                             size, 
                             pt, 
                             &pMoreOptions);
-            pMoreOptions->m_pHoverImageFileName = L"menuBarImages\\optionsMenu\\highlighted\\moreOptionsHighlight.png";
+            pMoreOptions->m_pHoverImageFileName = OP_IMG_HVR_MOREOPTIONS;
             pMoreOptions->m_HoverPt = pt;
             pMoreOptions->m_HoverSize = size;
 
@@ -220,7 +220,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     POINT pt = {(((desktopClientRect.right - desktopClientRect.left) / 2) - (size.cx / 2)), (desktopClientRect.bottom - desktopClientRect.top) - 125};
     CPopup* pMenuBar = nullptr;
     CWindowedTopmostPopup::Create(L"ScreenSnipper",
-                   L"menuBarImages\\menuBar.png",
+                   MB_IMG_MENUBAR,
                    size,
                    pt,
                    &pMenuBar);
@@ -251,11 +251,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     CButton* pCloseButton = nullptr;
     CCloseButton::Create(pMenuBar->m_hwnd,
                     L"Close Button", 
-                    L"menuBarImages\\closeButton.png", 
+                    MB_IMG_CLOSEBUTTON, 
                     size, 
                     pt, 
                     &pCloseButton);
-    pCloseButton->m_pHoverImageFileName = L"menuBarImages\\highlighted\\closeButtonHighlight.png";
+    pCloseButton->m_pHoverImageFileName = MB_IMG_HVR_CLOSEBUTTON;
     pCloseButton->m_HoverPt = pt;
     pCloseButton->m_HoverSize = size;
 
@@ -264,26 +264,23 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     CButton* pScreenCapture = nullptr;
     CScreenCaptureButton::Create(pMenuBar->m_hwnd,
                     L"Screen Capture", 
-                    L"menuBarImages\\screenCapture.png", 
+                    MB_IMG_SCREENCAPTURE, 
                     size, 
                     pt, 
                     &pScreenCapture);
-    pScreenCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\screenCaptureHighlight.png";
+    pScreenCapture->m_pHoverImageFileName = MB_IMG_HVR_SCREENCAPTURE;
     pScreenCapture->m_HoverPt = {30, 14};
     pScreenCapture->m_HoverSize = {42, 35};
-    pScreenCapture->m_pMouseDownImageFileName = L"menuBarImages\\clicked\\screenCaptureClick.png";
-    pScreenCapture->m_MouseDownPt = {30, 14};
-    pScreenCapture->m_MouseDownSize = {42, 34};
 
     pt = {82, 16};
     CButton* pWindowCapture = nullptr;
     CMouseCaptureButton::Create(pMenuBar->m_hwnd,
                     L"Window Capture", 
-                    L"menuBarImages\\windowCapture.png", 
+                    MB_IMG_WINDOWCAPTURE, 
                     size, 
                     pt, 
                     &pWindowCapture);
-    pWindowCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\windowCaptureHighlight.png";
+    pWindowCapture->m_pHoverImageFileName = MB_IMG_HVR_WINDOWCAPTURE;
     pWindowCapture->m_HoverPt = {80, 14};
     pWindowCapture->m_HoverSize = {42, 35};
 
@@ -291,11 +288,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     CButton* pZoneCapture = nullptr;
     CZoneCaptureButton::Create(pMenuBar->m_hwnd,
                     L"Zone Capture", 
-                    L"menuBarImages\\zoneCapture.png", 
+                    MB_IMG_ZONECAPTURE, 
                     size, 
                     pt, 
                     &pZoneCapture);
-    pZoneCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\zoneCaptureHighlight.png";
+    pZoneCapture->m_pHoverImageFileName = MB_IMG_HVR_ZONECAPTURE;
     pZoneCapture->m_HoverPt = {130, 14};
     pZoneCapture->m_HoverSize = {41, 34};
 
@@ -304,11 +301,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     CButton* pScreenRecord = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
                     L"Screen Record", 
-                    L"menuBarImages\\screenRecord.png", 
+                    MB_IMG_SCREENRECORD, 
                     size, 
                     pt, 
                     &pScreenRecord);
-    pScreenRecord->m_pHoverImageFileName = L"menuBarImages\\highlighted\\screenRecordHighlight.png";
+    pScreenRecord->m_pHoverImageFileName = MB_IMG_HVR_SCREENRECORD;
     pScreenRecord->m_HoverPt = {193, 14};
     pScreenRecord->m_HoverSize = {45, 38};
 
@@ -316,11 +313,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     CButton* pWindowRecord = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
                     L"Window Record", 
-                    L"menuBarImages\\windowRecord.png", 
+                    MB_IMG_WINDOWRECORD, 
                     size, 
                     pt, 
                     &pWindowRecord);
-    pWindowRecord->m_pHoverImageFileName = L"menuBarImages\\highlighted\\windowRecordHighlighted.png";
+    pWindowRecord->m_pHoverImageFileName = MB_IMG_HVR_WINDOWRECORD;
     pWindowRecord->m_HoverPt = {243, 14};
     pWindowRecord->m_HoverSize = {45, 38};
 
@@ -328,11 +325,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     CButton* pZoneRecord = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
                     L"Zone Record", 
-                    L"menuBarImages\\zoneRecord.png", 
+                    MB_IMG_WINDOWRECORD, 
                     size, 
                     pt, 
                     &pZoneRecord);
-    pZoneRecord->m_pHoverImageFileName = L"menuBarImages\\highlighted\\zoneRecordHighlight.png";
+    pZoneRecord->m_pHoverImageFileName = MB_IMG_HVR_ZONERECORD;
     pZoneRecord->m_HoverPt = {293, 14};
     pZoneRecord->m_HoverSize = {45, 38};
 
@@ -341,11 +338,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     CButton* pOptions = nullptr;
     COptionsButton::Create(pMenuBar->m_hwnd,
                     L"Options", 
-                    L"menuBarImages\\options.png", 
+                    MB_IMG_OPTIONS, 
                     size, 
                     pt, 
                     &pOptions);
-    pOptions->m_pHoverImageFileName = L"menuBarImages\\highlighted\\optionsHighlight.png";
+    pOptions->m_pHoverImageFileName = MB_IMG_HVR_OPTIONS;
     pOptions->m_HoverPt = pt;
     pOptions->m_HoverSize = size;
 
@@ -354,11 +351,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     CButton* pCapture = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
                     L"Options", 
-                    L"menuBarImages\\capture.png", 
+                    MB_IMG_CAPTURE, 
                     size, 
                     pt, 
                     &pCapture);
-    pCapture->m_pHoverImageFileName = L"menuBarImages\\highlighted\\captureHighlight.png";
+    pCapture->m_pHoverImageFileName = MB_IMG_HVR_CAPTURE;
     pCapture->m_HoverPt = pt;
     pCapture->m_HoverSize = size;
     
@@ -437,7 +434,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             
             HBITMAP hBitmap = NULL;
 
-            HRESULT hr = CreateBitmapFromFile(
+            HRESULT hr = CreateBitmapFromResource(
                 g_pWICFactory,
                 pwi->pImageFile,
                 &hBitmap);

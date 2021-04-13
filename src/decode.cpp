@@ -24,7 +24,7 @@ void SnipSavedAlert(PCWSTR filePath)
     CPopup* pContainer = nullptr;
     HRESULT hr = CPopup::Create(
         L"File Save Container",
-        L"images\\container.png", 
+        PU_IMG_CONTAINER, 
         size,
         pt,
         &pContainer);
@@ -33,7 +33,7 @@ void SnipSavedAlert(PCWSTR filePath)
     hr = CAlertButton::Create(
         pContainer->m_hwnd,
         L"File Saved Popup",
-        L"images\\snipSavedAlert.png",
+        PU_IMG_SAVED,
         size,
         {-1, -1},
         &pAlert);
@@ -44,42 +44,10 @@ void SnipSavedAlert(PCWSTR filePath)
         _countof(pAlertBtn->m_filePath),
         filePath);
     
-    pAlert->m_pHoverImageFileName = L"images\\snipSavedAlertHover.png";
+    pAlert->m_pHoverImageFileName = PU_IMG_HVR_SAVED;
     pAlert->m_HoverPt = {-1, -1};
     pAlert->m_HoverSize = size;
     
-}
-
-void PathNotSetupError()
-{
-    RECT desktopClientRect;
-    HWND desktopHwnd = GetDesktopWindow();
-    GetClientRect(desktopHwnd, &desktopClientRect);
-
-    SIZE size = {200, 45};
-    POINT pt = {(((desktopClientRect.right - desktopClientRect.left) / 2) - 100), (25)};
-
-    CPopup* pContainer = nullptr;
-    CPopup::Create(
-        L"File Save Container",
-        L"images\\container.png", 
-        size,
-        pt,
-        &pContainer);
-
-    CButton* pAlert = nullptr;
-    HRESULT hr = CAlertButton::Create(
-        pContainer->m_hwnd,
-        L"File Saved Popup",
-        L"images\\snipSavedAlert.png",
-        size,
-        {-1, -1},
-        &pAlert);
-        
-    pAlert->m_pHoverImageFileName = L"images\\snipSavedAlertHover.png";
-    pAlert->m_HoverPt = {-1, -1};
-    pAlert->m_HoverSize = size;
-    Assert(SUCCEEDED(hr));
 }
 
 PBITMAPINFO CreateBitmapInfoStruct(HBITMAP hBmp)
@@ -229,7 +197,7 @@ HRESULT CreateWICFactory(
         );
 }
 
-HRESULT CreateBitmapFromFile(
+HRESULT CreateBitmapFromResource(
     _In_ IWICImagingFactory* pIWICFactory,
     _In_ PCWSTR uri,
     _Out_ HBITMAP* phBitmap)

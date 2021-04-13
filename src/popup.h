@@ -3,7 +3,7 @@ class CPopup
 public:
     static HRESULT Create(
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CPopup** ppPopup);
@@ -21,11 +21,11 @@ protected:
 
     HRESULT Initialize(
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile);
+        _In_ int pImageFile);
 
 public:
     CPopup(
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -65,7 +65,7 @@ class CWindowedPopup :
 public:
     static HRESULT Create(
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CPopup** ppPopup)
@@ -88,7 +88,7 @@ public:
     }
 
     CWindowedPopup(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -99,7 +99,7 @@ public:
 protected:
     HRESULT Initialize(
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile);
+        _In_ int pImageFile);
 };
 
 class CWindowedTopmostPopup :
@@ -108,7 +108,7 @@ class CWindowedTopmostPopup :
 public:
     static HRESULT Create(
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CPopup** ppPopup)
@@ -131,7 +131,7 @@ public:
     }
 
     CWindowedTopmostPopup(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -142,5 +142,5 @@ public:
 protected:
     HRESULT Initialize(
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile);
+        _In_ int pImageFile);
 };

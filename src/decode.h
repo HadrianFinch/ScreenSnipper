@@ -4,7 +4,7 @@
 HRESULT CreateWICFactory(
     _Outptr_ IWICImagingFactory** ppFactory);
 
-HRESULT CreateBitmapFromFile(
+HRESULT CreateBitmapFromResource(
     _In_ IWICImagingFactory* pIWICFactory,
     _In_ PCWSTR uri,
     _Out_ HBITMAP* phBitmap);

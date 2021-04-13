@@ -5,7 +5,9 @@ taskkill /im screensnipper.exe /T /F
 echo[
 
 echo compiling resources...
+echo *
 rc .\resources.rc
+echo *
 echo resources compiled
 
 echo[

@@ -9,7 +9,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton);
@@ -28,11 +28,11 @@ protected:
     HRESULT Initialize(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile);
+        _In_ int pImageFile);
 
 public:
     CButton(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -75,11 +75,11 @@ private:
     bool m_mouseDown = false;
 
 public:
-    PCWSTR m_pHoverImageFileName = nullptr;
+    int m_pHoverImageFileName = 0;
     SIZE m_HoverSize;
     POINT m_HoverPt;
 
-    PCWSTR m_pMouseDownImageFileName = nullptr;
+    int m_pMouseDownImageFileName = 0;
     SIZE m_MouseDownSize;
     POINT m_MouseDownPt;
 
@@ -124,7 +124,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -146,7 +146,7 @@ public:
     }
 
     CCloseButton(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -168,7 +168,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -190,7 +190,7 @@ public:
     }
 
     CScreenCaptureButton(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -219,7 +219,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -241,7 +241,7 @@ public:
     }
 
     COptionsButton(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -265,7 +265,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -287,7 +287,7 @@ public:
     }
 
     CMouseCaptureButton(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -313,7 +313,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -337,7 +337,7 @@ public:
     }
 
     CAlertButton(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -359,7 +359,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -381,7 +381,7 @@ public:
     }
 
     CZoneCaptureButton(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -400,7 +400,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -422,7 +422,7 @@ public:
     }
 
     CMoreOptionsButton(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -441,7 +441,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -463,7 +463,7 @@ public:
     }
 
     CFavoriteFolder1Button(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -481,7 +481,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -503,7 +503,7 @@ public:
     }
 
     CFavoriteFolder2Button(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -521,7 +521,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -543,7 +543,7 @@ public:
     }
 
     CFavoriteFolder3Button(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -562,7 +562,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -584,7 +584,7 @@ public:
     }
 
     CFolderTemplateButton(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :
@@ -602,7 +602,7 @@ public:
     static HRESULT Create(
         _In_ HWND hwndParent,
         _In_ PCWSTR pWindowName,
-        _In_ PCWSTR pImageFile,
+        _In_ int pImageFile,
         _In_ SIZE size,
         _In_ POINT pt,
         _Outptr_ CButton** ppButton)
@@ -624,7 +624,7 @@ public:
     }
 
     CFavorite1RadioButton(
-        _In_ PCWSTR pImageFile, 
+        _In_ int pImageFile, 
         _In_ SIZE size,
         _In_ POINT pt)
         :

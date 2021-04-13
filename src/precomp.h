@@ -22,11 +22,13 @@
 #include <commdlg.h>
 #include <shobjidl.h>
 
+#include "resources.h"
+
 #include "decode.h"
 #include "popup.h"
 #include "button.h"
 #include "settings.h"
-#include "resources.h"
+
 
 extern int dbg;
 

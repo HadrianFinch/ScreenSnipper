@@ -6,7 +6,7 @@ bool CButton::s_classRegistered = false;
 HRESULT CButton::Create(
     _In_ HWND hwndParent,
     _In_ PCWSTR pWindowName,
-    _In_ PCWSTR pImageFile,
+    _In_ int pImageFile,
     _In_ SIZE size,
     _In_ POINT pt,
     _Outptr_ CButton** ppButton)
@@ -88,14 +88,14 @@ LRESULT CALLBACK CButton::s_WindowProc(
 HRESULT CButton::Initialize(
     _In_ HWND hwndParent,
     _In_ PCWSTR pWindowName,
-    _In_ PCWSTR pImageFile)
+    _In_ int pImageFile)
 {
     if (!EnsureWndClass())
     {
         return HRESULT_FROM_WIN32(GetLastError());
     }
 
-    HRESULT hr = CreateBitmapFromFile(g_pWICFactory, pImageFile, &m_hBitmap);
+    HRESULT hr = CreateBitmapFromResource(g_pWICFactory, pImageFile, &m_hBitmap);
     if (SUCCEEDED(hr))
     {
         m_hwnd = CreateWindowEx(0,              // Optional window styles.
@@ -145,17 +145,19 @@ LRESULT CButton::WindowProc(
         
         case WM_MOUSEMOVE:
         {
-            if (m_pHoverImageFileName != nullptr)
+            if (m_pHoverImageFileName != 0)
             {
                 MouseMove(hwnd, lParam);
                 if (!m_mouseDown)
                 {
                     HBITMAP hoverHBitmap = NULL;
-                    HRESULT hr = CreateBitmapFromFile(
-                                                    g_pWICFactory, 
-                                                    m_pHoverImageFileName, 
-                                                    &hoverHBitmap);
+                    HRESULT hr = CreateBitmapFromResource(
+                        g_pWICFactory, 
+                        m_pHoverImageFileName, 
+                        &hoverHBitmap);
+
                     LayerWindow(hwnd, hoverHBitmap, m_HoverSize, m_HoverPt);
+
                     TRACKMOUSEEVENT mouseTracking;
                     mouseTracking.hwndTrack = m_hwnd;
                     mouseTracking.dwFlags = TME_LEAVE;
@@ -170,7 +172,7 @@ LRESULT CButton::WindowProc(
         case WM_MOUSELEAVE:
         {
             m_mouseDown = false;
-            if (m_pHoverImageFileName != nullptr)
+            if (m_pHoverImageFileName != 0)
             {
                 LayerWindow(hwnd, m_hBitmap, m_size, m_pt);      
             }
@@ -183,7 +185,7 @@ LRESULT CButton::WindowProc(
             if (m_pMouseDownImageFileName != NULL)
             {
                 HBITMAP mouseClickHBitmap = NULL;
-                HRESULT hr = CreateBitmapFromFile(
+                HRESULT hr = CreateBitmapFromResource(
                                                   g_pWICFactory, 
                                                   m_pMouseDownImageFileName, 
                                                   &mouseClickHBitmap);

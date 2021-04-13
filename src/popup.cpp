@@ -5,7 +5,7 @@ bool CPopup::s_classRegistered = false;
 /*static*/
 HRESULT CPopup::Create(
     _In_ PCWSTR pWindowName,
-    _In_ PCWSTR pImageFile,
+    _In_ int pImageFile,
     _In_ SIZE size,
     _In_ POINT pt,
     _Outptr_ CPopup** ppPopup)
@@ -45,7 +45,7 @@ bool CPopup::EnsureWndClass()
         wndClass.lpfnWndProc = CPopup::s_WindowProc;
         wndClass.hInstance = g_hInstance;
         wndClass.lpszClassName = c_szLayeredPopupClassName;
-        wndClass.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(22));
+        wndClass.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IMG_ICON));
 
         if (RegisterClass(&wndClass))
         {
@@ -89,9 +89,9 @@ LRESULT CALLBACK CPopup::s_WindowProc(
 
 HRESULT CPopup::Initialize(
     _In_ PCWSTR pWindowName,
-    _In_ PCWSTR pImageFile)
+    _In_ int pImageFile)
 {
-    HRESULT hr = CreateBitmapFromFile(g_pWICFactory, pImageFile, &m_hBitmap);
+    HRESULT hr = CreateBitmapFromResource(g_pWICFactory, pImageFile, &m_hBitmap);
 
     if (SUCCEEDED(hr))
     {
@@ -223,10 +223,10 @@ LRESULT CPopup::WindowProc(
 
 HRESULT CWindowedPopup::Initialize(
     _In_ PCWSTR pWindowName,
-    _In_ PCWSTR pImageFile)
+    _In_ int pImageFile)
 {
     EnsureWndClass();
-    HRESULT hr = CreateBitmapFromFile(g_pWICFactory, pImageFile, &m_hBitmap);
+    HRESULT hr = CreateBitmapFromResource(g_pWICFactory, pImageFile, &m_hBitmap);
 
     if (SUCCEEDED(hr))
     {
@@ -253,10 +253,10 @@ HRESULT CWindowedPopup::Initialize(
 
 HRESULT CWindowedTopmostPopup::Initialize(
     _In_ PCWSTR pWindowName,
-    _In_ PCWSTR pImageFile)
+    _In_ int pImageFile)
 {
     EnsureWndClass();
-    HRESULT hr = CreateBitmapFromFile(g_pWICFactory, pImageFile, &m_hBitmap);
+    HRESULT hr = CreateBitmapFromResource(g_pWICFactory, pImageFile, &m_hBitmap);
 
     if (SUCCEEDED(hr))
     {

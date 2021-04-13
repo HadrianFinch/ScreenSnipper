@@ -17,7 +17,7 @@ HWND CreateSettingsWindow()
     CPopup* pSettingsWindow = nullptr;
     CWindowedPopup::Create(
         L"ScreenSnipper Settings",
-        L"optionsWindowImages\\optionsWindow.png",
+        OW_IMG_WINDOW,
         size,
         pt,
         &pSettingsWindow);
@@ -31,11 +31,11 @@ HWND CreateSettingsWindow()
     CCloseButton::Create(
         pSettingsWindow->m_hwnd,
         L"Close Button",
-        L"optionsWindowImages\\closeButton.png",
+        OW_IMG_CLOSEBUTTON,
         size,
         pt,
         &pCloseButton);
-    pCloseButton->m_pHoverImageFileName = L"optionsWindowImages\\closeButtonHighlight.png";
+    pCloseButton->m_pHoverImageFileName = OW_IMG_HVR_CLOSEBUTTON;
     pCloseButton->m_HoverSize = size;
     pCloseButton->m_HoverPt = pt;
 
@@ -45,11 +45,11 @@ HWND CreateSettingsWindow()
     CButton::Create(
         pSettingsWindow->m_hwnd,
         L"favorite folders button",
-        L"optionsWindowImages\\favoriteFoldersButton.png",
+        OW_IMG_FAVORITEFOLDERSBUTTON,
         size,
         pt,
         &pFavoriteFoldersButton);
-    pFavoriteFoldersButton->m_pHoverImageFileName = L"optionsWindowImages\\fovoriteFoldersButtonHighlight.png";
+    pFavoriteFoldersButton->m_pHoverImageFileName = OW_IMG_HVR_FAVORITEFOLDERSBUTTON;
     pFavoriteFoldersButton->m_HoverPt = pt;
     pFavoriteFoldersButton->m_HoverSize = size;
 
@@ -60,11 +60,11 @@ HWND CreateSettingsWindow()
     CFavoriteFolder1Button::Create(
         pSettingsWindow->m_hwnd,
         L"Select Folder 1",
-        L"optionsWindowImages\\selectFolderButton.png",
+        OW_IMG_SELECTFOLDERBUTTON,
         size,
         pt,
         &pSelectFolder1);
-    pSelectFolder1->m_pHoverImageFileName = L"optionsWindowImages\\selectFolderButtonHighlght.png";
+    pSelectFolder1->m_pHoverImageFileName = OW_IMG_HVR_SELECTFOLDERBUTTON;
     pSelectFolder1->m_HoverPt = pt;
     pSelectFolder1->m_HoverSize = size;
 
@@ -74,11 +74,11 @@ HWND CreateSettingsWindow()
     CFavoriteFolder2Button::Create(
         pSettingsWindow->m_hwnd,
         L"Select Folder 2",
-        L"optionsWindowImages\\selectFolderButton.png",
+        OW_IMG_SELECTFOLDERBUTTON,
         size,
         pt,
         &pSelectFolder2);
-    pSelectFolder2->m_pHoverImageFileName = L"optionsWindowImages\\selectFolderButtonHighlght.png";
+    pSelectFolder2->m_pHoverImageFileName = OW_IMG_HVR_SELECTFOLDERBUTTON;
     pSelectFolder2->m_HoverPt = pt;
     pSelectFolder2->m_HoverSize = size;
 
@@ -88,11 +88,11 @@ HWND CreateSettingsWindow()
     CFavoriteFolder3Button::Create(
         pSettingsWindow->m_hwnd,
         L"Select Folder 3",
-        L"optionsWindowImages\\selectFolderButton.png",
+        OW_IMG_SELECTFOLDERBUTTON,
         size,
         pt,
         &pSelectFolder3);
-    pSelectFolder3->m_pHoverImageFileName = L"optionsWindowImages\\selectFolderButtonHighlght.png";
+    pSelectFolder3->m_pHoverImageFileName = OW_IMG_HVR_SELECTFOLDERBUTTON;
     pSelectFolder3->m_HoverPt = pt;
     pSelectFolder3->m_HoverSize = size;
 
@@ -102,7 +102,7 @@ HWND CreateSettingsWindow()
     CFolderTemplateButton::Create(
         pSettingsWindow->m_hwnd,
         L"template",
-        L"optionsWindowImages\\foldersTemplate.png",
+        OW_IMG_TEMPLATE,
         size,
         pt,
         &pTemplate);

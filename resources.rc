@@ -1,5 +1,77 @@
 #include ".\src\precomp.h"
 
-22 ICON icon.ico
+IMG_ICON ICON icon.ico
 
-MB_IMG_MENUBAR IMAGE menuBarImages\menuBar.png
+MB_IMG_MENUBAR                   IMAGE  menuBarImages\menuBar.png
+MB_IMG_CLOSEBUTTON               IMAGE  menuBarImages\closeButton.png
+
+MB_IMG_SCREENCAPTURE             IMAGE  menuBarImages\screenCapture.png
+MB_IMG_WINDOWCAPTURE             IMAGE  menuBarImages\windowCapture.png
+MB_IMG_ZONECAPTURE               IMAGE  menuBarImages\zoneCapture.png
+
+MB_IMG_SCREENRECORD              IMAGE  menuBarImages\screenRecord.png
+MB_IMG_WINDOWRECORD              IMAGE  menuBarImages\windowRecord.png
+MB_IMG_ZONERECORD                IMAGE  menuBarImages\zoneRecord.png
+
+MB_IMG_OPTIONS                   IMAGE  menuBarImages\options.png
+MB_IMG_CAPTURE                   IMAGE  menuBarImages\capture.png
+
+// MENU BAR HOVER RESOURCES
+MB_IMG_HVR_CLOSEBUTTON           IMAGE  menuBarImages\highlighted\closeButtonHighlight.png
+
+MB_IMG_HVR_SCREENCAPTURE         IMAGE  menuBarImages\highlighted\screenCaptureHighlight.png
+MB_IMG_HVR_WINDOWCAPTURE         IMAGE  menuBarImages\highlighted\windowCaptureHighlight.png
+MB_IMG_HVR_ZONECAPTURE           IMAGE  menuBarImages\highlighted\zoneCaptureHighlight.png
+
+MB_IMG_HVR_SCREENRECORD          IMAGE  menuBarImages\highlighted\screenRecordHighlight.png
+MB_IMG_HVR_WINDOWRECORD          IMAGE  menuBarImages\highlighted\windowRecordHighlighted.png
+MB_IMG_HVR_ZONERECORD            IMAGE  menuBarImages\highlighted\zoneRecordHighlight.png
+
+MB_IMG_HVR_OPTIONS               IMAGE  menuBarImages\highlighted\optionsHighlight.png
+MB_IMG_HVR_CAPTURE               IMAGE  menuBarImages\highlighted\captureHighlight.png
+
+
+
+
+// OPTIONS POPUP RESOURCES
+OP_IMG_POPUP                     IMAGE  optionsPopupImages\optionsMenu.png
+
+OP_IMG_TOP                       IMAGE  optionsPopupImages\optionsButtonTop.png
+OP_IMG_NORMAL                    IMAGE  optionsPopupImages\optionsButton.png
+
+OP_IMG_MOREOPTIONS               IMAGE  optionsPopupImages\moreOptions.png
+
+// OPTIONS POPUP HOVER RESOURCES
+OP_IMG_HVR_TOP                   IMAGE  optionsPopupImages\highlighted\optionsButtonTopHighlight.png
+OP_IMG_HVR_NORMAL                IMAGE  optionsPopupImages\highlighted\optionsButtonHighlight.png
+
+OP_IMG_HVR_MOREOPTIONS           IMAGE  optionsPopupImages\highlighted\moreOptionsHighlight.png
+
+
+
+
+// OPTIONS WINDOW RESOURCES
+OW_IMG_WINDOW                    IMAGE  optionsWindowImages\optionsWindow.png
+OW_IMG_CLOSEBUTTON               IMAGE  optionsWindowImages\closeButton.png
+
+OW_IMG_FAVORITEFOLDERSBUTTON     IMAGE  optionsWindowImages\favoriteFoldersButton.png
+// OW_IMG_WINDOWCAPTURE          IMAGE  
+// OW_IMG_ZONECAPTURE            IMAGE  
+
+OW_IMG_TEMPLATE                  IMAGE  optionsWindowImages\foldersTemplate.png
+OW_IMG_SELECTFOLDERBUTTON        IMAGE  optionsWindowImages\selectFolderButton.png
+
+// OPTIONS WINDOW HOVER RESOURCES
+OW_IMG_HVR_CLOSEBUTTON           IMAGE  optionsWindowImages\highlighted\closeButtonHighlight.png
+
+OW_IMG_HVR_FAVORITEFOLDERSBUTTON IMAGE  optionsWindowImages\highlighted\fovoriteFoldersButtonHighlight.png
+// OW_IMG_WINDOWCAPTURE          IMAGE  
+// OW_IMG_ZONECAPTURE            IMAGE  
+
+OW_IMG_HVR_SELECTFOLDERBUTTON    IMAGE  optionsWindowImages\highlighted\selectFolderButtonHighlght.png
+
+// POPUP RESOURCES
+PU_IMG_CONTAINER                 IMAGE  images\container.png
+
+PU_IMG_SAVED                     IMAGE  images\snipSavedAlert.png
+PU_IMG_ERROR                     IMAGE  images\snipSavedAlertHover.png
