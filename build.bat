@@ -16,8 +16,17 @@ echo building files ...
 
 echo *
 
-cl.exe /Zi /EHsc /nologo /Fe: .\ScreenSnipper.exe .\src\*.cpp /link /SUBSYSTEM:WINDOWS .\resources.res
+cl.exe /W0 /Zi /EHsc /nologo /Fe: .\ScreenSnipper.exe .\src\*.cpp /link /SUBSYSTEM:WINDOWS .\resources.res
 
+@if ERRORLEVEL == 0 (
+   goto good
+)
+
+@if ERRORLEVEL != 0 (
+   goto bad
+)
+
+:good
 echo *
 echo build complete
 
@@ -32,6 +41,17 @@ echo manafest attached
 echo[
 
 echo Copying to CODECARRIER...
-xcopy .\*.* E:\ /Y /Q /S
+xcopy .\*.exe E:\ /Y /Q /S
 
 echo copy complete
+
+goto end
+
+
+
+
+:bad
+echo *
+echo compile error. aborting.
+
+:end

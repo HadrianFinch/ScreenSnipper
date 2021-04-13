@@ -39,6 +39,19 @@ HWND CreateSettingsWindow()
     pCloseButton->m_HoverSize = size;
     pCloseButton->m_HoverPt = pt;
 
+    pt = {24, 6};
+    CButton* pMinimizeButton = nullptr;
+    CMinimizeButton::Create(
+        pSettingsWindow->m_hwnd,
+        L"Minimize Button",
+        OW_IMG_MINIMIZEBUTTON,
+        size,
+        pt,
+        &pMinimizeButton);
+    pMinimizeButton->m_pHoverImageFileName = OW_IMG_HVR_MINIMIZEBUTTON;
+    pMinimizeButton->m_HoverSize = size;
+    pMinimizeButton->m_HoverPt = pt;
+
     size = {99, 36};
     pt = {6, 33};
     CButton* pFavoriteFoldersButton = nullptr;
@@ -146,11 +159,6 @@ PCWSTR GetInputFolder()
                     // Display the file name to the user.
                     if (SUCCEEDED(hr))
                     {
-                        if (dbg >= 3)
-                        {
-                            MessageBox(NULL, pszFilePath, L"File Path", MB_OK);
-                            
-                        }
                         CoTaskMemFree(pszFilePath);
                     }
 
@@ -162,6 +170,11 @@ PCWSTR GetInputFolder()
         }
 
         CoUninitialize();
+    }
+    
+    if (dbg >= 4)
+    {
+        MessageBox(NULL, pszFilePath, L"File Path", MB_OK);
     }
 
     return pszFilePath;

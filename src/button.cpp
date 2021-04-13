@@ -243,6 +243,16 @@ void CCloseButton::OnClicked()
 }
 
 /* Override */
+void CMinimizeButton::OnClicked() 
+{
+    HWND hwndParent = GetParent(m_hwnd);
+    if (hwndParent != NULL)
+    {
+        ShowWindow(hwndParent, SW_MINIMIZE);
+    }
+}
+
+/* Override */
 void COptionsButton::OnClicked()
 {
     HWND hwndParent = GetParent(m_hwnd);
@@ -442,6 +452,9 @@ void CFolderTemplateButton::WMCREATE(HWND hwnd)
 
     POINT ptNull = {0,0};
 
+    COLORREF colorref = 0x00000000;
+    SetTextColor(hdcSrc, colorref);
+
     size_t cbLength = 0;
     StringCbLength(g_szFavoriteFolder1, 
         _countof(g_szFavoriteFolder1),
@@ -452,6 +465,28 @@ void CFolderTemplateButton::WMCREATE(HWND hwnd)
         117,
         32,
         g_szFavoriteFolder1,
+        cbLength);
+
+    StringCbLength(g_szFavoriteFolder2, 
+        _countof(g_szFavoriteFolder2),
+        &cbLength);
+
+    TextOut(
+        hdcSrc,
+        117,
+        114,
+        g_szFavoriteFolder2,
+        cbLength);
+
+    StringCbLength(g_szFavoriteFolder3, 
+        _countof(g_szFavoriteFolder3),
+        &cbLength);
+
+    TextOut(
+        hdcSrc,
+        117,
+        195,
+        g_szFavoriteFolder3,
         cbLength);
 
     BOOL bRet = UpdateLayeredWindow(

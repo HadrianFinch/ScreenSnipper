@@ -1,21 +1,3 @@
-// #define IDD_CWND__DIALOG                102
-// #define IDR_MAINFRAME                   128
-// #define IDI_ICON1                       129
-// #define IDC_RADIO1                      1000
-// #define IDC_RADIO2                      1001
-// #define IDC_RADIO3                      1002
-// #define IDC_BUTTON1                     1003
-
-// // Next default values for new objects
-// // 
-// #ifdef APSTUDIO_INVOKED
-// #ifndef APSTUDIO_READONLY_SYMBOLS
-// #define _APS_NEXT_RESOURCE_VALUE        130
-// #define _APS_NEXT_COMMAND_VALUE         32771
-// #define _APS_NEXT_CONTROL_VALUE         1004
-// #define _APS_NEXT_SYMED_VALUE           101
-// #endif
-// #endif
 
 #define IMG_ICON                         255
 
@@ -51,6 +33,9 @@
 
 
 
+
+
+
 // OPTIONS POPUP RESOURCES
 #define OP_IMG_POPUP                     11
 
@@ -68,25 +53,34 @@
 
 
 
+
+
+
 // OPTIONS WINDOW RESOURCES
 #define OW_IMG_WINDOW                    21
 #define OW_IMG_CLOSEBUTTON               22
+#define OW_IMG_MINIMIZEBUTTON            23
 
-#define OW_IMG_FAVORITEFOLDERSBUTTON     23
-// #define OW_IMG_WINDOWCAPTURE          024
-// #define OW_IMG_ZONECAPTURE            025
+#define OW_IMG_FAVORITEFOLDERSBUTTON     24
+// #define OW_IMG_WINDOWCAPTURE          025
+// #define OW_IMG_ZONECAPTURE            026
 
-#define OW_IMG_TEMPLATE                  26
-#define OW_IMG_SELECTFOLDERBUTTON        27
+#define OW_IMG_TEMPLATE                  27
+#define OW_IMG_SELECTFOLDERBUTTON        28
 
 // OPTIONS WINDOW HOVER RESOURCES
 #define OW_IMG_HVR_CLOSEBUTTON           122
+#define OW_IMG_HVR_MINIMIZEBUTTON        123
 
-#define OW_IMG_HVR_FAVORITEFOLDERSBUTTON 123
+#define OW_IMG_HVR_FAVORITEFOLDERSBUTTON 124
 // #define OW_IMG_WINDOWCAPTURE          024
 // #define OW_IMG_ZONECAPTURE            025
 
-#define OW_IMG_HVR_SELECTFOLDERBUTTON    127
+#define OW_IMG_HVR_SELECTFOLDERBUTTON    128
+
+
+
+
 
 
 // POPUP RESOURCES

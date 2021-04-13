@@ -53,6 +53,7 @@ OP_IMG_HVR_MOREOPTIONS           IMAGE  optionsPopupImages\highlighted\moreOptio
 // OPTIONS WINDOW RESOURCES
 OW_IMG_WINDOW                    IMAGE  optionsWindowImages\optionsWindow.png
 OW_IMG_CLOSEBUTTON               IMAGE  optionsWindowImages\closeButton.png
+OW_IMG_MINIMIZEBUTTON            IMAGE  optionsWindowImages\minimizeButton.png
 
 OW_IMG_FAVORITEFOLDERSBUTTON     IMAGE  optionsWindowImages\favoriteFoldersButton.png
 // OW_IMG_WINDOWCAPTURE          IMAGE  
@@ -63,6 +64,7 @@ OW_IMG_SELECTFOLDERBUTTON        IMAGE  optionsWindowImages\selectFolderButton.p
 
 // OPTIONS WINDOW HOVER RESOURCES
 OW_IMG_HVR_CLOSEBUTTON           IMAGE  optionsWindowImages\highlighted\closeButtonHighlight.png
+OW_IMG_HVR_MINIMIZEBUTTON        IMAGE  optionsWindowImages\highlighted\minimizeButtonHigilight.png
 
 OW_IMG_HVR_FAVORITEFOLDERSBUTTON IMAGE  optionsWindowImages\highlighted\fovoriteFoldersButtonHighlight.png
 // OW_IMG_WINDOWCAPTURE          IMAGE  

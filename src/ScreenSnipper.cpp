@@ -4,8 +4,14 @@
 
 #include "precomp.h"
 
-int dbg = 0;
-
+int dbg = 4;
+/* 
+    0  -- No debug
+    1  -- Enables asserts
+    2  -- Enables known error alerts
+    3  -- ???????
+    4  -- Enables debug popups
+ */
 HINSTANCE g_hInstance = NULL;
 IWICImagingFactory* g_pWICFactory = nullptr;
 bool popupActive = false;
@@ -325,7 +331,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     CButton* pZoneRecord = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
                     L"Zone Record", 
-                    MB_IMG_WINDOWRECORD, 
+                    MB_IMG_ZONERECORD, 
                     size, 
                     pt, 
                     &pZoneRecord);
