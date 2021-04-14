@@ -16,6 +16,8 @@
 #define MB_IMG_OPTIONS                   9
 #define MB_IMG_CAPTURE                   10
 
+#define MB_IMG_NA_CAPTURE                210
+
 // MENU BAR HOVER RESOURCES
 #define MB_IMG_HVR_CLOSEBUTTON           102
 
@@ -87,4 +89,4 @@
 #define PU_IMG_CONTAINER                 31
 
 #define PU_IMG_SAVED                     32
-#define PU_IMG_HVR_SAVED                 33
+#define PU_IMG_HVR_SAVED                 132

@@ -4,7 +4,7 @@
 
 #include "precomp.h"
 
-int dbg = 4;
+int dbg = 0;
 /* 
     0  -- No debug
     1  -- Enables asserts
@@ -318,10 +318,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     pt = {245, 16};
     CButton* pWindowRecord = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
-                    L"Window Record", 
-                    MB_IMG_WINDOWRECORD, 
-                    size, 
-                    pt, 
+                    L"Window Record",
+                    MB_IMG_WINDOWRECORD,
+                    size,
+                    pt,
                     &pWindowRecord);
     pWindowRecord->m_pHoverImageFileName = MB_IMG_HVR_WINDOWRECORD;
     pWindowRecord->m_HoverPt = {243, 14};
@@ -330,10 +330,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     pt = {295, 16};
     CButton* pZoneRecord = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
-                    L"Zone Record", 
-                    MB_IMG_ZONERECORD, 
-                    size, 
-                    pt, 
+                    L"Zone Record",
+                    MB_IMG_ZONERECORD,
+                    size,
+                    pt,
                     &pZoneRecord);
     pZoneRecord->m_pHoverImageFileName = MB_IMG_HVR_ZONERECORD;
     pZoneRecord->m_HoverPt = {293, 14};
@@ -343,10 +343,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     pt = {359, -1};
     CButton* pOptions = nullptr;
     COptionsButton::Create(pMenuBar->m_hwnd,
-                    L"Options", 
-                    MB_IMG_OPTIONS, 
-                    size, 
-                    pt, 
+                    L"Options",
+                    MB_IMG_OPTIONS,
+                    size,
+                    pt,
                     &pOptions);
     pOptions->m_pHoverImageFileName = MB_IMG_HVR_OPTIONS;
     pOptions->m_HoverPt = pt;
@@ -357,11 +357,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     CButton* pCapture = nullptr;
     CButton::Create(pMenuBar->m_hwnd,
                     L"Options", 
-                    MB_IMG_CAPTURE, 
+                    MB_IMG_NA_CAPTURE, 
                     size, 
                     pt, 
                     &pCapture);
-    pCapture->m_pHoverImageFileName = MB_IMG_HVR_CAPTURE;
+    pCapture->m_pHoverImageFileName = MB_IMG_NA_CAPTURE;
     pCapture->m_HoverPt = pt;
     pCapture->m_HoverSize = size;
     
@@ -537,6 +537,8 @@ LRESULT CALLBACK FilmWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         {
             g_zoneMouseDown = false;
             g_zoneActive = false;
+
+            ReleaseCapture();
 
             ShowWindow(hwnd, SW_HIDE);
 

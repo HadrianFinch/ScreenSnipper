@@ -414,8 +414,11 @@ HRESULT CaptureZone(PCWSTR directory, RECT captureRect)
     
     if (g_count >= 2)
     {
-        MessageBox(NULL, L"count eccceded", L"Zone Capture Count Alert", MB_OK);
-        
+        if (dbg >= 2)
+        {
+            MessageBox(NULL, L"count eccceded", L"Zone Capture Count Alert", MB_OK);
+        }
+
         g_count = 0;
         return S_FALSE;
     }
@@ -455,7 +458,7 @@ HRESULT CaptureZone(PCWSTR directory, RECT captureRect)
 
     CreateBMPFile(filePath, hbitmap);
 
-    SnipSavedAlert(directory);
+    SnipSavedAlert(filePath);
 
     SelectObject(hdcDest, hbmpSave);
     DeleteDC(hdcDest);

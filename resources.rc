@@ -16,6 +16,8 @@ MB_IMG_ZONERECORD                IMAGE  menuBarImages\zoneRecord.png
 MB_IMG_OPTIONS                   IMAGE  menuBarImages\options.png
 MB_IMG_CAPTURE                   IMAGE  menuBarImages\capture.png
 
+MB_IMG_NA_CAPTURE                IMAGE  menuBarImages\captureNotAllowed.png
+
 // MENU BAR HOVER RESOURCES
 MB_IMG_HVR_CLOSEBUTTON           IMAGE  menuBarImages\highlighted\closeButtonHighlight.png
 
@@ -76,4 +78,4 @@ OW_IMG_HVR_SELECTFOLDERBUTTON    IMAGE  optionsWindowImages\highlighted\selectFo
 PU_IMG_CONTAINER                 IMAGE  images\container.png
 
 PU_IMG_SAVED                     IMAGE  images\snipSavedAlert.png
-PU_IMG_ERROR                     IMAGE  images\snipSavedAlertHover.png
+PU_IMG_HVR_SAVED                 IMAGE  images\snipSavedAlertHover.png
