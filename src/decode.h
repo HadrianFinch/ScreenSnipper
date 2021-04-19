@@ -1,6 +1,3 @@
-
-#include <wincodec.h>   // for IWICImagingFactory
-
 HRESULT CreateWICFactory(
     _Outptr_ IWICImagingFactory** ppFactory);
 

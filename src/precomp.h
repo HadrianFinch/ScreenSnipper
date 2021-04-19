@@ -16,6 +16,7 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <strsafe.h>
+#include <wincodec.h>   // for IWICImagingFactory
 #include <pathcch.h>
 #include <shellapi.h>
 #include <dwmapi.h>
@@ -25,6 +26,7 @@
 #include "resources.h"
 
 #include "decode.h"
+#include "encode.h"
 #include "popup.h"
 #include "button.h"
 #include "settings.h"
@@ -71,3 +73,5 @@ BOOL LayerWindow(
     _In_ POINT ptWinPos);
 CPopup* ShowOptionsPopup(HWND menuBarHwnd);
 void HideOptionsPopup(CPopup* pOptionsPopup);
+
+// Recording Includes

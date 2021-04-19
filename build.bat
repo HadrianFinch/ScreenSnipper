@@ -16,7 +16,7 @@ echo building files ...
 
 echo *
 
-cl.exe /W0 /Zi /EHsc /nologo /Fe: .\ScreenSnipper.exe .\src\*.cpp /link /SUBSYSTEM:WINDOWS .\resources.res
+cl.exe /W0 /Zi /EHsc /I .\packages /nologo /Fe: .\ScreenSnipper.exe .\src\*.cpp /link /SUBSYSTEM:WINDOWS .\resources.res
 
 @if ERRORLEVEL == 0 (
    goto good
@@ -41,7 +41,7 @@ echo manafest attached
 echo[
 
 echo Copying to CODECARRIER...
-xcopy .\*.exe E:\ /Y /Q /S
+xcopy .\ScreenSnipper.exe E:\ /Y /Q /S
 
 echo copy complete
 
