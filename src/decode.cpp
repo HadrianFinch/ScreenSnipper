@@ -88,13 +88,14 @@ HRESULT CreateBitmapFromResource(
     // Convert the image format to 32bppPBGRA
     RETURN_IF_FAILED(pIWICFactory->CreateFormatConverter(&pConverter));
 
-    RETURN_IF_FAILED(pConverter->Initialize(
-            pFirstFrame,
-            GUID_WICPixelFormat32bppPBGRA,
-            WICBitmapDitherTypeNone,
-            NULL,
-            0.f,
-            WICBitmapPaletteTypeMedianCut));
+    RETURN_IF_FAILED(
+        pConverter->Initialize(
+        pFirstFrame,
+        GUID_WICPixelFormat32bppPBGRA,
+        WICBitmapDitherTypeNone,
+        NULL,
+        0.f,
+        WICBitmapPaletteTypeMedianCut));
 
     UINT width = 0;
     UINT height = 0;

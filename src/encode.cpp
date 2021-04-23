@@ -1,5 +1,51 @@
 #include "precomp.h"
 
+enum SaveFormat
+{
+    SaveFormatDefault = 1,
+    SaveFormatBmp = 0,
+    SaveFormatJpg = 1,
+    SaveFormatPng = 2,
+    SaveFormatTiff = 3,
+    SaveFormatGif = 4
+};
+
+REFGUID WicGuidFromSaveFormat(SaveFormat format)
+{
+    switch (format)
+    {
+        case SaveFormatBmp:
+        {
+            return GUID_ContainerFormatBmp;
+        }
+
+        case SaveFormatPng:
+        {
+            return GUID_ContainerFormatPng;
+        }
+
+        case SaveFormatGif:
+        {
+            return GUID_ContainerFormatGif;
+        }
+
+        case SaveFormatTiff:
+        {
+            return GUID_ContainerFormatTiff;
+        }
+
+        case SaveFormatJpg:
+        {
+            return GUID_ContainerFormatJpeg;
+        }
+
+        default:
+        {
+            return GUID_ContainerFormatJpeg;
+        }
+    }
+}
+
 HRESULT CreateSaveFile(LPTSTR pszFile, HBITMAP hBMP) 
 {
     IWICImagingFactory2* pFactory = nullptr;
@@ -26,7 +72,7 @@ HRESULT CreateSaveFile(LPTSTR pszFile, HBITMAP hBMP)
     SIZE size = {bm.bmWidth, bm.bmHeight};
 
 
-    // Create an IWICBitmap from our section
+    // Create an IWICBitmap from our hBmp
     if (SUCCEEDED(hr))
     {
         hr = pFactory->CreateBitmapFromHBITMAP(
@@ -51,7 +97,7 @@ HRESULT CreateSaveFile(LPTSTR pszFile, HBITMAP hBMP)
     if (SUCCEEDED(hr))
     {
         hr = pFactory->CreateEncoder(
-            GUID_ContainerFormatWmp,
+            WicGuidFromSaveFormat(SaveFormatJpg),
             &GUID_VendorMicrosoftBuiltIn,
             &pEncoder);
     }
@@ -82,9 +128,9 @@ HRESULT CreateSaveFile(LPTSTR pszFile, HBITMAP hBMP)
     // Write our bitmap in the frame
     if (SUCCEEDED(hr))
     {
-        WICRect rc = { 0, 0, size.cx, size.cy };
+        // WICRect rc = { 0, 0, size.cx, size.cy };
 
-        hr = pFrame->WriteSource(pBitmap, &rc);
+        hr = pFrame->WriteSource(pBitmap, nullptr);
     }
 
     // Commit everything
@@ -111,6 +157,8 @@ HRESULT CreateSaveFile(LPTSTR pszFile, HBITMAP hBMP)
 
     if (pStream != nullptr)
     {
+        pStream->Commit(STGC_DEFAULT);
+        
         pStream->Release();
     }
 
