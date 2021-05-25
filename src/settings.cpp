@@ -24,6 +24,14 @@ HWND CreateSettingsWindow()
     pSettingsWindow->m_dragRect = {0, 0, 473, 23};
 
     SetWindowLongPtr(pSettingsWindow->m_hwnd, GWL_EXSTYLE, WS_EX_LAYERED);
+    SetWindowPos(
+        pSettingsWindow->m_hwnd,
+        HWND_TOP,
+        0,
+        0,
+        0,
+        0,
+        SWP_NOMOVE | SWP_NOSIZE);
 
     size = {13, 13};
     pt = {6, 6};

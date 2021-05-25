@@ -171,7 +171,7 @@ HRESULT CaptureScreen(PCWSTR directory, HWND parrentHwnd)
     WCHAR filePath[MAX_PATH] = {};
     StringCchPrintfW(filePath,
         _countof(filePath),
-        L"%s\\ScreenSnip Screen %02d-%02d-%02d.jpg",
+        L"%s\\ScreenSnip Screen %02d-%02d-%02d",
         directory,
         lt.wMonth, lt.wDay, lt.wYear);
 
@@ -243,7 +243,7 @@ HRESULT CaptureWindow(PCWSTR directory, HWND windowToSnip)
     WCHAR filePath[MAX_PATH] = {};
     StringCchPrintfW(filePath,
         _countof(filePath),
-        L"%s\\ScreenSnip Window %02d-%02d-%02d.jpg",
+        L"%s\\ScreenSnip Window %02d-%02d-%02d",
         directory,
         lt.wMonth, lt.wDay, lt.wYear);
 
@@ -318,7 +318,7 @@ HRESULT CaptureZone(PCWSTR directory, RECT captureRect)
     WCHAR filePath[MAX_PATH] = {};
     StringCchPrintfW(filePath,
         _countof(filePath),
-        L"%s\\ScreenSnip Zone %02d-%02d-%02d.jpg",
+        L"%s\\ScreenSnip Zone %02d-%02d-%02d",
         directory,
         lt.wMonth, lt.wDay, lt.wYear);
 

@@ -43,12 +43,14 @@
 
 #define OP_IMG_TOP                       13
 #define OP_IMG_NORMAL                    14
+#define OP_IMG_NORMAL2                   15
 
 #define OP_IMG_MOREOPTIONS               12
 
 // OPTIONS POPUP HOVER RESOURCES
 #define OP_IMG_HVR_TOP                   113
 #define OP_IMG_HVR_NORMAL                114
+#define OP_IMG_HVR_NORMAL2               115
 
 #define OP_IMG_HVR_MOREOPTIONS           112
 

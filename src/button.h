@@ -675,3 +675,83 @@ public:
 protected:
     void OnClicked() override;
 };
+
+class CFavorite2RadioButton :
+    public CButton
+{
+public:
+    static HRESULT Create(
+        _In_ HWND hwndParent,
+        _In_ PCWSTR pWindowName,
+        _In_ int pImageFile,
+        _In_ SIZE size,
+        _In_ POINT pt,
+        _Outptr_ CButton** ppButton)
+    {
+        CFavorite2RadioButton* pButton = new CFavorite2RadioButton(pImageFile, size, pt);
+
+        HRESULT hr = pButton->Initialize(hwndParent, pWindowName, pImageFile);
+        if (SUCCEEDED(hr))
+        {
+            ShowWindow(pButton->m_hwnd, SW_SHOW);
+
+            *ppButton = pButton;
+            pButton = nullptr;
+        }
+
+        delete pButton;
+
+        return hr;
+    }
+
+    CFavorite2RadioButton(
+        _In_ int pImageFile, 
+        _In_ SIZE size,
+        _In_ POINT pt)
+        :
+        CButton(pImageFile, size, pt)
+    {
+    }
+protected:
+    void OnClicked() override;
+};
+
+class CFavorite3RadioButton :
+    public CButton
+{
+public:
+    static HRESULT Create(
+        _In_ HWND hwndParent,
+        _In_ PCWSTR pWindowName,
+        _In_ int pImageFile,
+        _In_ SIZE size,
+        _In_ POINT pt,
+        _Outptr_ CButton** ppButton)
+    {
+        CFavorite3RadioButton* pButton = new CFavorite3RadioButton(pImageFile, size, pt);
+
+        HRESULT hr = pButton->Initialize(hwndParent, pWindowName, pImageFile);
+        if (SUCCEEDED(hr))
+        {
+            ShowWindow(pButton->m_hwnd, SW_SHOW);
+
+            *ppButton = pButton;
+            pButton = nullptr;
+        }
+
+        delete pButton;
+
+        return hr;
+    }
+
+    CFavorite3RadioButton(
+        _In_ int pImageFile, 
+        _In_ SIZE size,
+        _In_ POINT pt)
+        :
+        CButton(pImageFile, size, pt)
+    {
+    }
+protected:
+    void OnClicked() override;
+};

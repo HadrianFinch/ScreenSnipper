@@ -74,7 +74,7 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
 
             pt = {-1, 23};
             CButton* pOption2 = nullptr;
-            CButton::Create(pOptionsMenu->m_hwnd,
+            CFavorite2RadioButton::Create(pOptionsMenu->m_hwnd,
                             L"Option 2", 
                             OP_IMG_NORMAL, 
                             size, 
@@ -86,13 +86,13 @@ CPopup* ShowOptionsPopup(HWND menuBarHwnd)
 
             pt = {-1, 47};
             CButton* pOption3 = nullptr;
-            CButton::Create(pOptionsMenu->m_hwnd,
+            CFavorite3RadioButton::Create(pOptionsMenu->m_hwnd,
                             L"Option 3", 
-                            OP_IMG_NORMAL, 
+                            OP_IMG_NORMAL2, 
                             size, 
                             pt, 
                             &pOption3);
-            pOption3->m_pHoverImageFileName = OP_IMG_HVR_NORMAL;
+            pOption3->m_pHoverImageFileName = OP_IMG_HVR_NORMAL2;
             pOption3->m_HoverPt = pt;
             pOption3->m_HoverSize = size;
 

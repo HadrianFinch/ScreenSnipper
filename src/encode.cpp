@@ -46,8 +46,36 @@ REFGUID WicGuidFromSaveFormat(SaveFormat format)
     }
 }
 
+bool FileExists(LPTSTR szPath)
+{
+    DWORD dwAttrib = GetFileAttributes(szPath);
+    bool b = !!(dwAttrib != INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+
+    return b;
+}
+
 HRESULT CreateSaveFile(LPTSTR pszFile, HBITMAP hBMP) 
 {
+    int i = 1;
+    WCHAR filePathWithExtension[MAX_PATH] = {};
+    
+    StringCchPrintfW(filePathWithExtension,
+        _countof(filePathWithExtension),
+        L"%s.jpg",
+        pszFile);
+
+    while (FileExists(filePathWithExtension))
+    {
+        StringCchPrintfW(filePathWithExtension,
+        _countof(filePathWithExtension),
+        L"%s %d.jpg",
+        pszFile,
+        i);
+
+        i++;
+    }
+    *pszFile = *filePathWithExtension;
+
     IWICImagingFactory2* pFactory = nullptr;
     IWICBitmap* pBitmap = nullptr;
     IWICStream* pStream = nullptr;
@@ -90,7 +118,7 @@ HRESULT CreateSaveFile(LPTSTR pszFile, HBITMAP hBMP)
 
     if (SUCCEEDED(hr))
     {
-        hr = pStream->InitializeFromFilename(pszFile, GENERIC_WRITE);
+        hr = pStream->InitializeFromFilename(filePathWithExtension, GENERIC_WRITE);
     }
 
     // Create our encoder

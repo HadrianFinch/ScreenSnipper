@@ -38,14 +38,16 @@ MB_IMG_HVR_CAPTURE               IMAGE  menuBarImages\highlighted\captureHighlig
 // OPTIONS POPUP RESOURCES
 OP_IMG_POPUP                     IMAGE  optionsPopupImages\optionsMenu.png
 
-OP_IMG_TOP                       IMAGE  optionsPopupImages\optionsButtonTop.png
-OP_IMG_NORMAL                    IMAGE  optionsPopupImages\optionsButton.png
+OP_IMG_TOP                       IMAGE  optionsPopupImages\FavFold1.png
+OP_IMG_NORMAL                    IMAGE  optionsPopupImages\FavFold2.png
+OP_IMG_NORMAL2                   IMAGE  optionsPopupImages\FavFold3.png
 
 OP_IMG_MOREOPTIONS               IMAGE  optionsPopupImages\moreOptions.png
 
 // OPTIONS POPUP HOVER RESOURCES
-OP_IMG_HVR_TOP                   IMAGE  optionsPopupImages\highlighted\optionsButtonTopHighlight.png
-OP_IMG_HVR_NORMAL                IMAGE  optionsPopupImages\highlighted\optionsButtonHighlight.png
+OP_IMG_HVR_TOP                   IMAGE  optionsPopupImages\highlighted\FavFold1.png
+OP_IMG_HVR_NORMAL                IMAGE  optionsPopupImages\highlighted\FavFold2.png
+OP_IMG_HVR_NORMAL2               IMAGE  optionsPopupImages\highlighted\FavFold3.png
 
 OP_IMG_HVR_MOREOPTIONS           IMAGE  optionsPopupImages\highlighted\moreOptionsHighlight.png
 

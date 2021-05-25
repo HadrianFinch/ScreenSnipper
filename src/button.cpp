@@ -408,6 +408,16 @@ void CFavoriteFolder1Button::OnClicked()
             g_szFavoriteFolder1,
             _countof(g_szFavoriteFolder1),
             selectedFolder);
+
+        DestroyWindow(GetParent(m_hwnd));
+        SetWindowPos(
+            CreateSettingsWindow(),
+            HWND_TOP,
+            0,
+            0,
+            0,
+            0,
+            SWP_NOMOVE | SWP_NOSIZE);
     }
 }
 
@@ -421,6 +431,16 @@ void CFavoriteFolder2Button::OnClicked()
             g_szFavoriteFolder2,
             _countof(g_szFavoriteFolder2),
             selectedFolder);
+
+        DestroyWindow(GetParent(m_hwnd));
+        SetWindowPos(
+            CreateSettingsWindow(),
+            HWND_TOP,
+            0,
+            0,
+            0,
+            0,
+            SWP_NOMOVE | SWP_NOSIZE);
     }
 }
 
@@ -434,6 +454,16 @@ void CFavoriteFolder3Button::OnClicked()
             g_szFavoriteFolder3,
             _countof(g_szFavoriteFolder3),
             selectedFolder);
+
+        DestroyWindow(GetParent(m_hwnd));
+        SetWindowPos(
+            CreateSettingsWindow(),
+            HWND_TOP,
+            0,
+            0,
+            0,
+            0,
+            SWP_NOMOVE | SWP_NOSIZE);
     }
 }
 
@@ -513,5 +543,27 @@ void CFavorite1RadioButton::OnClicked()
             g_currentSnipPath,
             _countof(g_szFavoriteFolder1),
             g_szFavoriteFolder1);
+    }
+}
+
+void CFavorite2RadioButton::OnClicked()
+{
+    if (g_currentSnipPath != g_szFavoriteFolder2)
+    {
+        StringCchCopyW(
+            g_currentSnipPath,
+            _countof(g_szFavoriteFolder2),
+            g_szFavoriteFolder2);
+    }
+}
+
+void CFavorite3RadioButton::OnClicked()
+{
+    if (g_currentSnipPath != g_szFavoriteFolder3)
+    {
+        StringCchCopyW(
+            g_currentSnipPath,
+            _countof(g_szFavoriteFolder3),
+            g_szFavoriteFolder3);
     }
 }
