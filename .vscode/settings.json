@@ -1,8 +1,0 @@
-{
-    "files.autoSave": "afterDelay",
-    "editor.autoClosingQuotes": "always",
-    "files.associations": {
-        "*.manifest": "xml",
-        "*.rc": "csharp"
-    }
-}
